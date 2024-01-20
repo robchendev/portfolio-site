@@ -1,5 +1,12 @@
+"use client";
+
+import { DesktopScalingWrapper } from "@/components/BattleUI/ScalingWrapper";
 import Image from "next/image";
 
 export default function Home() {
-  return <main>Home Page!</main>;
+  return (
+    <main>
+      <DesktopScalingWrapper />
+    </main>
+  );
 }
