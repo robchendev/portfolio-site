@@ -27,8 +27,8 @@ const ActionMenu = () => {
               gap={0}
             >
               <ActionButton text="FIGHT" color="pink" />
-              <ActionButton text="BAG" color="orange" />
-              <ActionButton text="POKeMON" color="green" />
+              <ActionButton text="EXPERIENCE" color="orange" />
+              <ActionButton text="PROJECTS" color="green" />
               <ActionButton text="RUN" color="blue" />
             </Grid>
           </div>
