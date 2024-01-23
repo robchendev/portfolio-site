@@ -3,7 +3,6 @@ import React from "react";
 export const BattlerWrapperEnemy = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className="h-[12%]" />
       <div className="h-[20%] w-[45%] overflow-hidden relative">
         <div className="h-full w-full bg-white p-[0.15rem] skew-x-12 z-0 -ml-4">
           <div className="h-full w-full bg-gray-700 py-1.5 pr-1">
@@ -22,7 +21,6 @@ export const BattlerWrapperEnemy = ({ children }: { children: React.ReactNode })
 export const BattlerWrapper = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
-      <div className="h-[35%]" />
       <div className="ml-[55%] h-[25%] w-[45%] overflow-hidden relative">
         <div className="h-full w-full bg-white p-[0.15rem] -skew-x-12 z-0 ml-4">
           <div className="h-full w-full bg-gray-700 py-1.5 pl-1">
