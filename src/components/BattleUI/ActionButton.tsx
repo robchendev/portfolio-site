@@ -4,7 +4,15 @@ import "./style.css";
 
 type ButtonColor = "pink" | "orange" | "green" | "blue";
 
-const IntermediateButton = ({ text, color }: { text: string; color: ButtonColor }) => {
+const IntermediateButton = ({
+  text,
+  color,
+  isCurrentScreen,
+}: {
+  text: string;
+  color: ButtonColor;
+  isCurrentScreen: boolean;
+}) => {
   // Have to do this terribleness because Tailwind doesn't allow template literals
   switch (color) {
     case "pink":
@@ -66,10 +74,20 @@ const IntermediateButton = ({ text, color }: { text: string; color: ButtonColor 
   }
 };
 
-const ActionButton = ({ text, color }: { text: string; color: ButtonColor }) => {
+const ActionButton = ({
+  text,
+  color,
+  onClick,
+  isCurrentScreen,
+}: {
+  text: string;
+  color: ButtonColor;
+  onClick: () => void;
+  isCurrentScreen: boolean;
+}) => {
   return (
-    <div className="flex justify-center h-full">
-      <IntermediateButton text={text} color={color} />
+    <div className="flex justify-center h-full" onClick={onClick}>
+      <IntermediateButton text={text} color={color} isCurrentScreen={isCurrentScreen} />
     </div>
   );
 };
