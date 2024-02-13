@@ -38,7 +38,7 @@ const CombatScene = () => {
       {/* Ally Pokemon Info */}
       <div className="h-full w-full absolute top-[67%]">
         <BattlerWrapper>
-          <BattlerPanel name="Pikachu" level={30} />
+          <BattlerPanel name="Portfolio Website" level={30} />
         </BattlerWrapper>
       </div>
 

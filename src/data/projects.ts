@@ -8,13 +8,13 @@ export type ProjectInfo = {
 const projects: ProjectInfo[] = [
   {
     enabled: true,
-    name: "Guitardex",
+    name: "Portfolio Website",
     description: "idk",
     stack: ["TypeScript", "React", "NextJS"],
   },
   {
     enabled: true,
-    name: "Portfolio Website",
+    name: "Guitardex",
     description: "idk",
     stack: ["TypeScript", "React", "NextJS"],
   },
