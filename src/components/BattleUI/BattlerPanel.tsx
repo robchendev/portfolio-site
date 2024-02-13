@@ -1,6 +1,5 @@
 import { HStack } from "@chakra-ui/react";
 import React from "react";
-import { IconType } from "react-icons";
 import { IoMdMale } from "react-icons/io";
 
 const BattlerGlimpse = ({ name, level }: { name: string; level: number }) => (

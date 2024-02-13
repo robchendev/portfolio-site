@@ -22,13 +22,6 @@ export const DesktopScalingWrapper = () => {
           const aspectRatioMaxHeight = containerWidth / (3 / 2);
           const aspectRatioMaxWidth = containerHeight * (3 / 2);
 
-          // console.log("whiteBoxWidth: ", contentWidth);
-          // console.log("whiteBoxHeight: ", contentHeight);
-          // console.log("containerWidth: ", containerWidth);
-          // console.log("containerHeight: ", containerHeight);
-          // console.log("aspectRatioMaxHeight: ", aspectRatioMaxHeight);
-          // console.log("aspectRatioMaxWidth: ", aspectRatioMaxWidth);
-
           // If size is controlled by width (black bars on top/bottom):
           if (aspectRatioMaxHeight < containerHeight) {
             setContentWidthValue(Number(containerWidth.toFixed(4)));

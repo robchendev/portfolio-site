@@ -2,23 +2,54 @@ import { ExperienceInfo } from "@/data/experience";
 import { ProjectInfo } from "@/data/projects";
 import { Text } from "@chakra-ui/react";
 import React from "react";
+import { PokeballBottom, PokeballTop } from "./Pokeball";
 
-const BattlerPreview = ({ item }: { item: ProjectInfo | ExperienceInfo }) => {
+const BattlerPreview = ({
+  item,
+  isBattling = false,
+}: {
+  item: ProjectInfo | ExperienceInfo;
+  isBattling?: boolean;
+}) => {
   return (
-    <div className="w-full h-full">
-      {item.enabled ? (
-        // TODO: If Projects, green. If Experience, Yellow...?
-        <div className="bg-green-600 w-full h-full px-4 py-3 border-4 border-gray-800 hover:border-4 hover:border-red-500 rounded-ss-3xl rounded-ee-3xl cursor-pointer">
-          <Text
-            noOfLines={1}
-            className="text-white text-3xl drop-shadow-[0_2px_2px_rgba(0,0,0,.35)]"
+    <div className="w-full h-full relative">
+      <div className="absolute w-full h-full peer">
+        {item.enabled ? (
+          // TODO: If Projects, green. If Experience, Yellow...?
+          <div
+            className={`group bg-gradient-to-t ${
+              isBattling ? "from-green-400" : "from-green-600"
+            } from-35% ${
+              isBattling ? "to-green-500" : "to-green-700"
+            } to-60% w-full h-full border-[3px] border-teal-900 hover:border-red-500 rounded-ss-[38px] cursor-pointer`}
           >
-            {item.name}
-          </Text>
-        </div>
-      ) : (
-        <div className="bg-red-400 w-full h-full">DISABLED</div>
-      )}
+            <div className=" border-green-400 border-[5px] group-hover:border-red-500 h-full w-full px-4 py-3 rounded-ss-[35px]">
+              <Text
+                noOfLines={1}
+                className="ml-16 text-white text-3xl drop-shadow-[0_2px_2px_rgba(0,0,0,.35)]"
+              >
+                {item.name}
+              </Text>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-red-400 w-full h-full">DISABLED</div>
+        )}
+      </div>
+      <div
+        className={`absolute w-full h-full top-[4px] left-[4px] pointer-events-none transition-all ease-in-out duration-200 ${
+          isBattling && "-mt-2"
+        } ${!item.enabled && "hidden"} peer-hover:-mt-2`}
+      >
+        <PokeballTop size={70} />
+      </div>
+      <div
+        className={`absolute w-full h-full top-[4px] left-[4px] pointer-events-none transition-all ease-in-out duration-200 ${
+          isBattling && "mt-2"
+        } ${!item.enabled && "hidden"} peer-hover:mt-2`}
+      >
+        <PokeballBottom size={70} />
+      </div>
     </div>
   );
 };

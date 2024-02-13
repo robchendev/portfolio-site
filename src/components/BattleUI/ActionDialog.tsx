@@ -1,6 +1,6 @@
 import TextWriter from "@/utils/typewriter";
 import { Text } from "@chakra-ui/react";
-import React, { useEffect, useReducer, useState } from "react";
+import React from "react";
 
 const ActionDialog = ({ text }: { text: string }) => {
   return (

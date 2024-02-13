@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import ActionMenu from "./ActionMenu";
 import CombatScene from "./CombatScene";
 import anime from "animejs";
-import projects, { ProjectInfo } from "@/data/projects";
-import { HStack, VStack } from "@chakra-ui/react";
-import BattlerPreview from "./BattlerPreview";
+import projects from "@/data/projects";
 import ScreenSelectables from "./ScreenSelectables";
 import experience from "@/data/experience";
 
@@ -22,6 +20,7 @@ const panelController = (selector: string, enable: boolean) => {
 const BattleUI = () => {
   const [activeScreen, setActiveScreen] = useState<ScreenTypes>("fight");
   const [screen, setScreen] = useState<ScreenTypes>("fight");
+  const [battler, setBattler] = useState(projects[0].name);
 
   useEffect(() => {
     switch (screen) {
@@ -44,18 +43,16 @@ const BattleUI = () => {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      {/* <div className="absolute top-0 left-0 h-full w-8 bg-red-500" />
-      <div className="absolute top-0 left-0 w-full h-8 bg-yellow-300">BattleUI</div> */}
       <div className="h-3/4 z-0 top-0 left-0 relative">
         <div className="h-full w-full absolute">
           <CombatScene />
         </div>
         <div className="h-full w-full absolute top-[75%] screens z-[5]">
           {(activeScreen === "experience" || screen === "experience") && (
-            <ScreenSelectables items={experience} />
+            <ScreenSelectables items={experience} currentBattler={battler} />
           )}
           {(activeScreen === "projects" || screen === "projects") && (
-            <ScreenSelectables items={projects} />
+            <ScreenSelectables items={projects} currentBattler={battler} />
           )}
           {(activeScreen === "about" || screen === "about") && (
             <div className="bg-white h-full w-full">ABOUT</div>
