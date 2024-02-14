@@ -56,7 +56,7 @@ const ActionMenu = ({
                   color="orange"
                   onClick={() => {
                     setActionDialogText(
-                      "Choose an Experience or CANCEL. Choosing experiences do nothing yet."
+                      "Choose an Experience or CANCEL. Clicking experiences do nothing yet."
                     );
                     setTimeout(() => {
                       onActionSelect("experience");
@@ -71,7 +71,7 @@ const ActionMenu = ({
                   color="green"
                   onClick={() => {
                     setActionDialogText(
-                      "Choose a Project or CANCEL. Choosing projects do nothing yet."
+                      "Choose a Project or CANCEL. Clicking projects do nothing yet."
                     );
                     setTimeout(() => {
                       onActionSelect("projects");
@@ -86,7 +86,7 @@ const ActionMenu = ({
                   color="blue"
                   onClick={() => {
                     setActionDialogText(
-                      "Sorry, this page is incomplete and will be replaced with appropriate game UI soon."
+                      "Sorry, this page is incomplete and will be replaced with game UI soon."
                     );
                     setTimeout(() => {
                       onActionSelect("about");
