@@ -37,7 +37,7 @@ const projects: ProjectInfo[] = [
   },
   {
     enabled: true,
-    name: "Description Generator",
+    name: "DescGenerator",
     description: "idk",
     stack: ["TypeScript", "React", "NextJS", "PostgreSQL"],
     health: 100,

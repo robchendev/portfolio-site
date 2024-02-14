@@ -50,7 +50,7 @@ const AboutMe = () => {
           </a>
         </p>
         <HStack spacing={4}>
-          <p className="text-[2.25rem]">PS: I make guitar music! If you&apos;re interested: </p>
+          <p className="text-[2rem]">PS: I make guitar music! If you&apos;re interested: </p>
           <a
             href="https://www.youtube.com/robertchen"
             className="text-[4rem] text-red-500 hover:text-red-400 underline underline-offset-4"

@@ -10,7 +10,7 @@ export type ExperienceInfo = {
 const experience: ExperienceInfo[] = [
   {
     enabled: true,
-    name: "Eddie van der Meer Ltd",
+    name: "Eddie vd Meer Ltd",
     startDate: "December 2022",
     endDate: "December 2023",
     description: "idk",
