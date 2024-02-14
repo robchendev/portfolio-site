@@ -76,7 +76,7 @@ export const DesktopScalingWrapper = () => {
               className="w-full h-full"
             >
               <BattleUI />
-              {scaleFactor}
+              {/* {scaleFactor} */}
             </div>
           )}
         </div>

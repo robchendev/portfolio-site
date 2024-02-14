@@ -4,7 +4,7 @@ import { DesktopScalingWrapper } from "@/components/BattleUI/ScalingWrapper";
 
 export default function Home() {
   return (
-    <main>
+    <main className="text-black">
       <DesktopScalingWrapper />
     </main>
   );

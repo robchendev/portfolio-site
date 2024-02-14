@@ -12,7 +12,7 @@ const ActionMenu = ({
   screen: ScreenTypes;
 }) => {
   const [actionDialogText, setActionDialogText] = useState(
-    "This portfolio is still being worked on. Try it out!"
+    "Currently, this portfolio is under development."
   );
   useEffect(() => {
     // Cleanup logic: Clear timeout if screen changes

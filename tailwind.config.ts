@@ -20,5 +20,8 @@ const config: Config = {
       plugins: [require("@tailwindcss/aspect-ratio")],
     },
   },
+  fontFamily: {
+    inter: ["Inter", "sans"],
+  },
 };
 export default config;
