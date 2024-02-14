@@ -1,5 +1,5 @@
 import { HStack } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ActionButton from "./ActionButton";
 import ActionDialog from "./ActionDialog";
 import { ScreenTypes } from "./BattleUI";
@@ -11,8 +11,14 @@ const ActionMenu = ({
   onActionSelect: (screenNew: ScreenTypes) => void;
   screen: ScreenTypes;
 }) => {
-  const [actionDialogText, setActionDialogText] = useState("What will you do?");
-
+  const [actionDialogText, setActionDialogText] = useState(
+    "This portfolio is still being worked on."
+  );
+  useEffect(() => {
+    // Cleanup logic: Clear timeout if screen changes
+    // @ts-ignore
+    return () => clearTimeout(window.secondTextTimeout);
+  }, [screen]);
   return (
     <div className="relative h-full">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 from-0% via-white via-50% to-gray-400 to-100% px-3 py-1.5">
@@ -25,7 +31,18 @@ const ActionMenu = ({
                   text="Fight"
                   color="pink"
                   onClick={() => {
-                    setActionDialogText("What will you do?");
+                    if (screen === "fight") {
+                      setActionDialogText("Portfolio Website used Attack!");
+                      // @ts-ignore
+                      window.secondTextTimeout = setTimeout(() => {
+                        // Check if screen hasn't changed
+                        if (screen === "fight") {
+                          setActionDialogText("It missed since I did not code this part yet!");
+                        }
+                      }, 2000);
+                    } else {
+                      setActionDialogText("What will you do?");
+                    }
                     setTimeout(() => {
                       onActionSelect("fight");
                     }, 10);
@@ -38,7 +55,9 @@ const ActionMenu = ({
                   text="Experience"
                   color="orange"
                   onClick={() => {
-                    setActionDialogText("Choose an Experience or CANCEL");
+                    setActionDialogText(
+                      "Choose an Experience or CANCEL. Choosing experiences do nothing yet."
+                    );
                     setTimeout(() => {
                       onActionSelect("experience");
                     }, 10);
@@ -51,7 +70,9 @@ const ActionMenu = ({
                   text="Projects"
                   color="green"
                   onClick={() => {
-                    setActionDialogText("Choose a Project or CANCEL");
+                    setActionDialogText(
+                      "Choose a Project or CANCEL. Choosing projects do nothing yet."
+                    );
                     setTimeout(() => {
                       onActionSelect("projects");
                     }, 10);

@@ -25,7 +25,7 @@ const projects: ProjectInfo[] = [
     stack: ["JavaScript", "DiscordJS", "MongoDB"],
   },
   {
-    enabled: false,
+    enabled: true,
     name: "Canputer",
     description: "idk",
     stack: ["JavaScript", "DiscordJS", "MongoDB"],
