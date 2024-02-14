@@ -64,7 +64,9 @@ const ActionMenu = ({
                   text="About Me"
                   color="blue"
                   onClick={() => {
-                    setActionDialogText("Choose a Info or CANCEL");
+                    setActionDialogText(
+                      "Sorry, this page is incomplete and will be replaced with appropriate game UI soon."
+                    );
                     setTimeout(() => {
                       onActionSelect("about");
                     }, 10);

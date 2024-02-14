@@ -5,6 +5,11 @@ import anime from "animejs";
 import projects from "@/data/projects";
 import ScreenSelectables from "./ScreenSelectables";
 import experience from "@/data/experience";
+import Link from "next/link";
+import { HStack, VStack } from "@chakra-ui/react";
+import { FaGithub, FaLinkedin, FaSpotify, FaYoutube } from "react-icons/fa";
+import { LuMail } from "react-icons/lu";
+import AboutMe from "./AboutMe";
 
 export type ScreenTypes = "fight" | "experience" | "projects" | "about";
 
@@ -54,9 +59,7 @@ const BattleUI = () => {
           {(activeScreen === "projects" || screen === "projects") && (
             <ScreenSelectables items={projects} currentBattler={battler} />
           )}
-          {(activeScreen === "about" || screen === "about") && (
-            <div className="bg-white h-full w-full">ABOUT</div>
-          )}
+          {(activeScreen === "about" || screen === "about") && <AboutMe />}
         </div>
         <div className="w-full absolute bottom-0 z-[10]">
           {/* activeScreen: {activeScreen} | screen: {screen} */}

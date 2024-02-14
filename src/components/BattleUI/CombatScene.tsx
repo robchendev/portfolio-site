@@ -24,7 +24,7 @@ const CombatScene = () => {
       {/* Enemy Pokemon */}
       <div className="h-full w-full absolute top-[21%]">
         <div className="ml-[64%] w-[20%]">
-          <Image src="/img/visual2.png" alt="Robert Chen Image" />
+          <Image src="" alt="Image of me - This image has not been made yet" />
         </div>
       </div>
 
@@ -45,7 +45,7 @@ const CombatScene = () => {
       {/* Ally Pokemon */}
       <div className="h-full w-full absolute top-[50%]">
         <div className="ml-[10%] w-[32%]">
-          <Image src="/img/visual2.png" alt="Robert Chen Image" />
+          <Image src="" alt="Portfolio Image - This image has not been made yet" />
         </div>
       </div>
     </div>

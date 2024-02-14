@@ -20,27 +20,21 @@ const projects: ProjectInfo[] = [
   },
   {
     enabled: true,
-    name: "Realtor Website",
-    description: "idk",
-    stack: ["TypeScript", "React", "NextJS", "PostgreSQL"],
-  },
-  {
-    enabled: true,
-    name: "Eddie van der Meer Website",
-    description: "idk",
-    stack: ["TypeScript", "React", "NextJS"],
-  },
-  {
-    enabled: false,
     name: "FRET Bot",
     description: "idk",
     stack: ["JavaScript", "DiscordJS", "MongoDB"],
   },
   {
-    enabled: true,
+    enabled: false,
     name: "Canputer",
     description: "idk",
     stack: ["JavaScript", "DiscordJS", "MongoDB"],
+  },
+  {
+    enabled: false,
+    name: "Realtor Website",
+    description: "idk",
+    stack: ["TypeScript", "React", "NextJS", "PostgreSQL"],
   },
 ];
 
