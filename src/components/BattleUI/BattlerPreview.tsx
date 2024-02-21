@@ -16,13 +16,15 @@ export const BattlerDisabled = ({ isBattling = false }: { isBattling?: boolean }
 
 const BattlerPreview = ({
   item,
+  onClick,
   isBattling = false,
 }: {
   item: ProjectInfo | ExperienceInfo;
+  onClick: () => void;
   isBattling?: boolean;
 }) => {
   return (
-    <div className="w-full h-full relative" onClick={() => console.log("Clicked")}>
+    <div className="w-full h-full relative" onClick={onClick}>
       <div className="absolute w-full h-full peer">
         <div
           className={`group bg-gradient-to-t ${

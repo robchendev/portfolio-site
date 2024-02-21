@@ -7,9 +7,11 @@ import { ScreenTypes } from "./BattleUI";
 const ActionMenu = ({
   onActionSelect,
   screen,
+  onProjectClose,
 }: {
   onActionSelect: (screenNew: ScreenTypes) => void;
   screen: ScreenTypes;
+  onProjectClose: () => void;
 }) => {
   const [actionDialogText, setActionDialogText] = useState(
     "Currently, this portfolio is under development."
@@ -102,6 +104,7 @@ const ActionMenu = ({
               <div
                 className="flex justify-center h-full"
                 onClick={() => {
+                  onProjectClose();
                   setActionDialogText("What will you do?");
                   setTimeout(() => {
                     onActionSelect("fight");

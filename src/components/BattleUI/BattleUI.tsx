@@ -27,6 +27,8 @@ const BattleUI = () => {
   const [screen, setScreen] = useState<ScreenTypes>("fight");
   const [battler, setBattler] = useState(projects[0].name);
 
+  const [projectIndex, setProjectIndex] = useState<number>(-1);
+
   useEffect(() => {
     switch (screen) {
       case "experience":
@@ -54,10 +56,16 @@ const BattleUI = () => {
         </div>
         <div className="h-full w-full absolute top-[75%] screens z-[5]">
           {(activeScreen === "experience" || screen === "experience") && (
-            <ScreenSelectables items={experience} currentBattler={battler} />
+            <div>Experience gym badge screen</div>
+            // <ScreenSelectables items={projects} currentBattler={battler} />
           )}
           {(activeScreen === "projects" || screen === "projects") && (
-            <ScreenSelectables items={projects} currentBattler={battler} />
+            <ScreenSelectables
+              items={projects}
+              currentBattler={battler}
+              projectIndex={projectIndex}
+              setProjectIndex={setProjectIndex}
+            />
           )}
           {(activeScreen === "about" || screen === "about") && <AboutMe />}
         </div>
@@ -74,6 +82,9 @@ const BattleUI = () => {
             setScreen(screenNew);
           }}
           screen={screen}
+          onProjectClose={() => {
+            setProjectIndex(-1);
+          }}
         />
       </div>
     </div>
