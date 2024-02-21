@@ -48,10 +48,7 @@ export const DesktopScalingWrapper = () => {
   }, []);
 
   return (
-    <div
-      ref={refOuter}
-      className="flex items-center justify-center h-screen bg-black overflow-hidden"
-    >
+    <div ref={refOuter} className="flex items-center justify-center h-screen bg-black">
       <div
         ref={refInner}
         className="bg-white"

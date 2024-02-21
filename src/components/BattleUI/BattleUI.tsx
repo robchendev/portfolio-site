@@ -47,7 +47,7 @@ const BattleUI = () => {
   }, [screen]);
 
   return (
-    <div className="w-full h-full relative overflow-hidden">
+    <div className="w-full h-full relative">
       <div className="h-3/4 z-0 top-0 left-0 relative">
         <div className="h-full w-full absolute">
           <CombatScene />
