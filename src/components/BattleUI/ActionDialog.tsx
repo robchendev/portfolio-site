@@ -10,7 +10,7 @@ const ActionDialog = ({ text }: { text: string }) => {
           <div className="h-full rounded-[8px] bg-white">
             <Text
               noOfLines={2}
-              className="h-full w-full rounded-[9px] py-2 px-4 drop-shadow-[3px_2px_0px_rgba(0,0,0,.2)]"
+              className="leading-8 h-full w-full rounded-[9px] py-2 px-4 drop-shadow-[3px_2px_0px_rgba(0,0,0,.2)]"
             >
               {text && <TextWriter text={text} speed={30} />}
             </Text>

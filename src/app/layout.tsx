@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={pixelFont.className}>
+      <body className={`leading-4 ${pixelFont.className}`}>
         <Providers>{children}</Providers>
       </body>
     </html>

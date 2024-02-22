@@ -51,20 +51,20 @@ const BattleUI = () => {
 
   useEffect(() => {
     if (projectIndex !== -1) {
-      panelController(".projects", true, 100);
-      setTimeout(() => {
-        setActiveProjectIndex(projectIndex);
-      }, 800);
+      // panelController(".projects", true, 100);
+      // setTimeout(() => {
+      setActiveProjectIndex(projectIndex);
+      // }, 800);
     } else {
-      setTimeout(() => {
-        panelController(".projects", false, 100);
-        setActiveProjectIndex(projectIndex);
-      }, 800);
+      // setTimeout(() => {
+      // panelController(".projects", false, 100);
+      setActiveProjectIndex(projectIndex);
+      // }, 800);
     }
   }, [projectIndex]);
 
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative overflow-hidden">
       <div className="h-3/4 z-0 top-0 left-0 relative">
         <div className="h-full w-full absolute">
           <CombatScene />

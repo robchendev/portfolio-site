@@ -23,16 +23,16 @@ const ProjectScreen = ({
     <div
       className={`${activeProjectIndex !== -1 || projectIndex !== -1 ? "bg-slate-100" : ""} h-full`}
     >
-      {chosenProject && (
-        <>
-          <Text className="text-4xl">{chosenProject.name}</Text>
+      {chosenProject && (activeProjectIndex !== -1 || projectIndex !== -1) && (
+        <div className="p-4">
+          <Text className="text-4xl leading-4">{chosenProject.name}</Text>
           <div>{chosenProject.description}</div>
           <div>{chosenProject.imageUrls?.toString()}</div>
           <div>{chosenProject.stack?.toString()}</div>
           <button onClick={onExit}>CLOSE</button>
           <button onClick={() => console.log("SWITCH")}>SWITCH</button>
           {/* <div>{projects[projectIndex].name}</div> */}
-        </>
+        </div>
       )}
     </div>
   );

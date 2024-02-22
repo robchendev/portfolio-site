@@ -92,14 +92,14 @@ const ScreenSelectables = ({
         </HStack>
       </div>
       <div
-        className={`h-full w-full absolute projects top-[100%] z-[5] ${
+        className={`h-full w-full absolute projects z-[10] ${
           projectIndex === -1 ? "pointer-events-none" : ""
         }`}
       >
         <ProjectScreen
           onExit={() => {
             setProjectIndex(-1);
-            panelController(".projects", false, 100);
+            // panelController(".projects", false, 100);
           }}
           activeProjectIndex={activeProjectIndex}
           projectIndex={projectIndex}
