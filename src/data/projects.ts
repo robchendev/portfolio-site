@@ -3,6 +3,7 @@ export type ProjectInfo = {
   name: string;
   description: string;
   stack: string[];
+  imageUrls?: string[];
   health: number;
 };
 
@@ -12,6 +13,7 @@ const projects: ProjectInfo[] = [
     name: "Portfolio Website",
     description: "idk",
     stack: ["TypeScript", "React", "NextJS"],
+    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 50,
   },
   {

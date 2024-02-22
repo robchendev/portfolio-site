@@ -13,10 +13,10 @@ import AboutMe from "./AboutMe";
 
 export type ScreenTypes = "fight" | "experience" | "projects" | "about";
 
-const panelController = (selector: string, enable: boolean) => {
+export const panelController = (selector: string, enable: boolean, amount = 75) => {
   anime({
     targets: selector,
-    translateY: enable ? "-75%" : "75%",
+    translateY: enable ? `-${amount}%` : `${amount}%`,
     easing: "easeInOutQuad",
     duration: 600,
   });
@@ -27,6 +27,7 @@ const BattleUI = () => {
   const [screen, setScreen] = useState<ScreenTypes>("fight");
   const [battler, setBattler] = useState(projects[0].name);
 
+  const [activeProjectIndex, setActiveProjectIndex] = useState<number>(-1);
   const [projectIndex, setProjectIndex] = useState<number>(-1);
 
   useEffect(() => {
@@ -48,6 +49,20 @@ const BattleUI = () => {
     }
   }, [screen]);
 
+  useEffect(() => {
+    if (projectIndex !== -1) {
+      panelController(".projects", true, 100);
+      setTimeout(() => {
+        setActiveProjectIndex(projectIndex);
+      }, 800);
+    } else {
+      setTimeout(() => {
+        panelController(".projects", false, 100);
+        setActiveProjectIndex(projectIndex);
+      }, 800);
+    }
+  }, [projectIndex]);
+
   return (
     <div className="w-full h-full relative">
       <div className="h-3/4 z-0 top-0 left-0 relative">
@@ -63,6 +78,8 @@ const BattleUI = () => {
             <ScreenSelectables
               items={projects}
               currentBattler={battler}
+              activeProjectIndex={activeProjectIndex}
+              setActiveProjectIndex={setActiveProjectIndex}
               projectIndex={projectIndex}
               setProjectIndex={setProjectIndex}
             />

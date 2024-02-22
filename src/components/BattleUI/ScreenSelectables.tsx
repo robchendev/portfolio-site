@@ -6,6 +6,7 @@ import { ExperienceInfo } from "@/data/experience";
 import ProjectScreen from "./ProjectScreen";
 import anime from "animejs";
 import { Project } from "next/dist/build/swc";
+import { panelController } from "./BattleUI";
 
 const BattlerPreviewSafe = ({
   currentBattler,
@@ -28,11 +29,15 @@ const BattlerPreviewSafe = ({
 const ScreenSelectables = ({
   items,
   currentBattler,
+  activeProjectIndex,
+  setActiveProjectIndex,
   projectIndex,
   setProjectIndex,
 }: {
   items: ProjectInfo[] | ExperienceInfo[];
   currentBattler: string;
+  activeProjectIndex: number;
+  setActiveProjectIndex: (i: number) => void;
   projectIndex: number;
   setProjectIndex: (i: number) => void;
 }) => {
@@ -43,6 +48,7 @@ const ScreenSelectables = ({
           <div className="h-full w-full bg-cyan-200 border-cyan-100 border-l-[15px] border-r-[15px]"></div>
         </div>
       </div>
+
       <div className="h-full w-full absolute">
         <HStack justifyContent="space-between" px={8} pt={2} pb={4} h="full">
           <div className="h-full w-full">
@@ -86,14 +92,16 @@ const ScreenSelectables = ({
         </HStack>
       </div>
       <div
-        className={`h-full w-full absolute z-[5] ${
+        className={`h-full w-full absolute projects top-[100%] z-[5] ${
           projectIndex === -1 ? "pointer-events-none" : ""
         }`}
       >
         <ProjectScreen
           onExit={() => {
             setProjectIndex(-1);
+            panelController(".projects", false, 100);
           }}
+          activeProjectIndex={activeProjectIndex}
           projectIndex={projectIndex}
           projects={projects}
         />
