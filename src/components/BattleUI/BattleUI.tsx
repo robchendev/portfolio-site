@@ -100,7 +100,11 @@ const BattleUI = () => {
           }}
           screen={screen}
           onProjectClose={() => {
-            setProjectIndex(-1);
+            setTimeout(() => {
+              // panelController(".projects", false, 100);
+              setProjectIndex(-1);
+              setActiveProjectIndex(projectIndex);
+            }, 800);
           }}
         />
       </div>

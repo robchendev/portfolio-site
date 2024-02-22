@@ -16,7 +16,7 @@ const IntermediateButton = ({
   switch (color) {
     case "pink":
       return (
-        <div className="rounded-[25px] font-medium text-3xl text-white text-outline bg-black w-full p-1.5 -mr-[0.35rem] -mb-[0.175rem]">
+        <div className="rounded-[25px] font-medium text-4xl text-white text-outline bg-black w-full p-1.5 -mr-[0.35rem] -mb-[0.175rem]">
           <div className="h-full rounded-[20px] bg-white p-[3px]">
             <button className="tracking-tight w-full h-full rounded-[17px] bg-red-700 p-[3px]">
               <div className="h-full rounded-[14px] leading-3 bg-gradient-to-b from-red-500 from-40% to-red-700 to-80%">
@@ -30,7 +30,7 @@ const IntermediateButton = ({
       );
     case "orange":
       return (
-        <div className="rounded-[25px] font-medium text-3xl text-white text-outline bg-black w-full p-1.5 -ml-[0.35rem] -mb-[0.175rem]">
+        <div className="rounded-[25px] font-medium text-4xl text-white text-outline bg-black w-full p-1.5 -ml-[0.35rem] -mb-[0.175rem]">
           <div className="h-full rounded-[20px] bg-white p-[3px]">
             <button className="tracking-tight w-full h-full rounded-[17px] bg-amber-600 p-[3px]">
               <div className="h-full rounded-[14px] leading-3 bg-gradient-to-b from-amber-500 from-40% to-amber-600 to-80%">
@@ -44,7 +44,7 @@ const IntermediateButton = ({
       );
     case "green":
       return (
-        <div className="rounded-[25px] font-medium text-3xl text-white text-outline bg-black w-full p-1.5 -mr-[0.35rem] -mt-[0.175rem]">
+        <div className="rounded-[25px] font-medium text-4xl text-white text-outline bg-black w-full p-1.5 -mr-[0.35rem] -mt-[0.175rem]">
           <div className="h-full rounded-[20px] bg-white p-[3px]">
             <button className="tracking-tight w-full h-full rounded-[17px] bg-green-700 p-[3px]">
               <div className="h-full rounded-[14px] leading-3 bg-gradient-to-b from-green-500 from-40% to-green-700 to-80%">
@@ -58,7 +58,7 @@ const IntermediateButton = ({
       );
     case "blue":
       return (
-        <div className="rounded-[25px] font-medium text-3xl text-white text-outline bg-black w-full p-1.5 -ml-[0.35rem] -mt-[0.175rem]">
+        <div className="rounded-[25px] font-medium text-4xl text-white text-outline bg-black w-full p-1.5 -ml-[0.35rem] -mt-[0.175rem]">
           <div className="h-full rounded-[20px] bg-white p-[3px]">
             <button className="tracking-tight w-full h-full rounded-[17px] bg-sky-700 p-[3px]">
               <div className="h-full rounded-[14px] leading-3 bg-gradient-to-b from-sky-500 from-40% to-sky-700 to-80%">
