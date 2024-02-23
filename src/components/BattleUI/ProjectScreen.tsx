@@ -29,8 +29,8 @@ const ProjectScreen = ({
     >
       {chosenProject && (activeProjectIndex !== -1 || projectIndex !== -1) && (
         <div className="pb-2 h-full">
-          <HStack className="h-full">
-            <div className="w-3/4 h-full bg-slate-200">
+          <HStack className="h-full" spacing={0}>
+            <div className="w-3/4 h-full bg-slate-200 border-r-8 border-black">
               {chosenSubscreen === "summary" && (
                 <div className="h-full bg-cyan-400">
                   SUMMARY<div>{chosenProject.stack?.toString()}</div>
@@ -48,34 +48,46 @@ const ProjectScreen = ({
                 </div>
               )}
             </div>
-            <div className="w-1/4 h-full bg-yellow-200 text-[3.25rem] leading-8 ">
+            <div className="w-1/4 h-full bg-yellow-200 text-[3.25rem] leading-8">
               <VStack justifyContent="space-between" className="h-full">
-                <Text className="text-4xl px-2 leading-8">{chosenProject.name} sadasd</Text>
-                <div className="[&_button]:w-full [&_button]:text-left [&_button]:border-t-2 [&_button]:border-black">
+                <Text className="text-4xl px-2 leading-8" noOfLines={1}>
+                  {chosenProject.name}
+                </Text>
+                <div className="text-xl">Logo Goes Here</div>
+                <div className="-ml-2 [&_button]:w-full [&_button]:text-left [&_button]:border-t-4 [&_button]:border-black">
                   <button
-                    className="p-3 bg-cyan-400 "
+                    className={`p-3 bg-cyan-400 ${
+                      chosenSubscreen === "summary" ? "pl-4 border-l-0" : "pl-[8px] border-l-8"
+                    }`}
                     onClick={() => setChosenSubscreen("summary")}
                   >
                     Summary
                   </button>
-                  <button className="p-3 bg-blue-400" onClick={() => setChosenSubscreen("images")}>
+                  <button
+                    className={`p-3 bg-blue-400 ${
+                      chosenSubscreen === "images" ? "pl-4 border-l-0" : "pl-[8px] border-l-8"
+                    }`}
+                    onClick={() => setChosenSubscreen("images")}
+                  >
                     Images
                   </button>
                   <button
-                    className="p-3 bg-violet-400 border-b-2 "
+                    className={`p-3 bg-violet-400 border-b-4 ${
+                      chosenSubscreen === "description" ? "pl-4 border-l-0" : "pl-[8px] border-l-8"
+                    }`}
                     onClick={() => setChosenSubscreen("description")}
                   >
                     Description
                   </button>
                 </div>
-                <div className="[&_button]:w-full [&_button]:text-left [&_button]:border-t-2 [&_button]:border-black">
-                  <button className="p-2 bg-green-400" onClick={() => console.log("SWITCH")}>
-                    SWITCH
+                <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-4 text-white">
+                  <button className="bg-green-500" onClick={() => console.log("SWITCH")}>
+                    Switch
                   </button>
-                  <button className="p-2 bg-red-400" onClick={onExit}>
+                  <button className="bg-red-500" onClick={onExit}>
                     Close
                   </button>
-                </div>
+                </VStack>
               </VStack>
             </div>
           </HStack>

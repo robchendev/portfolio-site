@@ -1,6 +1,7 @@
 export type ProjectInfo = {
   enabled: boolean;
   name: string;
+  shortName?: string; // in case there's no room to display
   description: string;
   stack: string[];
   imageUrls?: string[];
