@@ -51,7 +51,7 @@ const ProjectScreen = ({
             <div className="w-1/4 h-full bg-yellow-200 text-[3.25rem] leading-8">
               <VStack justifyContent="space-between" className="h-full">
                 <Text className="text-4xl px-2 leading-8" noOfLines={1}>
-                  {chosenProject.name}
+                  {chosenProject.shortName ?? chosenProject.name}
                 </Text>
                 <div className="text-xl">Logo Goes Here</div>
                 <div className="-ml-2 [&_button]:w-full [&_button]:text-left [&_button]:border-t-4 [&_button]:border-black">

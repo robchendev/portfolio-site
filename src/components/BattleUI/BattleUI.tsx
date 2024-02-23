@@ -29,6 +29,9 @@ const BattleUI = () => {
 
   const [activeProjectIndex, setActiveProjectIndex] = useState<number>(-1);
   const [projectIndex, setProjectIndex] = useState<number>(-1);
+  const [actionDialogText, setActionDialogText] = useState(
+    "Currently, this portfolio is under development."
+  );
 
   useEffect(() => {
     switch (screen) {
@@ -82,6 +85,7 @@ const BattleUI = () => {
               setActiveProjectIndex={setActiveProjectIndex}
               projectIndex={projectIndex}
               setProjectIndex={setProjectIndex}
+              setActionDialogText={setActionDialogText}
             />
           )}
           {(activeScreen === "about" || screen === "about") && <AboutMe />}
@@ -106,6 +110,8 @@ const BattleUI = () => {
               setActiveProjectIndex(projectIndex);
             }, 800);
           }}
+          actionDialogText={actionDialogText}
+          setActionDialogText={setActionDialogText}
         />
       </div>
     </div>

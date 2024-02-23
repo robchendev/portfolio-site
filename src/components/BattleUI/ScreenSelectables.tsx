@@ -33,6 +33,7 @@ const ScreenSelectables = ({
   setActiveProjectIndex,
   projectIndex,
   setProjectIndex,
+  setActionDialogText,
 }: {
   items: ProjectInfo[] | ExperienceInfo[];
   currentBattler: string;
@@ -40,6 +41,7 @@ const ScreenSelectables = ({
   setActiveProjectIndex: (i: number) => void;
   projectIndex: number;
   setProjectIndex: (i: number) => void;
+  setActionDialogText: (text: string) => void;
 }) => {
   return (
     <div className="bg-slate-100 h-full">
@@ -56,7 +58,12 @@ const ScreenSelectables = ({
               <BattlerPreviewSafe
                 item={items[0]}
                 currentBattler={currentBattler}
-                onClick={() => setProjectIndex(0)}
+                onClick={() => {
+                  setProjectIndex(0);
+                  setActionDialogText(
+                    "View Project information, switch Project into battle, or CLOSE."
+                  );
+                }}
               />
               <BattlerPreviewSafe
                 item={items[2]}
@@ -99,6 +106,8 @@ const ScreenSelectables = ({
         <ProjectScreen
           onExit={() => {
             setProjectIndex(-1);
+            setActionDialogText("Choose a Project or CANCEL.");
+
             // panelController(".projects", false, 100);
           }}
           activeProjectIndex={activeProjectIndex}

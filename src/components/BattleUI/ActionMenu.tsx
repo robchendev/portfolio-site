@@ -8,14 +8,15 @@ const ActionMenu = ({
   onActionSelect,
   screen,
   onProjectClose,
+  actionDialogText,
+  setActionDialogText,
 }: {
   onActionSelect: (screenNew: ScreenTypes) => void;
   screen: ScreenTypes;
   onProjectClose: () => void;
+  actionDialogText: string;
+  setActionDialogText: (text: string) => void;
 }) => {
-  const [actionDialogText, setActionDialogText] = useState(
-    "Currently, this portfolio is under development."
-  );
   useEffect(() => {
     // Cleanup logic: Clear timeout if screen changes
     // @ts-ignore
@@ -72,9 +73,7 @@ const ActionMenu = ({
                   text="Projects"
                   color="green"
                   onClick={() => {
-                    setActionDialogText(
-                      "Choose a Project or CANCEL. Clicking projects do nothing yet."
-                    );
+                    setActionDialogText("Choose a Project or CANCEL.");
                     setTimeout(() => {
                       onActionSelect("projects");
                     }, 10);
