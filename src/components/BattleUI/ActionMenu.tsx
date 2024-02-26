@@ -3,25 +3,23 @@ import React, { useEffect, useState } from "react";
 import ActionButton from "./ActionButton";
 import ActionDialog from "./ActionDialog";
 import { ScreenTypes } from "./BattleUI";
+import { useActionDialog } from "./../../context/ActionDialogContext";
 
 const ActionMenu = ({
   onActionSelect,
   screen,
   onProjectClose,
-  actionDialogText,
-  setActionDialogText,
 }: {
   onActionSelect: (screenNew: ScreenTypes) => void;
   screen: ScreenTypes;
   onProjectClose: () => void;
-  actionDialogText: string;
-  setActionDialogText: (text: string) => void;
 }) => {
   useEffect(() => {
     // Cleanup logic: Clear timeout if screen changes
     // @ts-ignore
     return () => clearTimeout(window.secondTextTimeout);
   }, [screen]);
+  const { actionDialogText, setActionDialogText } = useActionDialog();
   return (
     <div className="relative h-full">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 from-0% via-white via-50% to-gray-400 to-100% px-3 py-1.5">

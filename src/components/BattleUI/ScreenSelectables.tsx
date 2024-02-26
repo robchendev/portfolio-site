@@ -7,6 +7,7 @@ import ProjectScreen from "./ProjectScreen";
 import anime from "animejs";
 import { Project } from "next/dist/build/swc";
 import { panelController } from "./BattleUI";
+import { useActionDialog } from "@/context/ActionDialogContext";
 
 const BattlerPreviewSafe = ({
   currentBattler,
@@ -33,7 +34,6 @@ const ScreenSelectables = ({
   setActiveProjectIndex,
   projectIndex,
   setProjectIndex,
-  setActionDialogText,
 }: {
   items: ProjectInfo[] | ExperienceInfo[];
   currentBattler: string;
@@ -41,8 +41,8 @@ const ScreenSelectables = ({
   setActiveProjectIndex: (i: number) => void;
   projectIndex: number;
   setProjectIndex: (i: number) => void;
-  setActionDialogText: (text: string) => void;
 }) => {
+  const { setActionDialogText } = useActionDialog();
   return (
     <div className="bg-slate-100 h-full">
       <div className="h-full w-full absolute border-cyan-400 border-l-[60px] border-r-[60px]">
