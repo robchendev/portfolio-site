@@ -36,9 +36,9 @@ const BattlerPreview = ({
           <div className=" border-green-400 border-[5px] group-hover:border-red-500 h-full w-full px-4 py-3 rounded-ss-[35px]">
             <Text
               noOfLines={1}
-              className="ml-16 text-white text-3xl drop-shadow-[0_2px_2px_rgba(0,0,0,.35)]"
+              className="ml-16 text-white text-4xl drop-shadow-[0_2px_2px_rgba(0,0,0,.35)]"
             >
-              {item.name}
+              {item.shortName ?? item.name}
             </Text>
           </div>
         </div>

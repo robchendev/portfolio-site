@@ -12,6 +12,7 @@ const projects: ProjectInfo[] = [
   {
     enabled: true,
     name: "Portfolio Website",
+    shortName: "Portfolio",
     description: "idk",
     stack: ["TypeScript", "React", "NextJS"],
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
@@ -27,6 +28,7 @@ const projects: ProjectInfo[] = [
   {
     enabled: true,
     name: "FRET: Discord Bot",
+    shortName: "FRET Bot",
     description: "idk",
     stack: ["JavaScript", "DiscordJS", "MongoDB"],
     health: 100,
@@ -34,13 +36,15 @@ const projects: ProjectInfo[] = [
   {
     enabled: true,
     name: "Canputer: Tech Tutor",
+    shortName: "Canputer",
     description: "idk",
     stack: ["JavaScript", "DiscordJS", "MongoDB"],
     health: 10,
   },
   {
     enabled: true,
-    name: "DescGenerator",
+    name: "Shopify Description Generator",
+    shortName: "DescGenerator",
     description: "idk",
     stack: ["TypeScript", "React", "NextJS", "PostgreSQL"],
     health: 100,

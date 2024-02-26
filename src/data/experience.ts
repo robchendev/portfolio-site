@@ -1,6 +1,7 @@
 export type ExperienceInfo = {
   enabled: boolean;
   name: string;
+  shortName?: string;
   startDate: string;
   endDate: string;
   description: string;

@@ -85,9 +85,11 @@ const ActionButton = ({
   isCurrentScreen: boolean;
 }) => {
   return (
-    <div className="flex justify-center h-full" onClick={onClick}>
-      <IntermediateButton text={text} color={color} isCurrentScreen={isCurrentScreen} />
-    </div>
+    <span className="w-1/2 h-1/2 inline-block">
+      <div className="flex justify-center h-full" onClick={onClick}>
+        <IntermediateButton text={text} color={color} isCurrentScreen={isCurrentScreen} />
+      </div>
+    </span>
   );
 };
 

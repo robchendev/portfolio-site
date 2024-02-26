@@ -68,10 +68,8 @@ const BattleUI = () => {
 
   return (
     <div className="w-full h-full relative overflow-hidden">
-      <div className="h-3/4 z-0 top-0 left-0 relative">
-        <div className="h-full w-full absolute">
-          <CombatScene />
-        </div>
+      <main className="h-3/4 z-0 top-0 left-0 relative">
+        <CombatScene />
         <div className="h-full w-full absolute top-[75%] screens z-[5]">
           {(activeScreen === "experience" || screen === "experience") && (
             <div>Experience gym badge screen</div>
@@ -92,11 +90,10 @@ const BattleUI = () => {
         </div>
         <div className="w-full absolute bottom-0 z-[10]">
           {/* activeScreen: {activeScreen} | screen: {screen} */}
-          <div className="h-2 w-full bg-black" />
+          <hr className="h-2 w-full bg-black" />
         </div>
-      </div>
-
-      <div className="h-1/4 z-2">
+      </main>
+      <footer className="h-1/4 z-2">
         <ActionMenu
           onActionSelect={(screenNew: ScreenTypes) => {
             setActiveScreen(screen);
@@ -113,7 +110,7 @@ const BattleUI = () => {
           actionDialogText={actionDialogText}
           setActionDialogText={setActionDialogText}
         />
-      </div>
+      </footer>
     </div>
   );
 };

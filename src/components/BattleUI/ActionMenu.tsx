@@ -28,75 +28,67 @@ const ActionMenu = ({
         <HStack w="full" h="full">
           <ActionDialog text={actionDialogText} />
           {screen === "fight" && (
-            <div className="w-full h-full -mr-1">
-              <span className="w-1/2 h-1/2 inline-block">
-                <ActionButton
-                  text="Fight"
-                  color="pink"
-                  onClick={() => {
-                    if (screen === "fight") {
-                      setActionDialogText("Portfolio Website used Attack!");
-                      // @ts-ignore
-                      window.secondTextTimeout = setTimeout(() => {
-                        // Check if screen hasn't changed
-                        if (screen === "fight") {
-                          setActionDialogText("It missed since I did not code this part yet!");
-                        }
-                      }, 2000);
-                    } else {
-                      setActionDialogText("What will you do?");
-                    }
-                    setTimeout(() => {
-                      onActionSelect("fight");
-                    }, 10);
-                  }}
-                  isCurrentScreen={screen === "fight"}
-                />
-              </span>
-              <span className="w-1/2 h-1/2 inline-block">
-                <ActionButton
-                  text="Experience"
-                  color="orange"
-                  onClick={() => {
-                    setActionDialogText(
-                      "Choose an Experience or CANCEL. Clicking experiences do nothing yet."
-                    );
-                    setTimeout(() => {
-                      onActionSelect("experience");
-                    }, 10);
-                  }}
-                  isCurrentScreen={false}
-                />
-              </span>
-              <span className="w-1/2 h-1/2 inline-block">
-                <ActionButton
-                  text="Projects"
-                  color="green"
-                  onClick={() => {
-                    setActionDialogText("Choose a Project or CANCEL.");
-                    setTimeout(() => {
-                      onActionSelect("projects");
-                    }, 10);
-                  }}
-                  isCurrentScreen={false}
-                />
-              </span>
-              <span className="w-1/2 h-1/2 inline-block">
-                <ActionButton
-                  text="About Me"
-                  color="blue"
-                  onClick={() => {
-                    setActionDialogText(
-                      "Sorry, this page is incomplete and will be replaced with game UI soon."
-                    );
-                    setTimeout(() => {
-                      onActionSelect("about");
-                    }, 10);
-                  }}
-                  isCurrentScreen={false}
-                />
-              </span>
-            </div>
+            <nav className="w-full h-full -mr-1">
+              <ActionButton
+                text="Fight"
+                color="pink"
+                onClick={() => {
+                  if (screen === "fight") {
+                    setActionDialogText("Portfolio Website used Attack!");
+                    // @ts-ignore
+                    window.secondTextTimeout = setTimeout(() => {
+                      // Check if screen hasn't changed
+                      if (screen === "fight") {
+                        setActionDialogText("It missed since I did not code this part yet!");
+                      }
+                    }, 2000);
+                  } else {
+                    setActionDialogText("What will you do?");
+                  }
+                  setTimeout(() => {
+                    onActionSelect("fight");
+                  }, 10);
+                }}
+                isCurrentScreen={screen === "fight"}
+              />
+              <ActionButton
+                text="Experience"
+                color="orange"
+                onClick={() => {
+                  setActionDialogText(
+                    "Choose an Experience or CANCEL. Clicking experiences do nothing yet."
+                  );
+                  setTimeout(() => {
+                    onActionSelect("experience");
+                  }, 10);
+                }}
+                isCurrentScreen={false}
+              />
+              <ActionButton
+                text="Projects"
+                color="green"
+                onClick={() => {
+                  setActionDialogText("Choose a Project or CANCEL.");
+                  setTimeout(() => {
+                    onActionSelect("projects");
+                  }, 10);
+                }}
+                isCurrentScreen={false}
+              />
+              <ActionButton
+                text="About Me"
+                color="blue"
+                onClick={() => {
+                  setActionDialogText(
+                    "Sorry, this page is incomplete and will be replaced with game UI soon."
+                  );
+                  setTimeout(() => {
+                    onActionSelect("about");
+                  }, 10);
+                }}
+                isCurrentScreen={false}
+              />
+            </nav>
           )}
           {screen !== "fight" && (
             <div className="w-1/3 h-2/3">
