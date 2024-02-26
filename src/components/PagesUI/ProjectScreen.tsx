@@ -1,14 +1,30 @@
-import { ProjectInfo } from "@/data/projects";
+import { ProjectInfo, StackItem } from "@/data/projects";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import StackItemTag from "./StackItemTag";
+import { MdOutlineOpenInNew } from "react-icons/md";
 
 type Subscreen = "summary" | "images" | "description";
 
 const SubscreenSummary = ({ project }: { project: ProjectInfo }) => {
   return (
     <section className="h-full bg-cyan-300 rounded-md p-4">
-      <h1 className="text-4xl leading-4">{project.name}</h1>
-      <div>{project.stack?.toString()}</div>
+      <h1 className="text-[4rem] font-semibold leading-8 tracking-wider mb-4">{project.name}</h1>
+      {project.deploymentUrl && (
+        <a
+          href={project.deploymentUrl}
+          className="mt-4 text-4xl text-blue-700 underline underline-offset-4"
+        >
+          {project.deploymentUrl} <MdOutlineOpenInNew className="inline" />
+        </a>
+      )}
+      <HStack className="pt-3">
+        {project.stack?.map((stackItem: StackItem, index: number) => (
+          <StackItemTag key={index} stackItem={stackItem} />
+        ))}
+      </HStack>
+      <p className="mt-4 text-4xl">{project.description}</p>
+      {/* A single featured image here */}
     </section>
   );
 };
@@ -16,9 +32,10 @@ const SubscreenSummary = ({ project }: { project: ProjectInfo }) => {
 const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   return (
     <section className="h-full bg-blue-300 rounded-md px-4 py-3">
-      <figure>IMAGES</figure>
+      <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p>
+      {/* <figure>IMAGES</figure>
       <figcaption>img caption</figcaption>
-      <div>{project.imageUrls?.toString()}</div>
+      <div>{project.imageUrls?.toString()}</div> */}
     </section>
   );
 };
@@ -26,8 +43,10 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
 const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   return (
     <section className="h-full bg-violet-300 rounded-md px-4 py-3">
+      <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p>
       {/* RENDER MARKDOWN? */}
-      DESCRIPTION<div>{project.description}</div>
+      {/* COMBAT POWER AND ABILITIES<div>{project.description}</div> */}
+      {/* Move:Power:Type */}
     </section>
   );
 };

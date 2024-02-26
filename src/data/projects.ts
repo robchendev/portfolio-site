@@ -1,9 +1,26 @@
+export type StackItem =
+  | "javascript"
+  | "typescript"
+  | "mongodb"
+  | "react"
+  | "postgresql"
+  | "electron"
+  | "nextjs"
+  | "gatsby"
+  | "emotion"
+  | "webaudio"
+  | "graphql"
+  | "discordapi"
+  | "html"
+  | "css";
+
 export type ProjectInfo = {
   enabled: boolean;
   name: string;
   shortName?: string; // in case there's no room to display
+  deploymentUrl?: string;
   description: string;
-  stack: string[];
+  stack: StackItem[];
   imageUrls?: string[];
   health: number;
 };
@@ -13,54 +30,59 @@ const projects: ProjectInfo[] = [
     enabled: true,
     name: "Portfolio Website",
     shortName: "Portfolio",
-    description: "idk",
-    stack: ["TypeScript", "React", "NextJS"],
+    description:
+      "This portfolio website, showcasing my projects and work experience. Designed to closely replicate POKéMON battle UI.",
+    stack: ["typescript", "react", "nextjs"],
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 50,
   },
   {
     enabled: true,
-    name: "Guitardex",
-    description: "idk",
-    stack: ["TypeScript", "React", "NextJS"],
+    name: "Guitardex v2",
+    deploymentUrl: "https://guitardex.com",
+    description:
+      "Second iteration of Guitardex, with audio visualization features for user analysis and comparison. Utilizes server-side rendering to efficiently serve dynamic paths and glossary information.",
+    stack: ["typescript", "react", "nextjs", "webaudio"],
+    health: 100,
+  },
+  {
+    enabled: true,
+    name: "Guitardex v1",
+    description:
+      "Guitar tutorial website to provide resources for guitarists wishing to learn more about the niche style of fingerstyle. Users can save their own personal list of techniques and share it around via an encoded link.",
+    stack: ["javascript", "react", "gatsby", "emotion", "graphql"],
     health: 100,
   },
   {
     enabled: true,
     name: "FRET: Discord Bot",
     shortName: "FRET Bot",
-    description: "idk",
-    stack: ["JavaScript", "DiscordJS", "MongoDB"],
+    description:
+      "A multipurpose Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information.",
+    stack: ["javascript", "mongodb", "discordapi"],
     health: 100,
   },
   {
     enabled: true,
-    name: "Canputer: Tech Tutor",
-    shortName: "Canputer",
-    description: "idk",
-    stack: ["JavaScript", "DiscordJS", "MongoDB"],
-    health: 10,
-  },
-  {
-    enabled: true,
-    name: "Shopify Description Generator",
+    name: "Shopify HTML Generator",
     shortName: "DescGenerator",
-    description: "idk",
-    stack: ["TypeScript", "React", "NextJS", "PostgreSQL"],
+    description:
+      "Made for a Avian Guitar's Shopify store. The description of the product page is written in HTML. This GUI is made to make it easier for the user to write the HTML description with zero knowledge on HTML.",
+    stack: ["javascript", "electron", "html", "css"],
     health: 100,
   },
   {
     enabled: false,
     name: "Leaderboard Generator",
     description: "idk",
-    stack: ["TypeScript", "React", "NextJS", "PostgreSQL"],
+    stack: ["javascript"],
     health: 100,
   },
   {
     enabled: false,
     name: "Realtor Website",
     description: "idk",
-    stack: ["TypeScript", "React", "NextJS", "PostgreSQL"],
+    stack: ["javascript"],
     health: 10,
   },
 ];

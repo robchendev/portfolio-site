@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import BattlerPreview, { BattlerDisabled } from "./BattlerPreview";
 import projects, { ProjectInfo } from "@/data/projects";
 import { ExperienceInfo } from "@/data/experience";
-import ProjectScreen from "./ProjectScreen";
+import ProjectScreen from "../PagesUI/ProjectScreen";
 import anime from "animejs";
 import { Project } from "next/dist/build/swc";
 import { panelController } from "./BattleUI";
@@ -43,6 +43,8 @@ const ScreenSelectables = ({
   setProjectIndex: (i: number) => void;
 }) => {
   const { setActionDialogText } = useActionDialog();
+  const onBattlerPreviewActionDialogText =
+    "View Project information, switch Project into battle, or CLOSE.";
   return (
     <div className="bg-slate-100 h-full">
       <div className="h-full w-full absolute border-cyan-400 border-l-[60px] border-r-[60px]">
@@ -60,20 +62,24 @@ const ScreenSelectables = ({
                 currentBattler={currentBattler}
                 onClick={() => {
                   setProjectIndex(0);
-                  setActionDialogText(
-                    "View Project information, switch Project into battle, or CLOSE."
-                  );
+                  setActionDialogText(onBattlerPreviewActionDialogText);
                 }}
               />
               <BattlerPreviewSafe
                 item={items[2]}
                 currentBattler={currentBattler}
-                onClick={() => setProjectIndex(2)}
+                onClick={() => {
+                  setProjectIndex(2);
+                  setActionDialogText(onBattlerPreviewActionDialogText);
+                }}
               />
               <BattlerPreviewSafe
                 item={items[4]}
                 currentBattler={currentBattler}
-                onClick={() => setProjectIndex(4)}
+                onClick={() => {
+                  setProjectIndex(4);
+                  setActionDialogText(onBattlerPreviewActionDialogText);
+                }}
               />
             </VStack>
           </div>
@@ -82,17 +88,26 @@ const ScreenSelectables = ({
               <BattlerPreviewSafe
                 item={items[1]}
                 currentBattler={currentBattler}
-                onClick={() => setProjectIndex(1)}
+                onClick={() => {
+                  setProjectIndex(1);
+                  setActionDialogText(onBattlerPreviewActionDialogText);
+                }}
               />
               <BattlerPreviewSafe
                 item={items[3]}
                 currentBattler={currentBattler}
-                onClick={() => setProjectIndex(3)}
+                onClick={() => {
+                  setProjectIndex(3);
+                  setActionDialogText(onBattlerPreviewActionDialogText);
+                }}
               />
               <BattlerPreviewSafe
                 item={items[5]}
                 currentBattler={currentBattler}
-                onClick={() => setProjectIndex(5)}
+                onClick={() => {
+                  setProjectIndex(5);
+                  setActionDialogText(onBattlerPreviewActionDialogText);
+                }}
               />
             </VStack>
           </div>
