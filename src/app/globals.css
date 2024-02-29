@@ -9,3 +9,16 @@
 body {
   letter-spacing: 0px;
 }
+
+.imgScroller ::-webkit-scrollbar {
+  width: 24px !important;
+  background-color: #000 !important;
+}
+
+.imgScroller ::-webkit-scrollbar-track {
+  background-color: #000 !important;
+}
+
+.imgScroller ::-webkit-scrollbar-thumb {
+  background-color: #000 !important;
+}

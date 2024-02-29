@@ -1,8 +1,10 @@
-import { ProjectInfo, StackItem } from "@/data/projects";
+import { BattleMove, ProjectInfo, StackItem } from "@/data/projects";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import StackItemTag from "./StackItemTag";
 import { MdOutlineOpenInNew } from "react-icons/md";
+import Image from "next/image";
+import ScrollContainer from "react-indiana-drag-scroll";
 
 type Subscreen = "summary" | "images" | "description";
 
@@ -30,12 +32,47 @@ const SubscreenSummary = ({ project }: { project: ProjectInfo }) => {
 };
 
 const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
+  const [selectedImage, setSelectedImage] = useState(project.imageUrls[0]);
   return (
-    <section className="h-full bg-blue-300 rounded-md px-4 py-3">
-      <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p>
+    <section className="h-full bg-blue-300 rounded-md px-4 py-3 flex justify-center">
+      {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
       {/* <figure>IMAGES</figure>
       <figcaption>img caption</figcaption>
       <div>{project.imageUrls?.toString()}</div> */}
+      <div className="h-full w-3/4 border-2 border-r-0 border-red-500 ">
+        <Image
+          loading="eager"
+          src={selectedImage}
+          height={300}
+          width={300}
+          alt={project.shortName + " Image"}
+          className="w-full h-full object-contain"
+        />
+      </div>
+      <div className="h-full w-1/4 overflow-y-scroll">
+        {/* <ScrollContainer className="list flex overflow-auto" hideScrollbars={false}> */}
+        {/* Onclick should open a lightbox */}
+        <VStack spacing={1}>
+          {project.imageUrls?.map((imageUrl: string, index: number) => (
+            <figure
+              key={index}
+              className="flex-shrink-0 overflow-hidden bg-placeholder-light dark:bg-placeholder-dark"
+              onClick={() => setSelectedImage(imageUrl)}
+            >
+              <Image
+                loading="eager"
+                src={imageUrl}
+                height={300}
+                width={300}
+                alt={project.shortName + " Image"}
+                className={`cursor-pointer ${
+                  imageUrl === selectedImage ? "brightness-100" : "brightness-75"
+                } hover:brightness-100 transition duration-300`}
+              />
+            </figure>
+          ))}
+        </VStack>
+      </div>
     </section>
   );
 };
@@ -43,10 +80,17 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
 const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   return (
     <section className="h-full bg-violet-300 rounded-md px-4 py-3">
-      <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p>
+      {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
       {/* RENDER MARKDOWN? */}
       {/* COMBAT POWER AND ABILITIES<div>{project.description}</div> */}
       {/* Move:Power:Type */}
+      <ul>
+        {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
+          <li key={index} className={`text-4xl ${index % 2 == 0 ? "bg-white" : "bg-slate-200"}`}>
+            Name: {battleMove.name}, Power: {battleMove.power}
+          </li>
+        ))}
+      </ul>
     </section>
   );
 };

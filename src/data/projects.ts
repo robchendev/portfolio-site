@@ -14,6 +14,11 @@ export type StackItem =
   | "html"
   | "css";
 
+export type BattleMove = {
+  name: string;
+  power: number;
+};
+
 export type ProjectInfo = {
   enabled: boolean;
   name: string;
@@ -21,7 +26,8 @@ export type ProjectInfo = {
   deploymentUrl?: string;
   description: string;
   stack: StackItem[];
-  imageUrls?: string[];
+  imageUrls: string[];
+  battleMoves?: BattleMove[];
   health: number;
 };
 
@@ -33,7 +39,27 @@ const projects: ProjectInfo[] = [
     description:
       "This portfolio website, showcasing my projects and work experience. Designed to closely replicate POKéMON battle UI.",
     stack: ["typescript", "react", "nextjs"],
-    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+    imageUrls: [
+      "/img/visual2.png",
+      "/img/visual.jpg",
+      "/img/partmarks.png",
+      "/img/jhin.png",
+      "/img/chinese.jpg",
+    ],
+    battleMoves: [
+      {
+        name: "Impress",
+        power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -20,
+      },
+      {
+        name: "Move3",
+        power: 40,
+      },
+    ],
     health: 50,
   },
   {
@@ -43,6 +69,7 @@ const projects: ProjectInfo[] = [
     description:
       "Second iteration of Guitardex, with audio visualization features for user analysis and comparison. Utilizes server-side rendering to efficiently serve dynamic paths and glossary information.",
     stack: ["typescript", "react", "nextjs", "webaudio"],
+    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
   },
   {
@@ -51,6 +78,7 @@ const projects: ProjectInfo[] = [
     description:
       "Guitar tutorial website to provide resources for guitarists wishing to learn more about the niche style of fingerstyle. Users can save their own personal list of techniques and share it around via an encoded link.",
     stack: ["javascript", "react", "gatsby", "emotion", "graphql"],
+    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
   },
   {
@@ -60,6 +88,7 @@ const projects: ProjectInfo[] = [
     description:
       "A multipurpose Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information.",
     stack: ["javascript", "mongodb", "discordapi"],
+    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
   },
   {
@@ -69,6 +98,7 @@ const projects: ProjectInfo[] = [
     description:
       "Made for a Avian Guitar's Shopify store. The description of the product page is written in HTML. This GUI is made to make it easier for the user to write the HTML description with zero knowledge on HTML.",
     stack: ["javascript", "electron", "html", "css"],
+    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
   },
   {
@@ -76,6 +106,7 @@ const projects: ProjectInfo[] = [
     name: "Leaderboard Generator",
     description: "idk",
     stack: ["javascript"],
+    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
   },
   {
@@ -83,6 +114,7 @@ const projects: ProjectInfo[] = [
     name: "Realtor Website",
     description: "idk",
     stack: ["javascript"],
+    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 10,
   },
 ];

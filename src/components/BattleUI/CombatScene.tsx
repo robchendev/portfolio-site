@@ -32,7 +32,7 @@ const CombatScene = () => {
         {/* Enemy Pokemon Info */}
         <div className="h-full w-full absolute top-[12%]">
           <BattlerWrapperEnemy>
-            <EnemyBattlerPanel name="Robert Chen" level={25} />
+            <EnemyBattlerPanel name="Robert's Unemployment" level={25} />
           </BattlerWrapperEnemy>
         </div>
 
