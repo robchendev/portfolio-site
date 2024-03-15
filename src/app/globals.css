@@ -22,3 +22,14 @@ body {
 .imgScroller ::-webkit-scrollbar-thumb {
   background-color: #000 !important;
 }
+
+.slide-up-enter {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.slide-up-enter-active {
+  transform: translateY(0);
+  opacity: 1;
+  transition: transform 300ms ease-out, opacity 300ms ease-out;
+}

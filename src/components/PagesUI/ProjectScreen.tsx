@@ -1,10 +1,11 @@
 import { BattleMove, ProjectInfo, StackItem } from "@/data/projects";
 import { HStack, Text, VStack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import StackItemTag from "./StackItemTag";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Image from "next/image";
 import ScrollContainer from "react-indiana-drag-scroll";
+import anime from "animejs";
 
 type Subscreen = "summary" | "images" | "description";
 
@@ -108,15 +109,44 @@ const ProjectScreen = ({
 }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
   const [chosenSubscreen, setChosenSubscreen] = useState<Subscreen>("summary");
+  const projectScreenRef = useRef(null);
+
+  useEffect(() => {
+    if (projectIndex !== -1 || activeProjectIndex !== -1) {
+      anime({
+        targets: projectScreenRef.current,
+        translateY: ["100%", "0%"],
+        easing: "easeInOutQuad",
+        duration: 300,
+        begin: function (anim) {
+          if (projectScreenRef.current) {
+            // @ts-ignore
+            projectScreenRef.current.style.display = "block";
+          }
+        },
+      });
+    }
+  }, [projectIndex, activeProjectIndex]);
+
   useEffect(() => {
     let chosenIndex =
       projectIndex !== -1 ? projectIndex : activeProjectIndex !== -1 ? activeProjectIndex : -1;
     setChosenProject(projects[chosenIndex]);
     setChosenSubscreen("summary");
   }, [projectIndex, activeProjectIndex, projects]);
+
+  if (projectIndex === -1 && activeProjectIndex === -1) {
+    return null;
+  }
+
   return (
     <div
-      className={`${activeProjectIndex !== -1 || projectIndex !== -1 ? "bg-slate-100" : ""} h-full`}
+      ref={projectScreenRef}
+      style={{
+        display: "none",
+        transform: "translateY(100%)",
+        height: "100%",
+      }}
     >
       {chosenProject && (activeProjectIndex !== -1 || projectIndex !== -1) && (
         <div className="pb-2 h-full bg-yellow-200">
