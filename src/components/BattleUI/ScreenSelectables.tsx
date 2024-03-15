@@ -113,23 +113,6 @@ const ScreenSelectables = ({
           </div>
         </HStack>
       </div>
-      <div
-        className={`h-full w-full absolute projects z-[10] ${
-          projectIndex === -1 ? "pointer-events-none" : ""
-        }`}
-      >
-        <ProjectScreen
-          onExit={() => {
-            setProjectIndex(-1);
-            setActionDialogText("Choose a Project or CANCEL.");
-
-            // panelController(".projects", false, 100);
-          }}
-          activeProjectIndex={activeProjectIndex}
-          projectIndex={projectIndex}
-          projects={projects}
-        />
-      </div>
     </div>
   );
 };
