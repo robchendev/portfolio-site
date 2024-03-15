@@ -1,5 +1,5 @@
 import { HStack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ActionButton from "./ActionButton";
 import ActionDialog from "./ActionDialog";
 import { ScreenTypes } from "./BattleUI";

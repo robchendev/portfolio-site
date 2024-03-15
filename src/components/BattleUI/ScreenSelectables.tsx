@@ -1,12 +1,8 @@
 import { HStack, VStack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import BattlerPreview, { BattlerDisabled } from "./BattlerPreview";
-import projects, { ProjectInfo } from "@/data/projects";
+import { ProjectInfo } from "@/data/projects";
 import { ExperienceInfo } from "@/data/experience";
-import ProjectScreen from "../PagesUI/ProjectScreen";
-import anime from "animejs";
-import { Project } from "next/dist/build/swc";
-import { panelController } from "./BattleUI";
 import { useActionDialog } from "@/context/ActionDialogContext";
 
 const BattlerPreviewSafe = ({
@@ -30,16 +26,10 @@ const BattlerPreviewSafe = ({
 const ScreenSelectables = ({
   items,
   currentBattler,
-  activeProjectIndex,
-  setActiveProjectIndex,
-  projectIndex,
   setProjectIndex,
 }: {
   items: ProjectInfo[] | ExperienceInfo[];
   currentBattler: string;
-  activeProjectIndex: number;
-  setActiveProjectIndex: (i: number) => void;
-  projectIndex: number;
   setProjectIndex: (i: number) => void;
 }) => {
   const { setActionDialogText } = useActionDialog();
