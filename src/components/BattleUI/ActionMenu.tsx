@@ -1,9 +1,10 @@
 import { HStack } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ActionButton from "./ActionButton";
 import ActionDialog from "./ActionDialog";
 import { ScreenTypes } from "./BattleUI";
 import { useActionDialog } from "./../../context/ActionDialogContext";
+import { useActionMenuDisabled } from "@/context/ActionMenuDisabledContext";
 
 const ActionMenu = ({
   onActionSelect,
@@ -20,6 +21,8 @@ const ActionMenu = ({
     return () => clearTimeout(window.secondTextTimeout);
   }, [screen]);
   const { actionDialogText, setActionDialogText } = useActionDialog();
+  // TODO: Turn this into a context for global state!
+  const { actionMenuDisabled, setActionMenuDisabled } = useActionMenuDisabled();
   return (
     <div className="relative h-full">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 from-0% via-white via-50% to-gray-400 to-100% px-3 py-1.5">

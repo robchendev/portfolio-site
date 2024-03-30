@@ -1,3 +1,4 @@
+import { useActionMenuDisabled } from "@/context/ActionMenuDisabledContext";
 import React from "react";
 
 type ButtonColor = "pink" | "orange" | "green" | "blue";
@@ -83,8 +84,13 @@ const ActionButton = ({
   onClick: () => void;
   isCurrentScreen: boolean;
 }) => {
+  const { actionMenuDisabled } = useActionMenuDisabled();
   return (
-    <span className="w-1/2 h-1/2 inline-block">
+    <span
+      className={`w-1/2 h-1/2 inline-block ${
+        actionMenuDisabled ? "filter grayscale pointer-events-none" : ""
+      }`}
+    >
       <div className="flex justify-center h-full" onClick={onClick}>
         <IntermediateButton text={text} color={color} isCurrentScreen={isCurrentScreen} />
       </div>

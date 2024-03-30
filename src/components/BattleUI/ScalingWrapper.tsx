@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import BattleUI from "./BattleUI";
 import { ActionDialogProvider } from "@/context/ActionDialogContext";
+import { ActionMenuDisabledProvider } from "@/context/ActionMenuDisabledContext";
 
 export const DesktopScalingWrapper = () => {
   const refOuter = useRef<HTMLDivElement>(null);
@@ -74,7 +75,9 @@ export const DesktopScalingWrapper = () => {
               className="w-full h-full"
             >
               <ActionDialogProvider>
-                <BattleUI />
+                <ActionMenuDisabledProvider>
+                  <BattleUI />
+                </ActionMenuDisabledProvider>
               </ActionDialogProvider>
               {/* {scaleFactor} */}
             </div>
