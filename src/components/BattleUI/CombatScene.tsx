@@ -6,6 +6,7 @@ import { BattlerWrapper, BattlerWrapperEnemy } from "./BattlerWrapper";
 import { Button, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useActionContext } from "@/context/ActionContext";
+import { useBattleContext } from "@/context/BattleContext";
 
 const CombatScene = () => {
   const {
@@ -17,6 +18,7 @@ const CombatScene = () => {
     animateAllyHit,
     animateEnemyHit,
   } = useActionContext();
+  const { battler } = useBattleContext();
 
   const allyVariants = {
     attack: {

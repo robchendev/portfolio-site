@@ -4,19 +4,24 @@ import BattlerPreview, { BattlerDisabled } from "./BattlerPreview";
 import { ProjectInfo } from "@/data/projects";
 import { ExperienceInfo } from "@/data/experience";
 import { useActionContext } from "@/context/ActionContext";
+import { useBattleContext } from "@/context/BattleContext";
 
 const BattlerPreviewSafe = ({
   currentBattler,
   item,
   onClick,
 }: {
-  currentBattler: string;
+  currentBattler: ProjectInfo;
   item?: ProjectInfo | ExperienceInfo;
   onClick: () => void;
 }) => {
   if (item && item.enabled) {
     return (
-      <BattlerPreview item={item} isBattling={currentBattler === item.name} onClick={onClick} />
+      <BattlerPreview
+        item={item}
+        isBattling={currentBattler.name === item.name}
+        onClick={onClick}
+      />
     );
   } else {
     return <BattlerDisabled />;
@@ -26,15 +31,15 @@ const BattlerPreviewSafe = ({
 const ScreenSelectables = ({
   items,
   currentBattler,
-  setProjectIndex,
 }: {
   items: ProjectInfo[] | ExperienceInfo[];
-  currentBattler: string;
-  setProjectIndex: (i: number) => void;
+  currentBattler: ProjectInfo;
 }) => {
   const { setActionDialogText } = useActionContext();
   const onBattlerPreviewActionDialogText =
     "View Project information, switch Project into battle, or CLOSE.";
+  const { setProjectIndex } = useBattleContext();
+
   return (
     <div className="bg-slate-100 h-full">
       <div className="h-full w-full absolute border-cyan-400 border-l-[60px] border-r-[60px]">

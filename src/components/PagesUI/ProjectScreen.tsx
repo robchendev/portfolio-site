@@ -5,6 +5,7 @@ import StackItemTag from "./StackItemTag";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { useBattleContext } from "@/context/BattleContext";
 
 type Subscreen = "summary" | "images" | "description";
 
@@ -95,17 +96,10 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   );
 };
 
-const ProjectScreen = ({
-  onExit,
-  projectIndex,
-  projects,
-}: {
-  onExit: () => void;
-  projectIndex: number;
-  projects: ProjectInfo[];
-}) => {
+const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: ProjectInfo[] }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
   const [subscreen, setSubscreen] = useState<Subscreen>("summary");
+  const { projectIndex } = useBattleContext();
 
   useEffect(() => {
     setChosenProject(projects[projectIndex]);
