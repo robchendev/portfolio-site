@@ -3,7 +3,7 @@ import { BattlerPanel, EnemyBattlerPanel } from "./BattlerPanel";
 import EnemyPlatform from "./EnemyPlatform";
 import BattleBackground from "./BattleBackground";
 import { BattlerWrapper, BattlerWrapperEnemy } from "./BattlerWrapper";
-import { Button, Image } from "@chakra-ui/react";
+import { Button, Flex, HStack, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { ENEMY_INIT_HEALTH, useActionContext } from "@/context/ActionContext";
 
@@ -16,9 +16,13 @@ const CombatScene = () => {
     animateEnemyAttack,
     animateAllyHit,
     animateEnemyHit,
+    animateAllySwitchReturn,
+    animateAllySwitchEnter,
+    enemyHealth,
+    setEnemyHealth,
+    animateEnemyHp,
   } = useActionContext();
   const { battler } = useActionContext();
-  const [enemyHealth, setEnemyHealth] = useState(ENEMY_INIT_HEALTH);
 
   const allyVariants = {
     attack: {
@@ -70,6 +74,45 @@ const CombatScene = () => {
     initial: { scale: 1, x: 0, y: 0, rotate: 0, filter: "brightness(100%)" },
   };
 
+  const allySwitchVariants = {
+    return: {
+      x: -1000,
+      y: 1000,
+      // scale: 0,
+      transition: { type: "spring", stiffness: 100, damping: 40 },
+    },
+    enter: {
+      // transition: { type: "spring", stiffness: 260, damping: 20 },
+      transition: { type: "spring", stiffness: 10, damping: 40 },
+    },
+    initial: { scale: 1, x: 0, y: 0, rotate: 0 },
+  };
+
+  const allyInfoSwitchVariants = {
+    return: {
+      x: 100,
+      transition: { type: "spring", stiffness: 260, damping: 20 },
+    },
+    enter: {
+      x: 0,
+      transition: { type: "spring", stiffness: 260, damping: 20 },
+    },
+    initial: { scale: 1, x: 0, y: 0, rotate: 0 },
+  };
+
+  const getEnemyImage = () => {
+    const hpPercent = (enemyHealth / ENEMY_INIT_HEALTH) * 100;
+    let imgSrc = "/img/sadpepe.png";
+    if (hpPercent <= 25) {
+      imgSrc = "/img/pepestare.png";
+    } else if (hpPercent <= 50) {
+      imgSrc = "/img/pepeworried.png";
+    } else if (hpPercent <= 75) {
+      imgSrc = "/img/amogus.png";
+    }
+    return imgSrc;
+  };
+
   return (
     <div className="h-full w-full absolute">
       <div className="h-full box-border relative bg-cyan-200">
@@ -93,9 +136,9 @@ const CombatScene = () => {
             animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
             variants={enemyVariants}
           >
-            <div className="ml-[65%] w-[20%]">
-              <Image src="/img/sadpepe.png" alt="Image of me - This image has not been made yet" />
-            </div>
+            <Flex justify="center" className="ml-[65%] w-[20%]">
+              <Image src={getEnemyImage()} alt="Image of me - This image has not been made yet" />
+            </Flex>
           </motion.div>
         </div>
 
@@ -114,21 +157,32 @@ const CombatScene = () => {
         {/* Ally Pokemon */}
         <Button onClick={() => triggerAllyAttack()}>Ally Attack</Button>
         <Button onClick={() => triggerEnemyAttack()}>Enemy Attack</Button>
+        <Button onClick={() => animateEnemyHp(80)}>+ HP</Button>
+        <Button onClick={() => animateEnemyHp(-80)}>- HP</Button>
         <div className="h-full w-full absolute top-[50%]">
           <motion.div
             initial="initial"
-            animate={animateAllyAttack ? "attack" : animateAllyHit ? "hit" : "initial"}
-            variants={allyVariants}
+            animate={
+              animateAllySwitchReturn ? "return" : animateAllySwitchEnter ? "enter" : "initial"
+            }
+            variants={allySwitchVariants}
           >
-            <div className="ml-[10%] w-[32%]">
-              <Image
-                src={battler.battleImage}
-                alt="Portfolio Image - This image has not been made yet"
-              />
-            </div>
+            <motion.div
+              initial="initial"
+              animate={animateAllyAttack ? "attack" : animateAllyHit ? "hit" : "initial"}
+              variants={allyVariants}
+            >
+              <Flex justify="center" className="ml-[10%] w-[32%]">
+                <Image
+                  src={battler.battleImage}
+                  alt="Portfolio Image - This image has not been made yet"
+                />
+              </Flex>
+            </motion.div>{" "}
           </motion.div>
         </div>
 
+        {/* TODO: Animate this upon switching */}
         {/* Ally Pokemon Info */}
         <div className="h-full w-full absolute top-[67%]">
           <BattlerWrapper>

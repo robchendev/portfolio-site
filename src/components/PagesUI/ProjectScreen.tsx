@@ -100,11 +100,15 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
   const [chosenProject, setChosenProject] = useState(projects[0]);
   const [subscreen, setSubscreen] = useState<Subscreen>("summary");
   const {
+    battler,
     setScreen,
     projects: currProjects,
     projectIndex,
     setBattler,
     setActionDialogText,
+    triggerAllySwitchReturn,
+    triggerAllySwitchEnter,
+    setActionMenuDisabled,
   } = useActionContext();
 
   useEffect(() => {
@@ -177,11 +181,17 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                     <button
                       className="bg-green-500"
                       onClick={() => {
-                        setBattler(currProjects[projectIndex]);
                         onExit();
                         setScreen("fight");
-                        // TODO: Add timing and animation
-                        setActionDialogText("What will you do?");
+                        setActionDialogText(`${battler.name}, come back!`);
+                        setTimeout(() => {
+                          triggerAllySwitchReturn();
+                          setTimeout(() => {
+                            setBattler(currProjects[projectIndex]);
+                            setActionDialogText(`Go, ${currProjects[projectIndex].name}!`);
+                            triggerAllySwitchEnter();
+                          }, 1000);
+                        }, 1000);
                       }}
                     >
                       Switch
