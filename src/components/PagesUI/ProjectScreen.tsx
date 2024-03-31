@@ -178,24 +178,26 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                     </button>
                   </div>
                   <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-2 text-white">
-                    <button
-                      className="bg-green-500"
-                      onClick={() => {
-                        onExit();
-                        setScreen("fight");
-                        setActionDialogText(`${battler.name}, come back!`);
-                        setTimeout(() => {
-                          triggerAllySwitchReturn();
+                    {battler.name !== currProjects[projectIndex].name && (
+                      <button
+                        className="bg-green-500"
+                        onClick={() => {
+                          onExit();
+                          setScreen("fight");
+                          setActionDialogText(`${battler.name}, come back!`);
                           setTimeout(() => {
-                            setBattler(currProjects[projectIndex]);
-                            setActionDialogText(`Go, ${currProjects[projectIndex].name}!`);
-                            triggerAllySwitchEnter();
+                            triggerAllySwitchReturn();
+                            setTimeout(() => {
+                              setBattler(currProjects[projectIndex]);
+                              setActionDialogText(`Go, ${currProjects[projectIndex].name}!`);
+                              triggerAllySwitchEnter();
+                            }, 1000);
                           }, 1000);
-                        }, 1000);
-                      }}
-                    >
-                      Switch
-                    </button>
+                        }}
+                      >
+                        Switch
+                      </button>
+                    )}
                     <button className="bg-red-500" onClick={onExit}>
                       Close
                     </button>
