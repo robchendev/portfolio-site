@@ -4,41 +4,26 @@ import BattlerPreview, { BattlerDisabled } from "./BattlerPreview";
 import { ProjectInfo } from "@/data/projects";
 import { ExperienceInfo } from "@/data/experience";
 import { useActionContext } from "@/context/ActionContext";
-import { useBattleContext } from "@/context/BattleContext";
 
 const BattlerPreviewSafe = ({
-  currentBattler,
   item,
   onClick,
 }: {
-  currentBattler: ProjectInfo;
   item?: ProjectInfo | ExperienceInfo;
   onClick: () => void;
 }) => {
+  const { battler } = useActionContext();
   if (item && item.enabled) {
-    return (
-      <BattlerPreview
-        item={item}
-        isBattling={currentBattler.name === item.name}
-        onClick={onClick}
-      />
-    );
+    return <BattlerPreview item={item} isBattling={battler.name === item.name} onClick={onClick} />;
   } else {
     return <BattlerDisabled />;
   }
 };
 
-const ScreenSelectables = ({
-  items,
-  currentBattler,
-}: {
-  items: ProjectInfo[] | ExperienceInfo[];
-  currentBattler: ProjectInfo;
-}) => {
-  const { setActionDialogText } = useActionContext();
+const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] }) => {
+  const { setActionDialogText, setProjectIndex } = useActionContext();
   const onBattlerPreviewActionDialogText =
     "View Project information, switch Project into battle, or CLOSE.";
-  const { setProjectIndex } = useBattleContext();
 
   return (
     <div className="bg-slate-100 h-full">
@@ -54,7 +39,6 @@ const ScreenSelectables = ({
             <VStack justifyContent="space-between" className="h-[90%] w-full">
               <BattlerPreviewSafe
                 item={items[0]}
-                currentBattler={currentBattler}
                 onClick={() => {
                   setProjectIndex(0);
                   setActionDialogText(onBattlerPreviewActionDialogText);
@@ -62,7 +46,6 @@ const ScreenSelectables = ({
               />
               <BattlerPreviewSafe
                 item={items[2]}
-                currentBattler={currentBattler}
                 onClick={() => {
                   setProjectIndex(2);
                   setActionDialogText(onBattlerPreviewActionDialogText);
@@ -70,7 +53,6 @@ const ScreenSelectables = ({
               />
               <BattlerPreviewSafe
                 item={items[4]}
-                currentBattler={currentBattler}
                 onClick={() => {
                   setProjectIndex(4);
                   setActionDialogText(onBattlerPreviewActionDialogText);
@@ -82,7 +64,6 @@ const ScreenSelectables = ({
             <VStack justifyContent="space-between" className="mt-[10%] h-[90%] w-full">
               <BattlerPreviewSafe
                 item={items[1]}
-                currentBattler={currentBattler}
                 onClick={() => {
                   setProjectIndex(1);
                   setActionDialogText(onBattlerPreviewActionDialogText);
@@ -90,7 +71,6 @@ const ScreenSelectables = ({
               />
               <BattlerPreviewSafe
                 item={items[3]}
-                currentBattler={currentBattler}
                 onClick={() => {
                   setProjectIndex(3);
                   setActionDialogText(onBattlerPreviewActionDialogText);
@@ -98,7 +78,6 @@ const ScreenSelectables = ({
               />
               <BattlerPreviewSafe
                 item={items[5]}
-                currentBattler={currentBattler}
                 onClick={() => {
                   setProjectIndex(5);
                   setActionDialogText(onBattlerPreviewActionDialogText);

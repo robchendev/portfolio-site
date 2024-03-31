@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { BattlerPanel, EnemyBattlerPanel } from "./BattlerPanel";
 import EnemyPlatform from "./EnemyPlatform";
 import BattleBackground from "./BattleBackground";
 import { BattlerWrapper, BattlerWrapperEnemy } from "./BattlerWrapper";
 import { Button, Image } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { useActionContext } from "@/context/ActionContext";
-import { useBattleContext } from "@/context/BattleContext";
+import { ENEMY_INIT_HEALTH, useActionContext } from "@/context/ActionContext";
 
 const CombatScene = () => {
   const {
@@ -18,7 +17,8 @@ const CombatScene = () => {
     animateAllyHit,
     animateEnemyHit,
   } = useActionContext();
-  const { battler } = useBattleContext();
+  const { battler } = useActionContext();
+  const [enemyHealth, setEnemyHealth] = useState(ENEMY_INIT_HEALTH);
 
   const allyVariants = {
     attack: {
@@ -102,7 +102,12 @@ const CombatScene = () => {
         {/* Enemy Pokemon Info */}
         <div className="h-full w-full absolute top-[12%]">
           <BattlerWrapperEnemy>
-            <EnemyBattlerPanel name="Robert's Unemployment" level={25} />
+            <EnemyBattlerPanel
+              name="Robert's Unemployment"
+              health={enemyHealth}
+              maxHealth={ENEMY_INIT_HEALTH}
+              level={25}
+            />
           </BattlerWrapperEnemy>
         </div>
 
@@ -117,7 +122,7 @@ const CombatScene = () => {
           >
             <div className="ml-[10%] w-[32%]">
               <Image
-                src="/img/sadpepe.png"
+                src={battler.battleImage}
                 alt="Portfolio Image - This image has not been made yet"
               />
             </div>
@@ -127,7 +132,7 @@ const CombatScene = () => {
         {/* Ally Pokemon Info */}
         <div className="h-full w-full absolute top-[67%]">
           <BattlerWrapper>
-            <BattlerPanel name="Portfolio Website" level={30} />
+            <BattlerPanel battler={battler} />
           </BattlerWrapper>
         </div>
       </div>

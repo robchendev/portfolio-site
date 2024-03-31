@@ -1,3 +1,4 @@
+import { ProjectInfo } from "@/data/projects";
 import { HStack } from "@chakra-ui/react";
 import React from "react";
 import { IoMdMale } from "react-icons/io";
@@ -45,13 +46,13 @@ const HitPointsBar = ({ hpVal, maxHpVal }: { hpVal: number; maxHpVal: number }) 
 export const EnemyBattlerPanel = ({
   name,
   level,
-  hpVal = 31,
-  maxHpVal = 100,
+  health,
+  maxHealth,
 }: {
   name: string;
   level: number;
-  hpVal?: number;
-  maxHpVal?: number;
+  health: number;
+  maxHealth: number;
 }) => {
   return (
     <div className="mr-2">
@@ -61,35 +62,25 @@ export const EnemyBattlerPanel = ({
           <IoMdMale />
         </div>
         <div className="w-3/4 h-[1.25rem] pr-2">
-          <HitPointsBar hpVal={hpVal} maxHpVal={100} />
+          <HitPointsBar hpVal={health} maxHpVal={maxHealth} />
         </div>
       </HStack>
     </div>
   );
 };
 
-export const BattlerPanel = ({
-  name,
-  level,
-  hpVal = 55,
-  maxHpVal = 100,
-}: {
-  name: string;
-  level: number;
-  hpVal?: number;
-  maxHpVal?: number;
-}) => {
+export const BattlerPanel = ({ battler }: { battler: ProjectInfo }) => {
   return (
     <div className="ml-2">
-      <BattlerGlimpse name={name} level={level} />
+      <BattlerGlimpse name={battler.name} level={battler.level} />
       <HStack>
         <div className="w-1/4" />
         <div className="w-3/4 h-[1.25rem] pr-2">
-          <HitPointsBar hpVal={hpVal} maxHpVal={100} />
+          <HitPointsBar hpVal={battler.health} maxHpVal={100} />
         </div>
       </HStack>
       <div className="ml-[50%] rounded-lg bg-gray-200 mr-2 text-right px-4 font-semibold text-xl leading-6">
-        {hpVal}/{maxHpVal}
+        {battler.health}/{battler.maxHealth}
       </div>
     </div>
   );

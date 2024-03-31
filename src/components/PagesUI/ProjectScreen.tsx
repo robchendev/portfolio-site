@@ -5,7 +5,7 @@ import StackItemTag from "./StackItemTag";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useBattleContext } from "@/context/BattleContext";
+import { useActionContext } from "@/context/ActionContext";
 
 type Subscreen = "summary" | "images" | "description";
 
@@ -99,7 +99,13 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
 const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: ProjectInfo[] }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
   const [subscreen, setSubscreen] = useState<Subscreen>("summary");
-  const { projectIndex } = useBattleContext();
+  const {
+    setScreen,
+    projects: currProjects,
+    projectIndex,
+    setBattler,
+    setActionDialogText,
+  } = useActionContext();
 
   useEffect(() => {
     setChosenProject(projects[projectIndex]);
@@ -168,7 +174,16 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                     </button>
                   </div>
                   <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-2 text-white">
-                    <button className="bg-green-500" onClick={() => console.log("SWITCH")}>
+                    <button
+                      className="bg-green-500"
+                      onClick={() => {
+                        setBattler(currProjects[projectIndex]);
+                        onExit();
+                        setScreen("fight");
+                        // TODO: Add timing and animation
+                        setActionDialogText("What will you do?");
+                      }}
+                    >
                       Switch
                     </button>
                     <button className="bg-red-500" onClick={onExit}>

@@ -26,11 +26,15 @@ export type ProjectInfo = {
   deploymentUrl?: string;
   description: string;
   stack: StackItem[];
+  battleImage: string;
   imageUrls: string[];
   battleMoves?: BattleMove[];
   health: number;
+  maxHealth: number;
+  level: number;
 };
 
+// Initial values for projects
 const projects: ProjectInfo[] = [
   {
     enabled: true,
@@ -39,6 +43,7 @@ const projects: ProjectInfo[] = [
     description:
       "This portfolio website, showcasing my projects and work experience. Designed to closely replicate POKéMON battle UI.",
     stack: ["typescript", "react", "nextjs"],
+    battleImage: "/img/sadpepe.png",
     imageUrls: [
       "/img/visual2.png",
       "/img/visual.jpg",
@@ -61,6 +66,8 @@ const projects: ProjectInfo[] = [
       },
     ],
     health: 50,
+    maxHealth: 100,
+    level: 30,
   },
   {
     enabled: true,
@@ -69,8 +76,11 @@ const projects: ProjectInfo[] = [
     description:
       "Second iteration of Guitardex, with audio visualization features for user analysis and comparison. Utilizes server-side rendering to efficiently serve dynamic paths and glossary information.",
     stack: ["typescript", "react", "nextjs", "webaudio"],
+    battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
+    maxHealth: 100,
+    level: 30,
   },
   {
     enabled: true,
@@ -78,8 +88,11 @@ const projects: ProjectInfo[] = [
     description:
       "Guitar tutorial website to provide resources for guitarists wishing to learn more about the niche style of fingerstyle. Users can save their own personal list of techniques and share it around via an encoded link.",
     stack: ["javascript", "react", "gatsby", "emotion", "graphql"],
+    battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
+    maxHealth: 100,
+    level: 30,
   },
   {
     enabled: true,
@@ -88,8 +101,11 @@ const projects: ProjectInfo[] = [
     description:
       "A multipurpose Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information.",
     stack: ["javascript", "mongodb", "discordapi"],
+    battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
+    maxHealth: 100,
+    level: 30,
   },
   {
     enabled: true,
@@ -98,24 +114,33 @@ const projects: ProjectInfo[] = [
     description:
       "Made for a Avian Guitar's Shopify store. The description of the product page is written in HTML. This GUI is made to make it easier for the user to write the HTML description with zero knowledge on HTML.",
     stack: ["javascript", "electron", "html", "css"],
+    battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
+    maxHealth: 100,
+    level: 30,
   },
   {
     enabled: false,
     name: "Leaderboard Generator",
     description: "idk",
     stack: ["javascript"],
+    battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 100,
+    maxHealth: 100,
+    level: 30,
   },
   {
     enabled: false,
     name: "Realtor Website",
     description: "idk",
     stack: ["javascript"],
+    battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
     health: 10,
+    maxHealth: 100,
+    level: 30,
   },
 ];
 

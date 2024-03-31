@@ -7,14 +7,11 @@ import AboutMe from "./AboutMe";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectScreen from "../PagesUI/ProjectScreen";
 import { useActionContext } from "@/context/ActionContext";
-import { useBattleContext } from "@/context/BattleContext";
 
 export type ScreenTypes = "fight" | "experience" | "projects" | "about";
 
 const BattleUI = () => {
-  const [screen, setScreen] = useState<ScreenTypes>("fight");
-  const { setActionDialogText } = useActionContext();
-  const { projectIndex, setProjectIndex, battler } = useBattleContext();
+  const { screen, setActionDialogText, projectIndex, setProjectIndex } = useActionContext();
 
   const screenVariants = {
     initial: { y: "100%" },
@@ -37,9 +34,7 @@ const BattleUI = () => {
               transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
             >
               {screen === "experience" && <div>Experience gym badge screen</div>}
-              {screen === "projects" && (
-                <ScreenSelectables items={projects} currentBattler={battler} />
-              )}
+              {screen === "projects" && <ScreenSelectables items={projects} />}
               {screen === "about" && <AboutMe />}
             </motion.div>
           )}
@@ -63,8 +58,6 @@ const BattleUI = () => {
       </main>
       <footer className="h-1/4 z-2">
         <ActionMenu
-          onActionSelect={setScreen}
-          screen={screen}
           onProjectClose={() => {
             setProjectIndex(-1);
           }}

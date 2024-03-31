@@ -1,10 +1,24 @@
+import { ScreenTypes } from "@/components/BattleUI/BattleUI";
+import { default as projectList, ProjectInfo } from "@/data/projects";
 import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
 
+export const ENEMY_INIT_HEALTH = 200;
+
 interface CombinedContextType {
+  screen: ScreenTypes;
+  setScreen: React.Dispatch<React.SetStateAction<ScreenTypes>>;
+  projects: ProjectInfo[];
+  setProjects: React.Dispatch<React.SetStateAction<ProjectInfo[]>>;
+  projectIndex: number;
+  setProjectIndex: React.Dispatch<React.SetStateAction<number>>;
+  battler: ProjectInfo;
+  setBattler: React.Dispatch<React.SetStateAction<ProjectInfo>>;
   actionDialogText: string;
   setActionDialogText: React.Dispatch<React.SetStateAction<string>>;
   actionMenuDisabled: boolean;
   setActionMenuDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  enemyHealth: number;
+  setEnemyHealth: React.Dispatch<React.SetStateAction<number>>;
   triggerAllyAttack: () => void;
   triggerEnemyAttack: () => void;
   animateAllyHit: boolean;
@@ -28,8 +42,17 @@ interface ActionProviderProps {
 }
 
 export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
+  const [screen, setScreen] = useState<ScreenTypes>("fight");
+  const [projects, setProjects] = useState<ProjectInfo[]>(projectList);
+  const [projectIndex, setProjectIndex] = useState(-1);
+  const [battler, setBattler] = useState<ProjectInfo>(projectList[0]);
+
+  // Action Bar
   const [actionDialogText, setActionDialogText] = useState("This portfolio is under development.");
   const [actionMenuDisabled, setActionMenuDisabled] = useState(false);
+
+  // Enemy HP
+  const [enemyHealth, setEnemyHealth] = useState(ENEMY_INIT_HEALTH);
 
   // Animation states
   const [animateAllyHit, setAnimateAllyHit] = useState(false);
@@ -73,6 +96,16 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   return (
     <ActionContext.Provider
       value={{
+        screen,
+        setScreen,
+        projects,
+        setProjects,
+        projectIndex,
+        setProjectIndex,
+        battler,
+        setBattler,
+        enemyHealth,
+        setEnemyHealth,
         // Action Menu Controls
         actionDialogText,
         setActionDialogText,

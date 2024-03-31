@@ -7,21 +7,21 @@ import { useActionContext } from "@/context/ActionContext";
 import CancelButton from "./CancelButton";
 import ActionFightMenu from "./ActionFightMenu";
 
-const ActionMenu = ({
-  onActionSelect,
-  screen,
-  onProjectClose,
-}: {
-  onActionSelect: (screenNew: ScreenTypes) => void;
-  screen: ScreenTypes;
-  onProjectClose: () => void;
-}) => {
+const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
+  const {
+    screen,
+    setScreen,
+    actionDialogText,
+    setActionDialogText,
+    actionMenuDisabled,
+    setActionMenuDisabled,
+  } = useActionContext();
+
   useEffect(() => {
     // @ts-ignore
     return () => clearTimeout(window.secondTextTimeout);
   }, [screen]);
-  const { actionDialogText, setActionDialogText, actionMenuDisabled, setActionMenuDisabled } =
-    useActionContext();
+
   const [isFightMenu, setIsFightMenu] = useState(false);
   return (
     <div className="relative h-full">
@@ -69,7 +69,7 @@ const ActionMenu = ({
                         setActionDialogText("What will you do?");
                       }
                       setTimeout(() => {
-                        onActionSelect("fight");
+                        setScreen("fight");
                       }, 10);
                     }}
                     isCurrentScreen={screen === "fight"}
@@ -82,7 +82,7 @@ const ActionMenu = ({
                         "Choose an Experience or CANCEL. Clicking experiences do nothing yet."
                       );
                       setTimeout(() => {
-                        onActionSelect("experience");
+                        setScreen("experience");
                       }, 10);
                     }}
                     isCurrentScreen={false}
@@ -93,7 +93,7 @@ const ActionMenu = ({
                     onClick={() => {
                       setActionDialogText("Choose a Project or CANCEL.");
                       setTimeout(() => {
-                        onActionSelect("projects");
+                        setScreen("projects");
                       }, 10);
                     }}
                     isCurrentScreen={false}
@@ -106,7 +106,7 @@ const ActionMenu = ({
                         "Sorry, this page is incomplete and will be replaced with game UI soon."
                       );
                       setTimeout(() => {
-                        onActionSelect("about");
+                        setScreen("about");
                       }, 10);
                     }}
                     isCurrentScreen={false}
@@ -123,7 +123,7 @@ const ActionMenu = ({
                   onProjectClose();
                   setActionDialogText("What will you do?");
                   setTimeout(() => {
-                    onActionSelect("fight");
+                    setScreen("fight");
                   }, 10);
                 }}
               >
