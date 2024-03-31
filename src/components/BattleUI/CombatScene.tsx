@@ -1,63 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BattlerPanel, EnemyBattlerPanel } from "./BattlerPanel";
 import EnemyPlatform from "./EnemyPlatform";
 import BattleBackground from "./BattleBackground";
 import { BattlerWrapper, BattlerWrapperEnemy } from "./BattlerWrapper";
 import { Button, Image } from "@chakra-ui/react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useActionMenuDisabled } from "@/context/ActionMenuDisabledContext";
+import { motion } from "framer-motion";
+import { useActionContext } from "@/context/ActionContext";
 
 const CombatScene = () => {
-  const { actionMenuDisabled, setActionMenuDisabled } = useActionMenuDisabled();
-  // Ally Attack Animation
-  const [animateAllyAttack, setAnimateAllyAttack] = useState(false);
-  const [animateEnemyHit, setAnimateEnemyHit] = useState(false);
-  const controlsAllyAttack = {
-    initial: { scale: 1 },
-    animate: animateAllyAttack ? { rotate: 10, scale: 0.8, x: 300, y: -70 } : { scale: 1 },
+  const {
+    setActionMenuDisabled,
+    triggerAllyAttack,
+    triggerEnemyAttack,
+    animateAllyAttack,
+    animateEnemyAttack,
+    animateAllyHit,
+    animateEnemyHit,
+  } = useActionContext();
+
+  const allyVariants = {
+    attack: {
+      rotate: 10,
+      scale: 0.8,
+      x: 300,
+      y: -70,
+      transition: { type: "spring", stiffness: 260, damping: 20 },
+    },
+    hit: {
+      rotate: [0, -10, -10, 0, 0],
+      scale: [1, 1.1, 1.1, 1, 1],
+      x: [0, -20, -20, 0, 0],
+      y: [0, -20, -20, 0, 0],
+      filter: [
+        "brightness(100%)",
+        "brightness(0%)",
+        "brightness(100%)",
+        "brightness(0%)",
+        "brightness(100%)",
+      ],
+      transition: { duration: 0.6 },
+    },
+    initial: { scale: 1, x: 0, y: 0, rotate: 0, filter: "brightness(100%)" },
   };
 
-  const controlsEnemyHit = {
-    initial: { scale: 1, filter: "brightness(100%)" },
-    animate: animateEnemyHit
-      ? {
-          rotate: [0, 10, 10, 0, 0],
-          scale: [1, 0.9, 0.9, 1, 1],
-          x: [0, 50, 50, 0, 0],
-          y: [0, -50, -50, 0, 0],
-          filter: [
-            // TODO: THIS IS DISGUSTING
-            "brightness(150%)",
-            "brightness(100%)",
-            "brightness(150%)",
-            "brightness(100%)",
-            "brightness(100%)",
-          ],
-          transition: { duration: 0.8 },
-        }
-      : { scale: 1, filter: "brightness(100%)" },
+  const enemyVariants = {
+    attack: {
+      rotate: -10,
+      scale: 1.25,
+      x: -330,
+      y: 140,
+      transition: { type: "spring", stiffness: 260, damping: 20 },
+    },
+    hit: {
+      rotate: [0, 10, 10, 0, 0],
+      scale: [1, 0.9, 0.9, 1, 1],
+      x: [0, 50, 50, 0, 0],
+      y: [0, -50, -50, 0, 0],
+      filter: [
+        "brightness(100%)",
+        "brightness(0%)",
+        "brightness(100%)",
+        "brightness(0%)",
+        "brightness(100%)",
+      ],
+      transition: { duration: 0.6 },
+    },
+    initial: { scale: 1, x: 0, y: 0, rotate: 0, filter: "brightness(100%)" },
   };
-  // Using useEffect to safeguard against memory leaks if component unmounts before timeout complete
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    if (animateAllyAttack) {
-      timer = setTimeout(() => {
-        setAnimateAllyAttack(false);
-      }, 450);
-    }
-    return () => clearTimeout(timer);
-  }, [animateAllyAttack]);
-
-  useEffect(() => {
-    let timer: ReturnType<typeof setTimeout> | undefined;
-    if (animateEnemyHit) {
-      timer = setTimeout(() => {
-        setAnimateEnemyHit(false);
-        setActionMenuDisabled(false);
-      }, 500);
-    }
-    return () => clearTimeout(timer);
-  }, [animateEnemyHit, setActionMenuDisabled]);
 
   return (
     <div className="h-full w-full absolute">
@@ -78,13 +87,9 @@ const CombatScene = () => {
         {/* Enemy Pokemon */}
         <div className="h-full w-full absolute top-[24%]">
           <motion.div
-            initial={controlsEnemyHit.initial}
-            animate={controlsEnemyHit.animate}
-            transition={{
-              type: "spring",
-              stiffness: 260,
-              damping: 20,
-            }}
+            initial="initial"
+            animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
+            variants={enemyVariants}
           >
             <div className="ml-[65%] w-[20%]">
               <Image src="/img/sadpepe.png" alt="Image of me - This image has not been made yet" />
@@ -100,27 +105,13 @@ const CombatScene = () => {
         </div>
 
         {/* Ally Pokemon */}
-
-        <Button
-          onClick={() => {
-            setAnimateAllyAttack(true);
-            setActionMenuDisabled(true);
-            setTimeout(() => {
-              setAnimateEnemyHit(true);
-            }, 150);
-          }}
-        >
-          Attack!
-        </Button>
+        <Button onClick={() => triggerAllyAttack()}>Ally Attack</Button>
+        <Button onClick={() => triggerEnemyAttack()}>Enemy Attack</Button>
         <div className="h-full w-full absolute top-[50%]">
           <motion.div
-            initial={controlsAllyAttack.initial}
-            animate={controlsAllyAttack.animate}
-            transition={{
-              type: "spring",
-              stiffness: 260,
-              damping: 20,
-            }}
+            initial="initial"
+            animate={animateAllyAttack ? "attack" : animateAllyHit ? "hit" : "initial"}
+            variants={allyVariants}
           >
             <div className="ml-[10%] w-[32%]">
               <Image

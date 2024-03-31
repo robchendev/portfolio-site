@@ -3,7 +3,7 @@ import React from "react";
 import BattlerPreview, { BattlerDisabled } from "./BattlerPreview";
 import { ProjectInfo } from "@/data/projects";
 import { ExperienceInfo } from "@/data/experience";
-import { useActionDialog } from "@/context/ActionDialogContext";
+import { useActionContext } from "@/context/ActionContext";
 
 const BattlerPreviewSafe = ({
   currentBattler,
@@ -32,7 +32,7 @@ const ScreenSelectables = ({
   currentBattler: string;
   setProjectIndex: (i: number) => void;
 }) => {
-  const { setActionDialogText } = useActionDialog();
+  const { setActionDialogText } = useActionContext();
   const onBattlerPreviewActionDialogText =
     "View Project information, switch Project into battle, or CLOSE.";
   return (

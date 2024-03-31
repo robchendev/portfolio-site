@@ -4,16 +4,16 @@ import CombatScene from "./CombatScene";
 import projects from "@/data/projects";
 import ScreenSelectables from "./ScreenSelectables";
 import AboutMe from "./AboutMe";
-import { useActionDialog } from "./../../context/ActionDialogContext";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectScreen from "../PagesUI/ProjectScreen";
+import { useActionContext } from "@/context/ActionContext";
 
 export type ScreenTypes = "fight" | "experience" | "projects" | "about";
 
 const BattleUI = () => {
   const [screen, setScreen] = useState<ScreenTypes>("fight");
   const [battler, setBattler] = useState(projects[0].name);
-  const { setActionDialogText } = useActionDialog();
+  const { setActionDialogText } = useActionContext();
 
   const [projectIndex, setProjectIndex] = useState<number>(-1);
 

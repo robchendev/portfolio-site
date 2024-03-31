@@ -1,4 +1,4 @@
-import { useActionMenuDisabled } from "@/context/ActionMenuDisabledContext";
+import { useActionContext } from "@/context/ActionContext";
 import React from "react";
 
 type ButtonColor = "pink" | "orange" | "green" | "blue";
@@ -84,7 +84,7 @@ const ActionButton = ({
   onClick: () => void;
   isCurrentScreen: boolean;
 }) => {
-  const { actionMenuDisabled } = useActionMenuDisabled();
+  const { actionMenuDisabled } = useActionContext();
   return (
     <span
       className={`w-1/2 h-1/2 inline-block ${
