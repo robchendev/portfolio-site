@@ -77,6 +77,7 @@ const BattleUI = () => {
           <hr className="h-2 w-full bg-black" />
         </div>
       </main>
+
       <footer className="h-1/4 z-2">
         <ActionMenu
           onProjectClose={() => {

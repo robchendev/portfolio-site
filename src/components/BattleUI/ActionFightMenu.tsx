@@ -42,16 +42,16 @@ const ActionFightMenu = ({ battleMoves }: { battleMoves: BattleMove[] }) => {
     setIsFightMenu(false);
     setActionMenuDisabled(true);
     setActionDialogText(`${battler.name} used ${battleMove.name}!`);
-    triggerAllyAttack();
+    triggerAllyAttack(battleMove);
     // TODO: Calculate and invoke hpChange
 
-    setTimeout(() => {
-      animateHp(battleMove.power, "enemy");
-    }, 200);
+    // setTimeout(() => {
+    //   animateHp(battleMove.power, "enemy");
+    // }, 200);
 
-    setTimeout(() => {
-      actionMenuEnable();
-    }, 1200);
+    // setTimeout(() => {
+    //   actionMenuEnable();
+    // }, 1200);
   };
 
   return (

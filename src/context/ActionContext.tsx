@@ -1,6 +1,13 @@
 import { ScreenTypes } from "@/components/BattleUI/BattleUI";
-import { default as projectList, ProjectInfo } from "@/data/projects";
-import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import { default as projectList, ProjectInfo, BattleMove } from "@/data/projects";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+  useEffect,
+} from "react";
 
 export const ENEMY_INIT_HEALTH = 200;
 
@@ -20,8 +27,7 @@ interface CombinedContextType {
   enemyHealth: number;
   setEnemyHealth: React.Dispatch<React.SetStateAction<number>>;
   animateHp: (hpChange: number, type: "ally" | "enemy") => void;
-  triggerAllyAttack: () => void;
-  triggerEnemyAttack: () => void;
+  triggerAllyAttack: (battleMove: BattleMove) => void;
   animateAllyHit: boolean;
   animateEnemyHit: boolean;
   animateAllyAttack: boolean;
@@ -34,8 +40,10 @@ interface CombinedContextType {
   triggerEnemyDeath: () => void;
   isFightMenu: boolean;
   setIsFightMenu: (val: boolean) => void;
-  enemyIsDead: boolean;
-  setEnemyIsDead: (val: boolean) => void;
+  isEnemyDead: boolean;
+  setIsEnemyDead: (val: boolean) => void;
+  isFullTurnInProgress: boolean;
+  setIsFullTurnInProgress: (val: boolean) => void;
   actionMenuEnable: () => void;
   isFightOver: boolean;
   setIsFightOver: (val: boolean) => void;
@@ -80,11 +88,14 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [animateAllySwitchEnter, setAnimateAllySwitchEnter] = useState(false);
   const [animateEnemyDeath, setAnimateEnemyDeath] = useState(false);
 
-  const [enemyIsDead, setEnemyIsDead] = useState(false);
+  const [isEnemyDead, setIsEnemyDead] = useState(false);
   const [hpIntervalId, setHpIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
+  const [isFullTurnInProgress, setIsFullTurnInProgress] = useState(false); // On when ally begins attack, off when enemy finishes attack
 
-  const resetBattle = () => {
-    animateHp(-(ENEMY_INIT_HEALTH * 1.1), "enemy"); // 1.1 multiplier handles rounding error
+  const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+  const resetBattle = async () => {
+    // animateHp(-(ENEMY_INIT_HEALTH * 1.1), "enemy"); // 1.1 multiplier handles rounding error
     setProjects(projectList);
     setProjectIndex(-1);
     setBattler(projectList[0]);
@@ -97,24 +108,25 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setAnimateEnemyAttack(false);
     setAnimateAllySwitchReturn(false);
     setAnimateAllySwitchEnter(false);
-    setEnemyIsDead(false);
+    setIsEnemyDead(false);
     setHpIntervalId(undefined);
     setActionDialogText("What will you do?");
-    setIsFightMenu(false);
-    setTimeout(() => {
-      setScreen("fight");
-    }, 10);
-    setTimeout(() => {
-      setAnimateEnemyDeath(false);
-    }, 1000);
+    setIsFullTurnInProgress(false);
+    await delay(10);
+    recoverHp();
+    setScreen("fight");
+    await delay(1000);
+    setAnimateEnemyDeath(false);
   };
 
   // Function that safeguards against setting the action menu enabled again before something finishes
   const actionMenuEnable = useCallback(() => {
+    console.log("invoking actionMenuEnable");
     // Alternative method of using while(true) to "wait" since JS is single threaded
     new Promise<void>((resolve) => {
       const checkInterval = setInterval(() => {
-        if (hpIntervalId === undefined) {
+        console.log("isFullTurnInProgress", isFullTurnInProgress);
+        if (hpIntervalId === undefined && !isFullTurnInProgress) {
           clearInterval(checkInterval);
           resolve();
         }
@@ -123,40 +135,148 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       setActionMenuDisabled(false);
     });
     // eslint-disable-next-line
-  }, []);
+  }, [isFullTurnInProgress]);
+
+  const triggerEnemyDeath = useCallback(async () => {
+    setIsEnemyDead(true);
+    await delay(1000);
+    setActionMenuDisabled(true);
+    setAnimateEnemyDeath(true);
+    await delay(1000);
+    setActionDialogText("Robert's Unemployment is defeated!");
+    await delay(2000);
+    setActionDialogText("Congrats, you won!");
+    await delay(2000);
+    setIsFightMenu(false);
+    setIsFightOver(true);
+    setIsFullTurnInProgress(false);
+    actionMenuEnable();
+  }, [actionMenuEnable]);
+
+  const recoverHp = useCallback(() => {
+    const duration = 1000;
+    const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
+    const numberOfTicks = duration / tickInterval;
+    const hpPerTick = (ENEMY_INIT_HEALTH * 1.1) / numberOfTicks;
+    setActionMenuDisabled(true);
+
+    const intervalId = setInterval(() => {
+      setEnemyHealth((prevHealth) => {
+        let newHealth = prevHealth + hpPerTick;
+        newHealth = newHealth > 0 ? newHealth : 0;
+        newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
+        // If health adjustment is done, clear the interval immediately
+        if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
+          clearInterval(intervalId);
+          setHpIntervalId(undefined);
+        }
+        return newHealth;
+      });
+    }, tickInterval);
+    setHpIntervalId(intervalId);
+
+    // Clear the interval after the total duration has elapsed
+    setTimeout(() => {
+      clearInterval(intervalId);
+      setHpIntervalId(undefined);
+      actionMenuEnable();
+    }, duration);
+  }, [actionMenuEnable]);
+
+  const animateHp = useCallback(
+    (hpChange: number, type: "ally" | "enemy") => {
+      let duration = 1000;
+      const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
+      const numberOfTicks = duration / tickInterval;
+      const hpPerTick = hpChange / numberOfTicks;
+      setActionMenuDisabled(true);
+
+      // If enemy is close to dying, such that the hp bar will leave a sliver of hp,
+      // then just continue draining the hp until it is zero.
+      if (enemyHealth - hpChange < 0.01 * ENEMY_INIT_HEALTH) {
+        duration *= 1.2;
+      }
+
+      const intervalId = setInterval(() => {
+        if (type === "enemy") {
+          setEnemyHealth((prevHealth) => {
+            let newHealth = prevHealth - hpPerTick;
+            newHealth = newHealth > 0 ? newHealth : 0;
+            newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
+            // If health adjustment is done, clear the interval immediately
+            if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
+              clearInterval(intervalId);
+              // actionMenuEnable();
+              setHpIntervalId(undefined);
+            }
+            if (newHealth === 0) {
+              triggerEnemyDeath();
+            }
+            return newHealth;
+          });
+        } else if (type === "ally") {
+          // TODO
+        } else {
+          throw new Error(`type ${type} not handled!`);
+        }
+      }, tickInterval);
+      setHpIntervalId(intervalId);
+
+      // Clear the interval after the total duration has elapsed
+      setTimeout(() => {
+        clearInterval(intervalId);
+        // if (!isEnemyDead) {
+        //   // Dont want to enable action menu when doing enemy death animation
+        //   // or when the enemy is not even on the field to get attacked
+        //   actionMenuEnable();
+        // }
+        setHpIntervalId(undefined);
+      }, duration);
+    },
+    [triggerEnemyDeath, enemyHealth]
+  );
 
   // Animation functions
-  const triggerAllyAttack = useCallback(() => {
-    setActionMenuDisabled(true);
-    setAnimateAllyAttack(true);
-    setTimeout(() => {
-      setAnimateAllyAttack(false);
-    }, 450);
+  const triggerAllyAttack = useCallback(
+    async (battleMove: BattleMove) => {
+      // Prepare UI for animations
+      setActionMenuDisabled(true);
+      setIsFullTurnInProgress(true);
 
-    setTimeout(() => {
+      // Prepare death flag
+      let enemyWillDie = false;
+      if (enemyHealth - battleMove.power < 0.01 * ENEMY_INIT_HEALTH) {
+        enemyWillDie = true;
+      }
+
+      // Begin animations for ally turn
+      setAnimateAllyAttack(true);
+      await delay(150);
       setAnimateEnemyHit(true);
-      setTimeout(() => {
-        setAnimateEnemyHit(false);
-        actionMenuEnable();
-      }, 600);
-    }, 150);
-  }, [actionMenuEnable]);
+      animateHp(battleMove.power, "enemy");
+      await delay(300);
+      setAnimateAllyAttack(false);
+      await delay(600);
+      setAnimateEnemyHit(false);
+      await delay(500);
 
-  const triggerEnemyAttack = useCallback(() => {
-    setActionMenuDisabled(true);
-    setAnimateEnemyAttack(true);
-    setTimeout(() => {
-      setAnimateEnemyAttack(false);
-    }, 450);
-
-    setTimeout(() => {
-      setAnimateAllyHit(true);
-      setTimeout(() => {
+      // Begin animations for enemy turn
+      if (enemyWillDie) {
+        await triggerEnemyDeath();
+      } else {
+        setAnimateEnemyAttack(true);
+        await delay(150);
+        setAnimateAllyHit(true);
+        await delay(300);
+        setAnimateEnemyAttack(false);
+        await delay(600);
+        setIsFullTurnInProgress(false);
         setAnimateAllyHit(false);
         actionMenuEnable();
-      }, 600);
-    }, 150);
-  }, [actionMenuEnable]);
+      }
+    },
+    [animateHp, actionMenuEnable, enemyHealth, triggerEnemyDeath]
+  );
 
   const triggerAllySwitchReturn = useCallback(() => {
     setActionMenuDisabled(true);
@@ -176,71 +296,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       }, 300);
     }, 1200);
   }, [actionMenuEnable]);
-
-  const triggerEnemyDeath = useCallback(() => {
-    console.log("ENEMY DIES");
-
-    setTimeout(() => {
-      setActionMenuDisabled(true);
-      setAnimateEnemyDeath(true);
-      setEnemyIsDead(true);
-    }, 1000);
-    setTimeout(() => {
-      setActionDialogText("Robert's Unemployment is defeated!");
-    }, 2000);
-    setTimeout(() => {
-      setActionDialogText("Congrats, you won!");
-    }, 4000);
-    setTimeout(() => {
-      setIsFightMenu(false);
-      setIsFightOver(true);
-      actionMenuEnable();
-    }, 6000);
-  }, [actionMenuEnable]);
-
-  const animateHp = (hpChange: number, type: "ally" | "enemy") => {
-    const duration = 1000;
-    const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
-    const numberOfTicks = duration / tickInterval;
-    const hpPerTick = hpChange / numberOfTicks;
-    setActionMenuDisabled(true);
-
-    const intervalId = setInterval(() => {
-      if (type === "enemy") {
-        setEnemyHealth((prevHealth) => {
-          let newHealth = prevHealth - hpPerTick;
-          newHealth = newHealth > 0 ? newHealth : 0;
-          newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
-          // If health adjustment is done, clear the interval immediately
-          if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
-            clearInterval(intervalId);
-            // actionMenuEnable();
-            setHpIntervalId(undefined);
-          }
-          if (newHealth === 0) {
-            triggerEnemyDeath();
-          }
-          return newHealth;
-        });
-      } else if (type === "ally") {
-        // TODO
-      } else {
-        throw new Error(`type ${type} not handled!`);
-      }
-    }, tickInterval);
-    setHpIntervalId(intervalId);
-
-    // Clear the interval after the total duration has elapsed
-    setTimeout(() => {
-      clearInterval(intervalId);
-      if (!enemyIsDead) {
-        // Dont want to enable action menu when doing enemy death animation
-        // or when the enemy is not even on the field to get attacked
-        actionMenuEnable();
-      }
-      setHpIntervalId(undefined);
-    }, duration);
-  };
 
   return (
     <ActionContext.Provider
@@ -263,7 +318,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setActionMenuDisabled,
         // Animation Controls
         triggerAllyAttack,
-        triggerEnemyAttack,
         animateAllyHit,
         animateEnemyHit,
         animateAllyAttack,
@@ -277,8 +331,10 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         // Fight Menu
         isFightMenu,
         setIsFightMenu,
-        enemyIsDead,
-        setEnemyIsDead,
+        isEnemyDead,
+        setIsEnemyDead,
+        isFullTurnInProgress,
+        setIsFullTurnInProgress,
         actionMenuEnable,
         isFightOver,
         setIsFightOver,

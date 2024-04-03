@@ -11,7 +11,6 @@ const CombatScene = () => {
   const {
     setActionMenuDisabled,
     triggerAllyAttack,
-    triggerEnemyAttack,
     animateAllyAttack,
     animateEnemyAttack,
     animateAllyHit,
@@ -21,8 +20,9 @@ const CombatScene = () => {
     enemyHealth,
     setEnemyHealth,
     animateHp,
-    enemyIsDead,
+    isEnemyDead,
     animateEnemyDeath,
+    actionMenuDisabled,
   } = useActionContext();
   const { battler } = useActionContext();
 
@@ -186,9 +186,9 @@ const CombatScene = () => {
         </div>
 
         {/* Ally Pokemon */}
-        <Button onClick={() => triggerAllyAttack()}>Ally Attack</Button>
-        <Button onClick={() => triggerEnemyAttack()}>Enemy Attack</Button>
-        <Button onClick={() => animateHp(80, "enemy")}>- HP</Button>
+        <Button onClick={() => animateHp(80, "enemy")}>
+          - HP {actionMenuDisabled ? "True" : "False"}
+        </Button>
         <Button onClick={() => animateHp(-80, "enemy")}>+ HP</Button>
         <div className="h-full w-full absolute top-[50%]">
           <Flex justify="center" className="ml-[10%] w-[32%]">
