@@ -109,6 +109,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     triggerAllySwitchReturn,
     triggerAllySwitchEnter,
     setActionMenuDisabled,
+    isFightOver,
   } = useActionContext();
 
   useEffect(() => {
@@ -179,6 +180,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                   </div>
                   <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-2 text-white">
                     {currProjects[projectIndex] &&
+                      !isFightOver &&
                       battler.name !== currProjects[projectIndex].name && (
                         <button
                           className="bg-green-500"

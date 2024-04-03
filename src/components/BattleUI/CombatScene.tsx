@@ -149,6 +149,7 @@ const CombatScene = () => {
           <Flex justify="center" className="ml-[65%] w-[20%]">
             <motion.div
               initial="initial"
+              style={{ background: "transparent" }}
               animate={animateEnemyDeath ? "animate" : "initial"}
               variants={enemyDeathVariants}
             >

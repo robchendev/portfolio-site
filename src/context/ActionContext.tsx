@@ -84,20 +84,19 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [hpIntervalId, setHpIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
 
   const resetBattle = () => {
+    animateHp(-(ENEMY_INIT_HEALTH * 1.1), "enemy"); // 1.1 multiplier handles rounding error
     setProjects(projectList);
     setProjectIndex(-1);
     setBattler(projectList[0]);
     setIsFightMenu(false);
     setIsFightOver(false);
     setActionMenuDisabled(false);
-    setEnemyHealth(ENEMY_INIT_HEALTH);
     setAnimateAllyHit(false);
     setAnimateEnemyHit(false);
     setAnimateAllyAttack(false);
     setAnimateEnemyAttack(false);
     setAnimateAllySwitchReturn(false);
     setAnimateAllySwitchEnter(false);
-    setAnimateEnemyDeath(false);
     setEnemyIsDead(false);
     setHpIntervalId(undefined);
     setActionDialogText("What will you do?");
@@ -105,6 +104,9 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setTimeout(() => {
       setScreen("fight");
     }, 10);
+    setTimeout(() => {
+      setAnimateEnemyDeath(false);
+    }, 1000);
   };
 
   // Function that safeguards against setting the action menu enabled again before something finishes
@@ -191,7 +193,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     }, 4000);
     setTimeout(() => {
       setIsFightMenu(false);
-      setScreen("end");
       setIsFightOver(true);
       actionMenuEnable();
     }, 6000);
