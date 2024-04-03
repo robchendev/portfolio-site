@@ -19,7 +19,7 @@ interface CombinedContextType {
   setActionMenuDisabled: React.Dispatch<React.SetStateAction<boolean>>;
   enemyHealth: number;
   setEnemyHealth: React.Dispatch<React.SetStateAction<number>>;
-  animateEnemyHp: (hpChange: number) => void;
+  animateHp: (hpChange: number, type: "ally" | "enemy") => void;
   triggerAllyAttack: () => void;
   triggerEnemyAttack: () => void;
   animateAllyHit: boolean;
@@ -30,6 +30,16 @@ interface CombinedContextType {
   animateAllySwitchEnter: boolean;
   triggerAllySwitchReturn: () => void;
   triggerAllySwitchEnter: () => void;
+  animateEnemyDeath: boolean;
+  triggerEnemyDeath: () => void;
+  isFightMenu: boolean;
+  setIsFightMenu: (val: boolean) => void;
+  enemyIsDead: boolean;
+  setEnemyIsDead: (val: boolean) => void;
+  actionMenuEnable: () => void;
+  isFightOver: boolean;
+  setIsFightOver: (val: boolean) => void;
+  resetBattle: () => void;
 }
 
 const ActionContext = createContext<CombinedContextType | undefined>(undefined);
@@ -51,6 +61,8 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [projects, setProjects] = useState<ProjectInfo[]>(projectList);
   const [projectIndex, setProjectIndex] = useState(-1);
   const [battler, setBattler] = useState<ProjectInfo>(projectList[0]);
+  const [isFightMenu, setIsFightMenu] = useState(false);
+  const [isFightOver, setIsFightOver] = useState(false);
 
   // Action Bar
   const [actionDialogText, setActionDialogText] = useState("This portfolio is under development.");
@@ -66,6 +78,50 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [animateEnemyAttack, setAnimateEnemyAttack] = useState(false);
   const [animateAllySwitchReturn, setAnimateAllySwitchReturn] = useState(false);
   const [animateAllySwitchEnter, setAnimateAllySwitchEnter] = useState(false);
+  const [animateEnemyDeath, setAnimateEnemyDeath] = useState(false);
+
+  const [enemyIsDead, setEnemyIsDead] = useState(false);
+  const [hpIntervalId, setHpIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
+
+  const resetBattle = () => {
+    setProjects(projectList);
+    setProjectIndex(-1);
+    setBattler(projectList[0]);
+    setIsFightMenu(false);
+    setIsFightOver(false);
+    setActionMenuDisabled(false);
+    setEnemyHealth(ENEMY_INIT_HEALTH);
+    setAnimateAllyHit(false);
+    setAnimateEnemyHit(false);
+    setAnimateAllyAttack(false);
+    setAnimateEnemyAttack(false);
+    setAnimateAllySwitchReturn(false);
+    setAnimateAllySwitchEnter(false);
+    setAnimateEnemyDeath(false);
+    setEnemyIsDead(false);
+    setHpIntervalId(undefined);
+    setActionDialogText("What will you do?");
+    setIsFightMenu(false);
+    setTimeout(() => {
+      setScreen("fight");
+    }, 10);
+  };
+
+  // Function that safeguards against setting the action menu enabled again before something finishes
+  const actionMenuEnable = useCallback(() => {
+    // Alternative method of using while(true) to "wait" since JS is single threaded
+    new Promise<void>((resolve) => {
+      const checkInterval = setInterval(() => {
+        if (hpIntervalId === undefined) {
+          clearInterval(checkInterval);
+          resolve();
+        }
+      }, 100); // Check every 100ms
+    }).then(() => {
+      setActionMenuDisabled(false);
+    });
+    // eslint-disable-next-line
+  }, []);
 
   // Animation functions
   const triggerAllyAttack = useCallback(() => {
@@ -79,10 +135,10 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       setAnimateEnemyHit(true);
       setTimeout(() => {
         setAnimateEnemyHit(false);
-        setActionMenuDisabled(false);
+        actionMenuEnable();
       }, 600);
     }, 150);
-  }, []);
+  }, [actionMenuEnable]);
 
   const triggerEnemyAttack = useCallback(() => {
     setActionMenuDisabled(true);
@@ -95,17 +151,17 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       setAnimateAllyHit(true);
       setTimeout(() => {
         setAnimateAllyHit(false);
-        setActionMenuDisabled(false);
+        actionMenuEnable();
       }, 600);
     }, 150);
-  }, []);
+  }, [actionMenuEnable]);
 
   const triggerAllySwitchReturn = useCallback(() => {
     setActionMenuDisabled(true);
     setAnimateAllySwitchReturn(true);
     setTimeout(() => {
       setAnimateAllySwitchReturn(false);
-    }, 1000);
+    }, 1200);
   }, []);
 
   const triggerAllySwitchEnter = useCallback(() => {
@@ -114,34 +170,74 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       setAnimateAllySwitchEnter(false);
       setTimeout(() => {
         setActionDialogText("What will you do?");
-        setActionMenuDisabled(false);
+        actionMenuEnable();
       }, 300);
     }, 1200);
-  }, []);
+  }, [actionMenuEnable]);
 
-  const animateEnemyHp = (hpChange: number) => {
+  const triggerEnemyDeath = useCallback(() => {
+    console.log("ENEMY DIES");
+
+    setTimeout(() => {
+      setActionMenuDisabled(true);
+      setAnimateEnemyDeath(true);
+      setEnemyIsDead(true);
+    }, 1000);
+    setTimeout(() => {
+      setActionDialogText("Robert's Unemployment is defeated!");
+    }, 2000);
+    setTimeout(() => {
+      setActionDialogText("Congrats, you won!");
+    }, 4000);
+    setTimeout(() => {
+      setIsFightMenu(false);
+      setScreen("end");
+      setIsFightOver(true);
+      actionMenuEnable();
+    }, 6000);
+  }, [actionMenuEnable]);
+
+  const animateHp = (hpChange: number, type: "ally" | "enemy") => {
     const duration = 1000;
     const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
     const numberOfTicks = duration / tickInterval;
     const hpPerTick = hpChange / numberOfTicks;
+    setActionMenuDisabled(true);
 
     const intervalId = setInterval(() => {
-      setEnemyHealth((prevHealth) => {
-        let newHealth = prevHealth + hpPerTick;
-        newHealth = newHealth > 0 ? newHealth : 0;
-        newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
-        // If health adjustment is done, clear the interval immediately
-        if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
-          clearInterval(intervalId);
-        }
-
-        return newHealth;
-      });
+      if (type === "enemy") {
+        setEnemyHealth((prevHealth) => {
+          let newHealth = prevHealth - hpPerTick;
+          newHealth = newHealth > 0 ? newHealth : 0;
+          newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
+          // If health adjustment is done, clear the interval immediately
+          if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
+            clearInterval(intervalId);
+            // actionMenuEnable();
+            setHpIntervalId(undefined);
+          }
+          if (newHealth === 0) {
+            triggerEnemyDeath();
+          }
+          return newHealth;
+        });
+      } else if (type === "ally") {
+        // TODO
+      } else {
+        throw new Error(`type ${type} not handled!`);
+      }
     }, tickInterval);
+    setHpIntervalId(intervalId);
 
     // Clear the interval after the total duration has elapsed
     setTimeout(() => {
       clearInterval(intervalId);
+      if (!enemyIsDead) {
+        // Dont want to enable action menu when doing enemy death animation
+        // or when the enemy is not even on the field to get attacked
+        actionMenuEnable();
+      }
+      setHpIntervalId(undefined);
     }, duration);
   };
 
@@ -158,7 +254,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setBattler,
         enemyHealth,
         setEnemyHealth,
-        animateEnemyHp,
+        animateHp,
         // Action Menu Controls
         actionDialogText,
         setActionDialogText,
@@ -173,8 +269,19 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         animateEnemyAttack,
         animateAllySwitchReturn,
         animateAllySwitchEnter,
+        animateEnemyDeath,
         triggerAllySwitchReturn,
         triggerAllySwitchEnter,
+        triggerEnemyDeath,
+        // Fight Menu
+        isFightMenu,
+        setIsFightMenu,
+        enemyIsDead,
+        setEnemyIsDead,
+        actionMenuEnable,
+        isFightOver,
+        setIsFightOver,
+        resetBattle,
       }}
     >
       {children}

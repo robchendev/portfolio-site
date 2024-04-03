@@ -20,7 +20,9 @@ const CombatScene = () => {
     animateAllySwitchEnter,
     enemyHealth,
     setEnemyHealth,
-    animateEnemyHp,
+    animateHp,
+    enemyIsDead,
+    animateEnemyDeath,
   } = useActionContext();
   const { battler } = useActionContext();
 
@@ -74,16 +76,29 @@ const CombatScene = () => {
     initial: { scale: 1, x: 0, y: 0, rotate: 0, filter: "brightness(100%)" },
   };
 
+  const enemyDeathVariants = {
+    animate: {
+      y: 100,
+      scale: 0,
+      opacity: 0,
+      transition: { duration: 0.2, type: "spring", stiffness: 200, damping: 40 },
+    },
+    initial: { scale: 1, y: 0, opacity: 1 },
+  };
+
   const allySwitchVariants = {
     return: {
-      x: -1000,
-      y: 1000,
-      // scale: 0,
-      transition: { type: "spring", stiffness: 100, damping: 40 },
+      x: -500,
+      y: 500,
+      scale: 0,
+      transition: { duration: 0.2, type: "spring", stiffness: 100, damping: 40 },
     },
     enter: {
+      x: 0,
+      y: 0,
+      scale: 1,
       // transition: { type: "spring", stiffness: 260, damping: 20 },
-      transition: { type: "spring", stiffness: 10, damping: 40 },
+      transition: { duration: 0.1, type: "spring", stiffness: 200, damping: 20 },
     },
     initial: { scale: 1, x: 0, y: 0, rotate: 0 },
   };
@@ -131,15 +146,30 @@ const CombatScene = () => {
 
         {/* Enemy Pokemon */}
         <div className="h-full w-full absolute top-[24%]">
-          <motion.div
-            initial="initial"
-            animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
-            variants={enemyVariants}
-          >
-            <Flex justify="center" className="ml-[65%] w-[20%]">
-              <Image src={getEnemyImage()} alt="Image of me - This image has not been made yet" />
-            </Flex>
-          </motion.div>
+          <Flex justify="center" className="ml-[65%] w-[20%]">
+            <motion.div
+              initial="initial"
+              animate={animateEnemyDeath ? "animate" : "initial"}
+              variants={enemyDeathVariants}
+            >
+              <motion.div
+                initial="initial"
+                animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
+                variants={enemyVariants}
+              >
+                <Image src={getEnemyImage()} alt="Image of me - This image has not been made yet" />
+              </motion.div>
+            </motion.div>
+          </Flex>
+        </div>
+
+        {/* Enemy Platform Bottom Half */}
+        <div className="h-full w-full absolute top-[52%] overflow-hidden">
+          <div className="h-full w-full relative">
+            <div className="h-full w-full absolute -top-[50%] height-[200%]">
+              <EnemyPlatform />
+            </div>
+          </div>
         </div>
 
         {/* Enemy Pokemon Info */}
@@ -157,29 +187,29 @@ const CombatScene = () => {
         {/* Ally Pokemon */}
         <Button onClick={() => triggerAllyAttack()}>Ally Attack</Button>
         <Button onClick={() => triggerEnemyAttack()}>Enemy Attack</Button>
-        <Button onClick={() => animateEnemyHp(80)}>+ HP</Button>
-        <Button onClick={() => animateEnemyHp(-80)}>- HP</Button>
+        <Button onClick={() => animateHp(80, "enemy")}>- HP</Button>
+        <Button onClick={() => animateHp(-80, "enemy")}>+ HP</Button>
         <div className="h-full w-full absolute top-[50%]">
-          <motion.div
-            initial="initial"
-            animate={
-              animateAllySwitchReturn ? "return" : animateAllySwitchEnter ? "enter" : "initial"
-            }
-            variants={allySwitchVariants}
-          >
+          <Flex justify="center" className="ml-[10%] w-[32%]">
             <motion.div
               initial="initial"
-              animate={animateAllyAttack ? "attack" : animateAllyHit ? "hit" : "initial"}
-              variants={allyVariants}
+              animate={
+                animateAllySwitchReturn ? "return" : animateAllySwitchEnter ? "enter" : "initial"
+              }
+              variants={allySwitchVariants}
             >
-              <Flex justify="center" className="ml-[10%] w-[32%]">
+              <motion.div
+                initial="initial"
+                animate={animateAllyAttack ? "attack" : animateAllyHit ? "hit" : "initial"}
+                variants={allyVariants}
+              >
                 <Image
                   src={battler.battleImage}
                   alt="Portfolio Image - This image has not been made yet"
                 />
-              </Flex>
-            </motion.div>{" "}
-          </motion.div>
+              </motion.div>
+            </motion.div>
+          </Flex>
         </div>
 
         {/* TODO: Animate this upon switching */}

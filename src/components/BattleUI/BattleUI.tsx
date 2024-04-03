@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProjectScreen from "../PagesUI/ProjectScreen";
 import { useActionContext } from "@/context/ActionContext";
 
-export type ScreenTypes = "fight" | "experience" | "projects" | "about";
+export type ScreenTypes = "fight" | "experience" | "projects" | "about" | "end";
 
 const BattleUI = () => {
   const { screen, setActionDialogText, projectIndex, setProjectIndex } = useActionContext();
@@ -36,6 +36,7 @@ const BattleUI = () => {
               {screen === "experience" && <div>Experience gym badge screen</div>}
               {screen === "projects" && <ScreenSelectables items={projects} />}
               {screen === "about" && <AboutMe />}
+              {screen === "end" && <div>Endscreen</div>}
             </motion.div>
           )}
         </AnimatePresence>

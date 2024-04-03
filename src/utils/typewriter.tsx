@@ -38,11 +38,7 @@ const TextWriter = ({ text, speed }: { text: string; speed: number }) => {
     // eslint-disable-next-line
   }, [text]);
 
-  return (
-    <div>
-      <span dangerouslySetInnerHTML={{ __html: sanitizer(state.writtenText) }} />
-    </div>
-  );
+  return <span dangerouslySetInnerHTML={{ __html: sanitizer(state.writtenText) }} />;
 };
 
 export default TextWriter;

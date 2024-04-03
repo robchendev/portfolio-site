@@ -28,7 +28,7 @@ export type ProjectInfo = {
   stack: StackItem[];
   battleImage: string;
   imageUrls: string[];
-  battleMoves?: BattleMove[];
+  battleMoves: BattleMove[];
   health: number;
   maxHealth: number;
   level: number;
@@ -78,6 +78,20 @@ const projects: ProjectInfo[] = [
     stack: ["typescript", "react", "nextjs", "webaudio"],
     battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+    battleMoves: [
+      {
+        name: "Impress",
+        power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -20,
+      },
+      {
+        name: "Move3",
+        power: 40,
+      },
+    ],
     health: 100,
     maxHealth: 100,
     level: 30,
@@ -90,6 +104,20 @@ const projects: ProjectInfo[] = [
     stack: ["javascript", "react", "gatsby", "emotion", "graphql"],
     battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+    battleMoves: [
+      {
+        name: "Impress",
+        power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -20,
+      },
+      {
+        name: "Move3",
+        power: 40,
+      },
+    ],
     health: 100,
     maxHealth: 100,
     level: 30,
@@ -103,6 +131,20 @@ const projects: ProjectInfo[] = [
     stack: ["javascript", "mongodb", "discordapi"],
     battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+    battleMoves: [
+      {
+        name: "Impress",
+        power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -20,
+      },
+      {
+        name: "Move3",
+        power: 40,
+      },
+    ],
     health: 100,
     maxHealth: 100,
     level: 30,
@@ -116,6 +158,20 @@ const projects: ProjectInfo[] = [
     stack: ["javascript", "electron", "html", "css"],
     battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+    battleMoves: [
+      {
+        name: "Impress",
+        power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -20,
+      },
+      {
+        name: "Move3",
+        power: 40,
+      },
+    ],
     health: 100,
     maxHealth: 100,
     level: 30,
@@ -127,6 +183,20 @@ const projects: ProjectInfo[] = [
     stack: ["javascript"],
     battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+    battleMoves: [
+      {
+        name: "Impress",
+        power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -20,
+      },
+      {
+        name: "Move3",
+        power: 40,
+      },
+    ],
     health: 100,
     maxHealth: 100,
     level: 30,
@@ -138,6 +208,20 @@ const projects: ProjectInfo[] = [
     stack: ["javascript"],
     battleImage: "/img/jhin.png",
     imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+    battleMoves: [
+      {
+        name: "Impress",
+        power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -20,
+      },
+      {
+        name: "Move3",
+        power: 40,
+      },
+    ],
     health: 10,
     maxHealth: 100,
     level: 30,

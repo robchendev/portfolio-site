@@ -9,12 +9,18 @@ import ActionFightMenu from "./ActionFightMenu";
 
 const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
   const {
+    battler,
     screen,
     setScreen,
     actionDialogText,
     setActionDialogText,
     actionMenuDisabled,
     setActionMenuDisabled,
+    isFightMenu,
+    setIsFightMenu,
+    isFightOver,
+    setIsFightOver,
+    resetBattle,
   } = useActionContext();
 
   useEffect(() => {
@@ -22,17 +28,16 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     return () => clearTimeout(window.secondTextTimeout);
   }, [screen]);
 
-  const [isFightMenu, setIsFightMenu] = useState(false);
   return (
     <div className="relative h-full">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 from-0% via-white via-50% to-gray-400 to-100% px-3 py-1.5">
         <HStack w="full" h="full">
           {isFightMenu ? (
-            <ActionFightMenu text="Needs to be replaced" />
+            <ActionFightMenu battleMoves={battler.battleMoves} />
           ) : (
             <ActionDialog text={actionDialogText} />
           )}
-          {screen === "fight" && (
+          {(screen === "fight" || screen === "end") && (
             <>
               {isFightMenu ? (
                 <div className="w-1/3 h-2/3">
@@ -51,29 +56,32 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 </div>
               ) : (
                 <nav className="w-full h-full -mr-1">
-                  <ActionButton
-                    text="Fight"
-                    color="pink"
-                    onClick={() => {
-                      if (screen === "fight") {
-                        setIsFightMenu(true);
-                        // setActionDialogText("Portfolio Website used Attack!");
-                        // // @ts-ignore
-                        // window.secondTextTimeout = setTimeout(() => {
-                        //   // Check if screen hasn't changed
-                        //   if (screen === "fight") {
-                        //     setActionDialogText("It missed since I did not code this part yet!");
-                        //   }
-                        // }, 2000);
-                      } else {
-                        setActionDialogText("What will you do?");
-                      }
-                      setTimeout(() => {
-                        setScreen("fight");
-                      }, 10);
-                    }}
-                    isCurrentScreen={screen === "fight"}
-                  />
+                  {isFightOver ? (
+                    <ActionButton
+                      text="Reset"
+                      color="pink"
+                      onClick={() => {
+                        resetBattle();
+                      }}
+                      isCurrentScreen={screen === "fight"}
+                    />
+                  ) : (
+                    <ActionButton
+                      text="Fight"
+                      color="pink"
+                      onClick={() => {
+                        if (screen === "fight") {
+                          setIsFightMenu(true);
+                        } else {
+                          setActionDialogText("What will you do?");
+                        }
+                        setTimeout(() => {
+                          setScreen("fight");
+                        }, 10);
+                      }}
+                      isCurrentScreen={screen === "fight"}
+                    />
+                  )}
                   <ActionButton
                     text="Experience"
                     color="orange"
@@ -115,7 +123,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
               )}
             </>
           )}
-          {screen !== "fight" && (
+          {screen !== "fight" && screen !== "end" && (
             <div className="w-1/3 h-2/3">
               <div
                 className="flex justify-center h-full"
