@@ -41,7 +41,6 @@ const ActionFightMenu = ({ battleMoves }: { battleMoves: BattleMove[] }) => {
   const onBattleMoveSelect = (battleMove: BattleMove) => {
     setIsFightMenu(false);
     setActionMenuDisabled(true);
-    setActionDialogText(`${battler.name} used ${battleMove.name}!`);
     triggerAllyAttack(battleMove);
     // TODO: Calculate and invoke hpChange
 

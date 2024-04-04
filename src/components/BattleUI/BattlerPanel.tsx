@@ -80,7 +80,7 @@ export const BattlerPanel = ({ battler }: { battler: ProjectInfo }) => {
         </div>
       </HStack>
       <div className="ml-[50%] rounded-lg bg-gray-200 mr-2 text-right px-4 font-semibold text-xl leading-6">
-        {battler.health}/{battler.maxHealth}
+        {Math.round(battler.health)}/{battler.maxHealth}
       </div>
     </div>
   );

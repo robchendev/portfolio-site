@@ -110,6 +110,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     triggerAllySwitchEnter,
     setActionMenuDisabled,
     isFightOver,
+    onBattlerDeathSwitch,
   } = useActionContext();
 
   useEffect(() => {
@@ -181,21 +182,31 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                   <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-2 text-white">
                     {currProjects[projectIndex] &&
                       !isFightOver &&
-                      battler.name !== currProjects[projectIndex].name && (
+                      battler.name !== currProjects[projectIndex].name &&
+                      currProjects[projectIndex].health > 0 && (
                         <button
                           className="bg-green-500"
                           onClick={() => {
+                            const isCurrentBattlerDead = battler.health === 0;
                             onExit();
                             setScreen("fight");
-                            setActionDialogText(`${battler.name}, come back!`);
-                            setTimeout(() => {
-                              triggerAllySwitchReturn();
-                              setTimeout(() => {
-                                setBattler(currProjects[projectIndex]);
-                                setActionDialogText(`Go, ${currProjects[projectIndex].name}!`);
-                                triggerAllySwitchEnter();
-                              }, 1200);
-                            }, 1000);
+                            if (!isCurrentBattlerDead) {
+                              setActionDialogText(`${battler.name}, come back!`);
+                            }
+                            setTimeout(
+                              () => {
+                                triggerAllySwitchReturn();
+                                if (isCurrentBattlerDead) {
+                                  onBattlerDeathSwitch();
+                                }
+                                setTimeout(() => {
+                                  setBattler(currProjects[projectIndex]);
+                                  setActionDialogText(`Go, ${currProjects[projectIndex].name}!`);
+                                  triggerAllySwitchEnter();
+                                }, 1200);
+                              },
+                              isCurrentBattlerDead ? 0 : 1000
+                            );
                           }}
                         >
                           Switch

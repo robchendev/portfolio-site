@@ -1,27 +1,23 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import React from "react";
-import BattlerPreview, { BattlerDisabled } from "./BattlerPreview";
+import BattlerPreview, { BattlerDisabled, BattlerPreviewDead } from "./BattlerPreview";
 import { ProjectInfo } from "@/data/projects";
 import { ExperienceInfo } from "@/data/experience";
 import { useActionContext } from "@/context/ActionContext";
 
-const BattlerPreviewSafe = ({
-  item,
-  onClick,
-}: {
-  item?: ProjectInfo | ExperienceInfo;
-  onClick: () => void;
-}) => {
+const BattlerPreviewSafe = ({ item, onClick }: { item?: ProjectInfo; onClick: () => void }) => {
   const { battler } = useActionContext();
-  if (item && item.enabled) {
+  if (item && item.enabled && item.health > 0) {
     return <BattlerPreview item={item} isBattling={battler.name === item.name} onClick={onClick} />;
+  } else if (item && item.enabled && item.health === 0) {
+    return <BattlerPreviewDead item={item} onClick={onClick} />;
   } else {
     return <BattlerDisabled />;
   }
 };
 
 const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] }) => {
-  const { setActionDialogText, setProjectIndex } = useActionContext();
+  const { setActionDialogText, setProjectIndex, projects } = useActionContext();
   const onBattlerPreviewActionDialogText =
     "View Project information, switch Project into battle, or CLOSE.";
 
@@ -38,21 +34,21 @@ const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] 
           <div className="h-full w-full">
             <VStack justifyContent="space-between" className="h-[90%] w-full">
               <BattlerPreviewSafe
-                item={items[0]}
+                item={projects[0]}
                 onClick={() => {
                   setProjectIndex(0);
                   setActionDialogText(onBattlerPreviewActionDialogText);
                 }}
               />
               <BattlerPreviewSafe
-                item={items[2]}
+                item={projects[2]}
                 onClick={() => {
                   setProjectIndex(2);
                   setActionDialogText(onBattlerPreviewActionDialogText);
                 }}
               />
               <BattlerPreviewSafe
-                item={items[4]}
+                item={projects[4]}
                 onClick={() => {
                   setProjectIndex(4);
                   setActionDialogText(onBattlerPreviewActionDialogText);
@@ -63,21 +59,21 @@ const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] 
           <div className="h-full w-full">
             <VStack justifyContent="space-between" className="mt-[10%] h-[90%] w-full">
               <BattlerPreviewSafe
-                item={items[1]}
+                item={projects[1]}
                 onClick={() => {
                   setProjectIndex(1);
                   setActionDialogText(onBattlerPreviewActionDialogText);
                 }}
               />
               <BattlerPreviewSafe
-                item={items[3]}
+                item={projects[3]}
                 onClick={() => {
                   setProjectIndex(3);
                   setActionDialogText(onBattlerPreviewActionDialogText);
                 }}
               />
               <BattlerPreviewSafe
-                item={items[5]}
+                item={projects[5]}
                 onClick={() => {
                   setProjectIndex(5);
                   setActionDialogText(onBattlerPreviewActionDialogText);
