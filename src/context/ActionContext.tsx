@@ -396,6 +396,9 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         } else {
           setIsFullTurnInProgress(false);
           actionMenuEnable();
+          setTimeout(() => {
+            setActionDialogText("What will you do?");
+          }, 10);
         }
       }
     },
