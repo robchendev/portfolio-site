@@ -20,7 +20,7 @@ const CombatScene = () => {
     enemyHealth,
     setEnemyHealth,
     animateHp,
-    isEnemyDead,
+    winner,
     animateEnemyDeath,
     actionMenuDisabled,
     animateAllyDeath,

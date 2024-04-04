@@ -202,7 +202,9 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                           setScreen("fight");
                           if (!isCurrentBattlerDead) {
                             setActionMenuDisabled(true);
-                            setActionDialogText(`${battler.name}, come back!`);
+                            setTimeout(() => {
+                              setActionDialogText(`${battler.name}, come back!`);
+                            }, 10);
                           }
                           setTimeout(
                             () => {

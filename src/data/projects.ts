@@ -96,32 +96,32 @@ const projects: ProjectInfo[] = [
     maxHealth: 100,
     level: 30,
   },
-  {
-    enabled: true,
-    name: "Guitardex v1",
-    description:
-      "Guitar tutorial website to provide resources for guitarists wishing to learn more about the niche style of fingerstyle. Users can save their own personal list of techniques and share it around via an encoded link.",
-    stack: ["javascript", "react", "gatsby", "emotion", "graphql"],
-    battleImage: "/img/jhin.png",
-    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
-    battleMoves: [
-      {
-        name: "Impress",
-        power: 20,
-      },
-      {
-        name: "Disappoint",
-        power: -20,
-      },
-      {
-        name: "Move3",
-        power: 40,
-      },
-    ],
-    health: 0,
-    maxHealth: 100,
-    level: 30,
-  },
+  // {
+  //   enabled: true,
+  //   name: "Guitardex v1",
+  //   description:
+  //     "Guitar tutorial website to provide resources for guitarists wishing to learn more about the niche style of fingerstyle. Users can save their own personal list of techniques and share it around via an encoded link.",
+  //   stack: ["javascript", "react", "gatsby", "emotion", "graphql"],
+  //   battleImage: "/img/jhin.png",
+  //   imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+  //   battleMoves: [
+  //     {
+  //       name: "Impress",
+  //       power: 20,
+  //     },
+  //     {
+  //       name: "Disappoint",
+  //       power: -20,
+  //     },
+  //     {
+  //       name: "Move3",
+  //       power: 40,
+  //     },
+  //   ],
+  //   health: 32,
+  //   maxHealth: 100,
+  //   level: 30,
+  // },
   {
     enabled: true,
     name: "FRET: Discord Bot",
@@ -149,83 +149,83 @@ const projects: ProjectInfo[] = [
     maxHealth: 100,
     level: 30,
   },
-  {
-    enabled: true,
-    name: "Shopify HTML Generator",
-    shortName: "DescGenerator",
-    description:
-      "Made for a Avian Guitar's Shopify store. The description of the product page is written in HTML. This GUI is made to make it easier for the user to write the HTML description with zero knowledge on HTML.",
-    stack: ["javascript", "electron", "html", "css"],
-    battleImage: "/img/jhin.png",
-    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
-    battleMoves: [
-      {
-        name: "Impress",
-        power: 20,
-      },
-      {
-        name: "Disappoint",
-        power: -20,
-      },
-      {
-        name: "Move3",
-        power: 40,
-      },
-    ],
-    health: 100,
-    maxHealth: 100,
-    level: 30,
-  },
-  {
-    enabled: false,
-    name: "Leaderboard Generator",
-    description: "idk",
-    stack: ["javascript"],
-    battleImage: "/img/jhin.png",
-    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
-    battleMoves: [
-      {
-        name: "Impress",
-        power: 20,
-      },
-      {
-        name: "Disappoint",
-        power: -20,
-      },
-      {
-        name: "Move3",
-        power: 40,
-      },
-    ],
-    health: 100,
-    maxHealth: 100,
-    level: 30,
-  },
-  {
-    enabled: false,
-    name: "Realtor Website",
-    description: "idk",
-    stack: ["javascript"],
-    battleImage: "/img/jhin.png",
-    imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
-    battleMoves: [
-      {
-        name: "Impress",
-        power: 20,
-      },
-      {
-        name: "Disappoint",
-        power: -20,
-      },
-      {
-        name: "Move3",
-        power: 40,
-      },
-    ],
-    health: 10,
-    maxHealth: 100,
-    level: 30,
-  },
+  // {
+  //   enabled: true,
+  //   name: "Shopify HTML Generator",
+  //   shortName: "DescGenerator",
+  //   description:
+  //     "Made for a Avian Guitar's Shopify store. The description of the product page is written in HTML. This GUI is made to make it easier for the user to write the HTML description with zero knowledge on HTML.",
+  //   stack: ["javascript", "electron", "html", "css"],
+  //   battleImage: "/img/jhin.png",
+  //   imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+  //   battleMoves: [
+  //     {
+  //       name: "Impress",
+  //       power: 20,
+  //     },
+  //     {
+  //       name: "Disappoint",
+  //       power: -20,
+  //     },
+  //     {
+  //       name: "Move3",
+  //       power: 40,
+  //     },
+  //   ],
+  //   health: 100,
+  //   maxHealth: 100,
+  //   level: 30,
+  // },
+  // {
+  //   enabled: false,
+  //   name: "Leaderboard Generator",
+  //   description: "idk",
+  //   stack: ["javascript"],
+  //   battleImage: "/img/jhin.png",
+  //   imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+  //   battleMoves: [
+  //     {
+  //       name: "Impress",
+  //       power: 20,
+  //     },
+  //     {
+  //       name: "Disappoint",
+  //       power: -20,
+  //     },
+  //     {
+  //       name: "Move3",
+  //       power: 40,
+  //     },
+  //   ],
+  //   health: 100,
+  //   maxHealth: 100,
+  //   level: 30,
+  // },
+  // {
+  //   enabled: false,
+  //   name: "Realtor Website",
+  //   description: "idk",
+  //   stack: ["javascript"],
+  //   battleImage: "/img/jhin.png",
+  //   imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
+  //   battleMoves: [
+  //     {
+  //       name: "Impress",
+  //       power: 20,
+  //     },
+  //     {
+  //       name: "Disappoint",
+  //       power: -20,
+  //     },
+  //     {
+  //       name: "Move3",
+  //       power: 40,
+  //     },
+  //   ],
+  //   health: 10,
+  //   maxHealth: 100,
+  //   level: 30,
+  // },
 ];
 
 export default projects;
