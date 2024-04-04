@@ -53,7 +53,6 @@ interface CombinedContextType {
   setIsFightOver: (val: boolean) => void;
   resetBattle: () => void;
   onBattlerDeathSwitch: () => void;
-  isResetting: boolean;
 }
 
 const ActionContext = createContext<CombinedContextType | undefined>(undefined);
@@ -99,23 +98,17 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [hpIntervalId, setHpIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
   const [isFullTurnInProgress, setIsFullTurnInProgress] = useState(false); // On when ally begins attack, off when enemy finishes attack
 
-  const [isResetting, setIsResetting] = useState(false);
-
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const resetBattle = async () => {
-    setIsResetting(true);
     // animateHp(-(ENEMY_INIT_HEALTH * 1.1), "enemy"); // 1.1 multiplier handles rounding error
-    setActionMenuDisabled(false);
-    setIsFullTurnInProgress(false);
-    actionMenuEnable();
-    setScreen("fight");
-    setAnimateAllyHit(false);
     setProjects(projectList);
     setProjectIndex(-1);
     setBattler(projectList[0]);
     setIsFightMenu(false);
     setIsFightOver(false);
+    setActionMenuDisabled(false);
+    setAnimateAllyHit(false);
     setAnimateEnemyHit(false);
     setAnimateAllyAttack(false);
     setAnimateEnemyAttack(false);
@@ -124,12 +117,13 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setWinner(undefined);
     setHpIntervalId(undefined);
     setActionDialogText("What will you do?");
+    setIsFullTurnInProgress(false);
     await delay(10);
     recoverHp();
+    setScreen("fight");
     await delay(1000);
     setAnimateEnemyDeath(false);
     setAnimateAllyDeath(false);
-    setIsResetting(false);
   };
 
   useEffect(() => {
@@ -505,7 +499,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setIsFightOver,
         resetBattle,
         onBattlerDeathSwitch,
-        isResetting,
       }}
     >
       {children}

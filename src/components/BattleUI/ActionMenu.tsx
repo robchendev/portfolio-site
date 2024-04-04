@@ -21,7 +21,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     isFightOver,
     setIsFightOver,
     resetBattle,
-    isResetting,
   } = useActionContext();
 
   useEffect(() => {
@@ -38,7 +37,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
           ) : (
             <ActionDialog text={actionDialogText} />
           )}
-          {(isResetting || ((screen === "fight" || screen === "end") && !actionMenuDisabled)) && (
+          {(screen === "fight" || screen === "end") && !actionMenuDisabled && (
             <>
               {isFightMenu ? (
                 <div className="w-1/3 h-2/3">
