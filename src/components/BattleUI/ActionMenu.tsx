@@ -123,7 +123,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
               )}
             </>
           )}
-          {screen !== "fight" && screen !== "end" && battler.health !== 0 && (
+          {screen !== "fight" && screen !== "end" && (battler.health !== 0 || isFightOver) && (
             <div className="w-1/3 h-2/3">
               <div
                 className="flex justify-center h-full"
