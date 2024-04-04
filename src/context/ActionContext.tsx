@@ -412,15 +412,16 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
 
   const triggerAllySwitchReturn = async (newBattler: ProjectInfo) => {
     // Prepare UI for animation
+    // TODO: logic to check if we can skil the "switchreturn and just go to the switchenter"
     setActionMenuDisabled(true);
     await delay(500);
     setAnimateAllySwitchReturn(true);
     await delay(500);
-    setActionDialogText(`Go, ${newBattler.name}!`);
-
+    setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
+    setBattler(newBattler);
     // animate
     await delay(1200);
-    setBattler(newBattler);
+
     triggerAllySwitchEnter(newBattler);
 
     setAnimateAllyDeath(false);
