@@ -10,6 +10,8 @@ import React, {
 } from "react";
 
 export const ENEMY_INIT_HEALTH = 100;
+const randomMin = 30;
+const randomMax = 70;
 
 interface CombinedContextType {
   screen: ScreenTypes;
@@ -327,7 +329,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   // Animation functions
   const triggerAllyAttack = useCallback(
     async (battleMove: BattleMove) => {
-      const enemyPower = 100;
+      const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
 
       // Prepare UI for animations
       setActionMenuDisabled(true);
@@ -370,7 +372,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       if (enemyWillDie) {
         await triggerEnemyDeath();
       } else {
-        setActionDialogText(`Robert's Unemployment used RandomMove!`);
+        setActionDialogText(`Robert's Unemployment used RandomMove (${enemyPower} DMG)!`);
         setAnimateEnemyAttack(true);
         await delay(150);
         setAnimateAllyHit(true);
