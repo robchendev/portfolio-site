@@ -68,7 +68,7 @@ const BattleUI = () => {
           <ProjectScreen
             onExit={() => {
               setProjectIndex(-1);
-              setActionDialogText("Choose a Project.");
+              // setActionDialogText("Choose a Project.");
             }}
             projects={projects}
           />

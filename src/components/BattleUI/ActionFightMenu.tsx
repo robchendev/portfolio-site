@@ -12,9 +12,19 @@ const Move = ({
   onClick: (battleMove: BattleMove) => void;
 }) => {
   return (
-    <GridItem className="px-4 group  cursor-pointer" onClick={() => onClick(battleMove)}>
+    <GridItem
+      className={`px-4 group ${battleMove ? "cursor-pointer" : "cursor-not-allowed"}`}
+      onClick={() => {
+        if (battleMove) {
+          onClick(battleMove);
+        }
+      }}
+    >
       <Flex align="center" className="h-full">
-        <MoveSelector size={28} className="mt-0.5 -ml-[8px] hidden group-hover:block" />
+        <MoveSelector
+          size={28}
+          className={`mt-0.5 -ml-[8px] hidden ${battleMove ? "group-hover:block" : ""}`}
+        />
         {battleMove ? (
           <>
             {battleMove.name} {battleMove.power}

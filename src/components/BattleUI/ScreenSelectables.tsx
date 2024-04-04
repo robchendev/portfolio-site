@@ -37,21 +37,27 @@ const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] 
                 item={projects[0]}
                 onClick={() => {
                   setProjectIndex(0);
-                  setActionDialogText(onBattlerPreviewActionDialogText);
+                  setTimeout(() => {
+                    setActionDialogText(onBattlerPreviewActionDialogText);
+                  }, 10);
                 }}
               />
               <BattlerPreviewSafe
                 item={projects[2]}
                 onClick={() => {
                   setProjectIndex(2);
-                  setActionDialogText(onBattlerPreviewActionDialogText);
+                  setTimeout(() => {
+                    setActionDialogText(onBattlerPreviewActionDialogText);
+                  }, 10);
                 }}
               />
               <BattlerPreviewSafe
                 item={projects[4]}
                 onClick={() => {
                   setProjectIndex(4);
-                  setActionDialogText(onBattlerPreviewActionDialogText);
+                  setTimeout(() => {
+                    setActionDialogText(onBattlerPreviewActionDialogText);
+                  }, 10);
                 }}
               />
             </VStack>
@@ -62,21 +68,27 @@ const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] 
                 item={projects[1]}
                 onClick={() => {
                   setProjectIndex(1);
-                  setActionDialogText(onBattlerPreviewActionDialogText);
+                  setTimeout(() => {
+                    setActionDialogText(onBattlerPreviewActionDialogText);
+                  }, 10);
                 }}
               />
               <BattlerPreviewSafe
                 item={projects[3]}
                 onClick={() => {
                   setProjectIndex(3);
-                  setActionDialogText(onBattlerPreviewActionDialogText);
+                  setTimeout(() => {
+                    setActionDialogText(onBattlerPreviewActionDialogText);
+                  }, 10);
                 }}
               />
               <BattlerPreviewSafe
                 item={projects[5]}
                 onClick={() => {
                   setProjectIndex(5);
-                  setActionDialogText(onBattlerPreviewActionDialogText);
+                  setTimeout(() => {
+                    setActionDialogText(onBattlerPreviewActionDialogText);
+                  }, 10);
                 }}
               />
             </VStack>
