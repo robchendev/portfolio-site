@@ -137,13 +137,13 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
       errors.push("The current project's health is 0 or less.");
     }
 
-    onExit();
-    setScreen("fight");
-
     if (errors.length > 0) {
       console.error(errors);
       return;
     }
+
+    onExit();
+    setScreen("fight");
 
     // When current ally is dead, "go, B!"
     if (battler.health === 0) {
