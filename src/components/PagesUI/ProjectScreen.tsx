@@ -104,13 +104,11 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     setScreen,
     projects: currProjects,
     projectIndex,
-    setBattler,
     setActionDialogText,
-    triggerAllySwitchReturn,
-    triggerAllySwitchEnter,
+    triggerAllySwitch,
     setActionMenuDisabled,
     isFightOver,
-    onBattlerDeathSwitch,
+    setIsFullTurnInProgress,
   } = useActionContext();
 
   useEffect(() => {
@@ -121,6 +119,47 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
   const variants = {
     visible: { y: 0, transition: { duration: 0.5, ease: "easeInOut" } },
     hidden: { y: "100%", transition: { duration: 0.5, ease: "easeInOut" } },
+  };
+
+  const onProjectSwitch = () => {
+    let errors: string[] = [];
+
+    if (!currProjects[projectIndex]) {
+      errors.push("The current project at the specified index does not exist.");
+    }
+    if (isFightOver) {
+      errors.push("The fight is already over.");
+    }
+    if (battler.name === currProjects[projectIndex].name) {
+      errors.push("The battler's name matches the current project's name.");
+    }
+    if (currProjects[projectIndex].health <= 0) {
+      errors.push("The current project's health is 0 or less.");
+    }
+
+    onExit();
+    setScreen("fight");
+
+    if (errors.length > 0) {
+      console.error(errors);
+      return;
+    }
+
+    // When current ally is dead, "go, B!"
+    if (battler.health === 0) {
+      triggerAllySwitch(currProjects[projectIndex]);
+      setIsFullTurnInProgress(false);
+    }
+    // When current ally is alive, "A, come back!" -> "go, B!"
+    else {
+      setActionMenuDisabled(true);
+      setTimeout(() => {
+        setActionDialogText(`${battler.name}, come back!`);
+      }, 10);
+      setTimeout(() => {
+        triggerAllySwitch(currProjects[projectIndex]);
+      }, 1000);
+    }
   };
 
   return (
@@ -189,37 +228,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                           ? "bg-green-500 cursor-pointer"
                           : "bg-slate-400 cursor-auto"
                       }
-                      onClick={() => {
-                        if (
-                          currProjects[projectIndex] &&
-                          !isFightOver &&
-                          battler.name !== currProjects[projectIndex].name &&
-                          currProjects[projectIndex].health > 0
-                        ) {
-                          const isCurrentBattlerDead = battler.health === 0;
-                          onExit();
-
-                          setScreen("fight");
-                          if (!isCurrentBattlerDead) {
-                            setActionMenuDisabled(true);
-                            setTimeout(() => {
-                              setActionDialogText(`${battler.name}, come back!`);
-                            }, 10);
-                          }
-                          setTimeout(
-                            () => {
-                              triggerAllySwitchReturn(currProjects[projectIndex]);
-
-                              if (isCurrentBattlerDead) {
-                                // TODO: maybe remove this?
-                                onBattlerDeathSwitch();
-                              }
-                              // setTimeout(() => {}, 1200);
-                            },
-                            isCurrentBattlerDead ? 0 : 1000
-                          );
-                        }
-                      }}
+                      onClick={onProjectSwitch}
                     >
                       Switch
                     </button>
@@ -228,7 +237,9 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                       onClick={() => {
                         const isCurrentBattlerDead = battler.health === 0;
                         if (isCurrentBattlerDead) {
-                          setActionDialogText("Select the next Project.");
+                          setTimeout(() => {
+                            setActionDialogText("Select the next Project.");
+                          }, 10);
                         }
                         onExit();
                       }}

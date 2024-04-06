@@ -37,8 +37,7 @@ interface CombinedContextType {
   animateEnemyAttack: boolean;
   animateAllySwitchReturn: boolean;
   animateAllySwitchEnter: boolean;
-  triggerAllySwitchReturn: (newBattler: ProjectInfo) => void;
-  triggerAllySwitchEnter: (newBattler: ProjectInfo) => void;
+  triggerAllySwitch: (newBattler: ProjectInfo) => void;
   animateEnemyDeath: boolean;
   triggerEnemyDeath: () => void;
   animateAllyDeath: boolean;
@@ -52,7 +51,6 @@ interface CombinedContextType {
   isFightOver: boolean;
   setIsFightOver: (val: boolean) => void;
   resetBattle: () => void;
-  onBattlerDeathSwitch: () => void;
 }
 
 const ActionContext = createContext<CombinedContextType | undefined>(undefined);
@@ -158,11 +156,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     actionMenuEnable();
   }, [actionMenuEnable]);
 
-  const onBattlerDeathSwitch = useCallback(async () => {
-    setIsFullTurnInProgress(false);
-    // actionMenuEnable();
-  }, []);
-
   const triggerBattlerDeath = useCallback(
     async (updatedProjects: ProjectInfo[]) => {
       // Prepare UI
@@ -196,7 +189,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setActionDialogText("Select the next Project.");
       }
     },
-    [battler, actionMenuEnable, projects]
+    [battler, actionMenuEnable]
   );
 
   const recoverHp = useCallback(async () => {
@@ -240,11 +233,11 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       let hpPerTick = hpChange / numberOfTicks;
       setActionMenuDisabled(true);
 
-      // If enemy is close to dying, such that the hp bar will leave a sliver of hp,
-      // then just continue draining the hp until it is zero.
-      if (type === "ally" && battler.health - hpChange < 0.01 * battler.maxHealth) {
-        hpPerTick *= 1.2;
-      } else if (type === "enemy" && enemyHealth - hpChange < 0.01 * ENEMY_INIT_HEALTH) {
+      // Not really necessary, but will safe guard edge cases of the HP not reaching 0
+      if (
+        (type === "ally" && battler.health - hpChange < 0.01 * battler.maxHealth) ||
+        (type === "enemy" && enemyHealth - hpChange < 0.01 * ENEMY_INIT_HEALTH)
+      ) {
         hpPerTick *= 1.2;
       }
 
@@ -257,11 +250,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
             // If health adjustment is done, clear the interval immediately
             if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
               clearInterval(intervalId);
-              // actionMenuEnable();
               setHpIntervalId(undefined);
-            }
-            if (newHealth === 0) {
-              // triggerEnemyDeath();
             }
             return newHealth;
           });
@@ -279,13 +268,10 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
                 ...battler,
                 health: 0,
               };
-              // console.log("this project is is dead!", updatedBattler);
               const updatedProjects = projects.map((project) =>
                 project.name === battler.name ? updatedBattler : project
               );
               setProjects(updatedProjects);
-              // passing in the updatedProjects to make sure it's up to date
-              // triggerBattlerDeath(updatedProjects);
             }
             return {
               ...prevBattler,
@@ -304,18 +290,14 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setHpIntervalId(undefined);
       }, duration);
     },
-
-    // // After the ending calculation, set current battler to projectsList to update it
-    // const updatedProjectsList = getUpdatedProjectList(projectList, battlerUpdate);
-    // setProjects(updatedProjectsList);
     [enemyHealth, battler, projects]
   );
 
   // Animation functions
   const triggerAllyAttack = useCallback(
     async (battleMove: BattleMove) => {
-      // const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
-      const enemyPower = 99;
+      const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
+      // const enemyPower = 0.1;
 
       // Prepare UI for animations
       setActionMenuDisabled(true);
@@ -335,7 +317,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
           ...battler,
           health: 0,
         };
-        // console.log("this project is is dead!", updatedBattler);
         updatedProjects = projects.map((project) =>
           project.name === battler.name ? updatedBattler : project
         );
@@ -377,16 +358,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setAnimateAllyHit(false);
         if (battlerWillDie) {
           await triggerBattlerDeath(updatedProjects);
-          // const updatedBattler = {
-          //   ...battler,
-          //   health: 0,
-          // };
-          // console.log("battler is dead!", updatedBattler);
-          // const updatedProjects = projects.map((project) =>
-          //   project.name === battler.name ? updatedBattler : project
-          // );
-          // setProjects(updatedProjects);
-          // await triggerBattlerDeath(); // idk why this is here. Removed because it causes textwriter issues
         } else {
           setIsFullTurnInProgress(false);
           actionMenuEnable();
@@ -407,38 +378,21 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     ]
   );
 
-  const triggerAllySwitchReturn = async (newBattler: ProjectInfo) => {
-    // Prepare UI for animation
-    // TODO: logic to check if we can skil the "switchreturn and just go to the switchenter"
-    setActionMenuDisabled(true);
-    await delay(500);
-    setAnimateAllySwitchReturn(true);
-    await delay(500);
-    setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
-    setBattler(newBattler);
-    // animate
-    await delay(1200);
-
-    triggerAllySwitchEnter(newBattler);
-
-    setAnimateAllyDeath(false);
-    setAnimateAllySwitchReturn(false);
-  };
-
-  const triggerAllySwitchEnter = useCallback(
+  const triggerAllySwitch = useCallback(
     async (newBattler: ProjectInfo) => {
-      // Do we need this newBattler?
-      // Save current battler state into projects
-      // const updatedProjects = projects.map((project) =>
-      //   project.name === battler.name ? battler : project
-      // );
-      // // Only want to update when battler is not dead since we
-      // // already update it when we calculate ally will die in animateHp
-      // if (battler.health !== 0) {
-      //   console.log("Updating in triggerAllySwitchReturn!");
-      //   setProjects(updatedProjects);
-      // }
-
+      // Prepare UI for animation
+      // TODO: logic to check if we can skil the "switchreturn and just go to the switchenter"
+      // Previous ally exits
+      setActionMenuDisabled(true);
+      await delay(500);
+      setAnimateAllySwitchReturn(true);
+      await delay(500);
+      setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
+      setBattler(newBattler);
+      await delay(1200);
+      // New ally enters
+      setAnimateAllyDeath(false);
+      setAnimateAllySwitchReturn(false);
       setAnimateAllySwitchEnter(true);
       await delay(600);
       setAnimateAllySwitchEnter(false);
@@ -478,8 +432,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         animateAllySwitchEnter,
         animateEnemyDeath,
         animateAllyDeath,
-        triggerAllySwitchReturn,
-        triggerAllySwitchEnter,
+        triggerAllySwitch,
         triggerEnemyDeath,
         // Fight Menu
         isFightMenu,
@@ -492,7 +445,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         isFightOver,
         setIsFightOver,
         resetBattle,
-        onBattlerDeathSwitch,
       }}
     >
       {children}
