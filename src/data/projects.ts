@@ -65,7 +65,7 @@ const projects: ProjectInfo[] = [
         power: 40,
       },
     ],
-    health: 50,
+    health: 100,
     maxHealth: 100,
     level: 30,
   },

@@ -119,18 +119,12 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setActionDialogText("What will you do?");
     setIsFullTurnInProgress(false);
     await delay(10);
-    recoverHp();
     setScreen("fight");
-    await delay(1000);
+    await recoverHp();
+    // await delay(1000);
     setAnimateEnemyDeath(false);
     setAnimateAllyDeath(false);
   };
-
-  useEffect(() => {
-    // if (screen === "projects") {
-    //   setActionDialogText("Choose a project.");
-    // }
-  }, [screen]);
 
   // Function that safeguards against setting the action menu enabled again before something finishes
   const actionMenuEnable = useCallback(() => {
@@ -169,20 +163,8 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     // actionMenuEnable();
   }, []);
 
-  const areAllProjectsDead = useCallback(() => {
-    for (const project of projects) {
-      if (project.health !== 0 && project.enabled) {
-        console.log("This project is alive", project);
-        return false;
-      }
-    }
-    return true;
-  }, [projects]);
-
-  // TODO: this is executing twice for some reason
   const triggerBattlerDeath = useCallback(
     async (updatedProjects: ProjectInfo[]) => {
-      console.log("triggerBattlerDeath", updatedProjects, projects);
       // Prepare UI
       setActionMenuDisabled(true);
 
@@ -217,50 +199,53 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     [battler, actionMenuEnable, projects]
   );
 
-  const recoverHp = useCallback(() => {
-    const duration = 1000;
-    const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
-    const numberOfTicks = duration / tickInterval;
-    const hpPerTick = (ENEMY_INIT_HEALTH * 1.1) / numberOfTicks;
-    setActionMenuDisabled(true);
+  const recoverHp = useCallback(async () => {
+    return new Promise<void>((resolve) => {
+      const duration = 1000;
+      const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
+      const numberOfTicks = duration / tickInterval;
+      const hpPerTick = (ENEMY_INIT_HEALTH * 1.1) / numberOfTicks;
+      setActionMenuDisabled(true);
 
-    const intervalId = setInterval(() => {
-      setEnemyHealth((prevHealth) => {
-        let newHealth = prevHealth + hpPerTick;
-        newHealth = newHealth > 0 ? newHealth : 0;
-        newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
-        // If health adjustment is done, clear the interval immediately
-        if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
-          clearInterval(intervalId);
-          setHpIntervalId(undefined);
-        }
-        return newHealth;
-      });
-    }, tickInterval);
-    setHpIntervalId(intervalId);
+      const intervalId = setInterval(() => {
+        setEnemyHealth((prevHealth) => {
+          let newHealth = prevHealth + hpPerTick;
+          newHealth = newHealth > 0 ? newHealth : 0;
+          newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
+          // If health adjustment is done, clear the interval immediately
+          if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
+            clearInterval(intervalId);
+            setHpIntervalId(undefined);
+          }
+          return newHealth;
+        });
+      }, tickInterval);
+      setHpIntervalId(intervalId);
 
-    // Clear the interval after the total duration has elapsed
-    setTimeout(() => {
-      clearInterval(intervalId);
-      setHpIntervalId(undefined);
-      actionMenuEnable();
-    }, duration);
+      // Clear the interval after the total duration has elapsed
+      setTimeout(() => {
+        clearInterval(intervalId);
+        setHpIntervalId(undefined);
+        actionMenuEnable();
+        resolve();
+      }, duration);
+    });
   }, [actionMenuEnable]);
 
   const animateHp = useCallback(
     (hpChange: number, type: "ally" | "enemy") => {
-      let duration = 1000;
+      const duration = 1000;
       const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
       const numberOfTicks = duration / tickInterval;
-      const hpPerTick = hpChange / numberOfTicks;
+      let hpPerTick = hpChange / numberOfTicks;
       setActionMenuDisabled(true);
 
       // If enemy is close to dying, such that the hp bar will leave a sliver of hp,
       // then just continue draining the hp until it is zero.
       if (type === "ally" && battler.health - hpChange < 0.01 * battler.maxHealth) {
-        duration *= 1.2;
+        hpPerTick *= 1.2;
       } else if (type === "enemy" && enemyHealth - hpChange < 0.01 * ENEMY_INIT_HEALTH) {
-        duration *= 1.2;
+        hpPerTick *= 1.2;
       }
 
       const intervalId = setInterval(() => {
@@ -329,7 +314,8 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   // Animation functions
   const triggerAllyAttack = useCallback(
     async (battleMove: BattleMove) => {
-      const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
+      // const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
+      const enemyPower = 99;
 
       // Prepare UI for animations
       setActionMenuDisabled(true);
@@ -361,7 +347,11 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       setAnimateAllyAttack(true);
       await delay(150);
       setAnimateEnemyHit(true);
-      animateHp(battleMove.power, "enemy");
+      if (enemyWillDie) {
+        animateHp(enemyHealth, "enemy");
+      } else {
+        animateHp(battleMove.power, "enemy");
+      }
       await delay(300);
       setAnimateAllyAttack(false);
       await delay(600);
@@ -376,7 +366,11 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setAnimateEnemyAttack(true);
         await delay(150);
         setAnimateAllyHit(true);
-        animateHp(enemyPower, "ally");
+        if (battlerWillDie) {
+          animateHp(battler.health, "ally");
+        } else {
+          animateHp(enemyPower, "ally");
+        }
         await delay(300);
         setAnimateEnemyAttack(false);
         await delay(600);
