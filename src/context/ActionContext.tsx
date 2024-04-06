@@ -226,69 +226,72 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   }, [actionMenuEnable]);
 
   const animateHp = useCallback(
-    (hpChange: number, type: "ally" | "enemy") => {
-      const duration = 1000;
-      const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
-      const numberOfTicks = duration / tickInterval;
-      let hpPerTick = hpChange / numberOfTicks;
-      setActionMenuDisabled(true);
+    async (hpChange: number, type: "ally" | "enemy") => {
+      return new Promise<void>((resolve) => {
+        const duration = 1000;
+        const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
+        const numberOfTicks = duration / tickInterval;
+        let hpPerTick = hpChange / numberOfTicks;
+        setActionMenuDisabled(true);
 
-      // Not really necessary, but will safe guard edge cases of the HP not reaching 0
-      if (
-        (type === "ally" && battler.health - hpChange < 0.01 * battler.maxHealth) ||
-        (type === "enemy" && enemyHealth - hpChange < 0.01 * ENEMY_INIT_HEALTH)
-      ) {
-        hpPerTick *= 1.2;
-      }
-
-      const intervalId = setInterval(() => {
-        if (type === "enemy") {
-          setEnemyHealth((prevHealth) => {
-            let newHealth = prevHealth - hpPerTick;
-            newHealth = newHealth > 0 ? newHealth : 0;
-            newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
-            // If health adjustment is done, clear the interval immediately
-            if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
-              clearInterval(intervalId);
-              setHpIntervalId(undefined);
-            }
-            return newHealth;
-          });
-        } else if (type === "ally") {
-          setBattler((prevBattler) => {
-            let newHealth = prevBattler.health - hpPerTick;
-            newHealth = newHealth > 0 ? newHealth : 0;
-            newHealth = newHealth < prevBattler.maxHealth ? newHealth : prevBattler.maxHealth;
-            if (newHealth === 0 || newHealth === prevBattler.maxHealth) {
-              clearInterval(intervalId);
-              setHpIntervalId(undefined);
-            }
-            if (newHealth === 0) {
-              const updatedBattler = {
-                ...battler,
-                health: 0,
-              };
-              const updatedProjects = projects.map((project) =>
-                project.name === battler.name ? updatedBattler : project
-              );
-              setProjects(updatedProjects);
-            }
-            return {
-              ...prevBattler,
-              health: newHealth,
-            };
-          });
-        } else {
-          throw new Error(`type ${type} not handled!`);
+        // Not really necessary, but will safe guard edge cases of the HP not reaching 0
+        if (
+          (type === "ally" && battler.health - hpChange < 0.01 * battler.maxHealth) ||
+          (type === "enemy" && enemyHealth - hpChange < 0.01 * ENEMY_INIT_HEALTH)
+        ) {
+          hpPerTick *= 1.2;
         }
-      }, tickInterval);
-      setHpIntervalId(intervalId);
 
-      // Clear the interval after the total duration has elapsed
-      setTimeout(() => {
-        clearInterval(intervalId);
-        setHpIntervalId(undefined);
-      }, duration);
+        const intervalId = setInterval(() => {
+          if (type === "enemy") {
+            setEnemyHealth((prevHealth) => {
+              let newHealth = prevHealth - hpPerTick;
+              newHealth = newHealth > 0 ? newHealth : 0;
+              newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
+              // If health adjustment is done, clear the interval immediately
+              if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
+                clearInterval(intervalId);
+                setHpIntervalId(undefined);
+              }
+              return newHealth;
+            });
+          } else if (type === "ally") {
+            setBattler((prevBattler) => {
+              let newHealth = prevBattler.health - hpPerTick;
+              newHealth = newHealth > 0 ? newHealth : 0;
+              newHealth = newHealth < prevBattler.maxHealth ? newHealth : prevBattler.maxHealth;
+              if (newHealth === 0 || newHealth === prevBattler.maxHealth) {
+                clearInterval(intervalId);
+                setHpIntervalId(undefined);
+              }
+              if (newHealth === 0) {
+                const updatedBattler = {
+                  ...battler,
+                  health: 0,
+                };
+                const updatedProjects = projects.map((project) =>
+                  project.name === battler.name ? updatedBattler : project
+                );
+                setProjects(updatedProjects);
+              }
+              return {
+                ...prevBattler,
+                health: newHealth,
+              };
+            });
+          } else {
+            throw new Error(`type ${type} not handled!`);
+          }
+        }, tickInterval);
+        setHpIntervalId(intervalId);
+
+        // Clear the interval after the total duration has elapsed
+        setTimeout(() => {
+          clearInterval(intervalId);
+          setHpIntervalId(undefined);
+          resolve();
+        }, duration);
+      });
     },
     [enemyHealth, battler, projects]
   );
@@ -328,16 +331,14 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       setAnimateAllyAttack(true);
       await delay(150);
       setAnimateEnemyHit(true);
-      if (enemyWillDie) {
-        animateHp(enemyHealth, "enemy");
-      } else {
-        animateHp(battleMove.power, "enemy");
-      }
       await delay(300);
       setAnimateAllyAttack(false);
-      await delay(600);
       setAnimateEnemyHit(false);
-      await delay(500);
+      if (enemyWillDie) {
+        await animateHp(enemyHealth, "enemy");
+      } else {
+        await animateHp(battleMove.power, "enemy");
+      }
 
       // Begin animations for enemy turn
       if (enemyWillDie) {
@@ -347,15 +348,15 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setAnimateEnemyAttack(true);
         await delay(150);
         setAnimateAllyHit(true);
-        if (battlerWillDie) {
-          animateHp(battler.health, "ally");
-        } else {
-          animateHp(enemyPower, "ally");
-        }
         await delay(300);
         setAnimateEnemyAttack(false);
-        await delay(600);
         setAnimateAllyHit(false);
+        if (battlerWillDie) {
+          await animateHp(battler.health, "ally");
+        } else {
+          await animateHp(enemyPower, "ally");
+        }
+
         if (battlerWillDie) {
           await triggerBattlerDeath(updatedProjects);
         } else {
