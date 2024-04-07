@@ -229,7 +229,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     async (hpChange: number, type: "ally" | "enemy") => {
       return new Promise<void>((resolve) => {
         const duration = 1000;
-        const tickInterval = 8; // 16.67ms is average time per frame on a 60FPS device
+        const tickInterval = 100; // 16.67ms is average time per frame on a 60FPS device
         const numberOfTicks = duration / tickInterval;
         let hpPerTick = hpChange / numberOfTicks;
         setActionMenuDisabled(true);
