@@ -229,78 +229,49 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     async (hpChange: number, type: "ally" | "enemy") => {
       return new Promise<void>((resolve) => {
         const duration = 1000;
-        const tickInterval = 100; // 16.67ms is average time per frame on a 60FPS device
-        const numberOfTicks = duration / tickInterval;
-        let hpPerTick = hpChange / numberOfTicks;
-        setActionMenuDisabled(true);
+        const startTime = Date.now();
+        const initialHealth = type === "enemy" ? enemyHealth : battler.health;
+        const targetHealth = initialHealth - hpChange;
 
-        // Not really necessary, but will safe guard edge cases of the HP not reaching 0
-        if (
-          (type === "ally" && battler.health - hpChange < 0.01 * battler.maxHealth) ||
-          (type === "enemy" && enemyHealth - hpChange < 0.01 * ENEMY_INIT_HEALTH)
-        ) {
-          hpPerTick *= 1.2;
-        }
-
-        const intervalId = setInterval(() => {
+        const updateHealth = (newHealth: number) => {
           if (type === "enemy") {
-            setEnemyHealth((prevHealth) => {
-              let newHealth = prevHealth - hpPerTick;
-              newHealth = newHealth > 0 ? newHealth : 0;
-              newHealth = newHealth < ENEMY_INIT_HEALTH ? newHealth : ENEMY_INIT_HEALTH;
-              // If health adjustment is done, clear the interval immediately
-              if (newHealth === 0 || newHealth === ENEMY_INIT_HEALTH) {
-                clearInterval(intervalId);
-                setHpIntervalId(undefined);
-              }
-              return newHealth;
-            });
+            setEnemyHealth(Math.max(0, Math.min(newHealth, ENEMY_INIT_HEALTH)));
           } else if (type === "ally") {
-            setBattler((prevBattler) => {
-              let newHealth = prevBattler.health - hpPerTick;
-              newHealth = newHealth > 0 ? newHealth : 0;
-              newHealth = newHealth < prevBattler.maxHealth ? newHealth : prevBattler.maxHealth;
-              if (newHealth === 0 || newHealth === prevBattler.maxHealth) {
-                clearInterval(intervalId);
-                setHpIntervalId(undefined);
-              }
-              if (newHealth === 0) {
-                const updatedBattler = {
-                  ...battler,
-                  health: 0,
-                };
-                const updatedProjects = projects.map((project) =>
-                  project.name === battler.name ? updatedBattler : project
-                );
-                setProjects(updatedProjects);
-              }
-              return {
-                ...prevBattler,
-                health: newHealth,
-              };
-            });
-          } else {
-            throw new Error(`type ${type} not handled!`);
+            setBattler((prevBattler) => ({
+              ...prevBattler,
+              health: Math.max(0, Math.min(newHealth, prevBattler.maxHealth)),
+            }));
           }
-        }, tickInterval);
-        setHpIntervalId(intervalId);
+        };
 
-        // Clear the interval after the total duration has elapsed
-        setTimeout(() => {
-          clearInterval(intervalId);
-          setHpIntervalId(undefined);
-          resolve();
-        }, duration);
+        const animate = () => {
+          const now = Date.now();
+          const elapsedTime = now - startTime;
+          const progress = Math.min(elapsedTime / duration, 1);
+          const currentHealth = initialHealth - hpChange * progress;
+
+          updateHealth(currentHealth);
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            // Ensuring the final health is accurately set to the target
+            updateHealth(targetHealth);
+            resolve();
+          }
+        };
+
+        requestAnimationFrame(animate);
       });
     },
-    [enemyHealth, battler, projects]
+    [enemyHealth, battler, setEnemyHealth, setBattler]
   );
 
   // Animation functions
   const triggerAllyAttack = useCallback(
     async (battleMove: BattleMove) => {
       const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
-      // const enemyPower = 0.1;
+      // const enemyPower = 44.01;
 
       // Prepare UI for animations
       setActionMenuDisabled(true);
