@@ -228,7 +228,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                       backgroundColor="bg-violet-300 border-b-4"
                       onClick={() => setSubscreen("description")}
                     >
-                      Info
+                      Battle
                     </SubscreenButton>
                   </div>
                   <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-2 text-white">

@@ -106,12 +106,10 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setAnimateAllySwitchReturn(false);
     setAnimateAllySwitchEnter(false);
     setShowActionMenu(true);
-
     await delay(10);
     setScreen("fight");
     await recoverHp();
     setWinner(undefined);
-    // TODO: Move these two lower
     setActionDialogText("What will you do?");
     setAnimateEnemyDeath(false);
     setAnimateAllyDeath(false);
@@ -275,7 +273,13 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       if (enemyWillDie) {
         await animateHp(enemyHealth, "enemy");
       } else {
-        await animateHp(battleMove.power, "enemy");
+        if (battleMove.power < 0) {
+          await animateHp(battleMove.power, "enemy");
+          setActionDialogText(`Robert's Unemployment drained the attack!`);
+          await delay(2000);
+        } else {
+          await animateHp(battleMove.power, "enemy");
+        }
       }
 
       // Begin animations for enemy turn
