@@ -13,7 +13,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     setScreen,
     actionDialogText,
     setActionDialogText,
-    actionMenuDisabled,
+    showActionMenu,
     isFightMenu,
     setIsFightMenu,
     isFightOver,
@@ -34,7 +34,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
           ) : (
             <ActionDialog text={actionDialogText} />
           )}
-          {(screen === "fight" || screen === "end") && !actionMenuDisabled && (
+          {(screen === "fight" || screen === "end") && showActionMenu && (
             <>
               {isFightMenu ? (
                 <div className="w-1/3 h-2/3">

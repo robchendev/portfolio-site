@@ -1,6 +1,13 @@
 import { ScreenTypes } from "@/components/BattleUI/BattleUI";
 import { default as projectList, ProjectInfo, BattleMove } from "@/data/projects";
-import React, { createContext, useContext, useState, useCallback, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  ReactNode,
+  useEffect,
+} from "react";
 
 export const ENEMY_INIT_HEALTH = 100;
 const randomMin = 30;
@@ -17,8 +24,8 @@ interface CombinedContextType {
   setBattler: React.Dispatch<React.SetStateAction<ProjectInfo>>;
   actionDialogText: string;
   setActionDialogText: React.Dispatch<React.SetStateAction<string>>;
-  actionMenuDisabled: boolean;
-  setActionMenuDisabled: React.Dispatch<React.SetStateAction<boolean>>;
+  showActionMenu: boolean;
+  setShowActionMenu: React.Dispatch<React.SetStateAction<boolean>>;
   enemyHealth: number;
   setEnemyHealth: React.Dispatch<React.SetStateAction<number>>;
   animateHp: (hpChange: number, type: "ally" | "enemy") => void;
@@ -38,9 +45,6 @@ interface CombinedContextType {
   setIsFightMenu: (val: boolean) => void;
   winner: "ally" | "enemy" | undefined;
   setWinner: (val: "ally" | "enemy" | undefined) => void;
-  isTurnInProgress: boolean;
-  setIsTurnInProgress: (val: boolean) => void;
-  actionMenuEnable: () => void;
   isFightOver: boolean;
   setIsFightOver: (val: boolean) => void;
   resetBattle: () => void;
@@ -70,7 +74,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
 
   // Action Bar
   const [actionDialogText, setActionDialogText] = useState("This portfolio is under development.");
-  const [actionMenuDisabled, setActionMenuDisabled] = useState(false);
+  const [showActionMenu, setShowActionMenu] = useState(true);
 
   // Enemy HP
   const [enemyHealth, setEnemyHealth] = useState(ENEMY_INIT_HEALTH);
@@ -86,8 +90,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [animateAllyDeath, setAnimateAllyDeath] = useState(false);
 
   const [winner, setWinner] = useState<"ally" | "enemy" | undefined>(undefined);
-  const [hpIntervalId, setHpIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
-  const [isTurnInProgress, setIsTurnInProgress] = useState(false); // On when ally begins attack, off when enemy finishes attack
 
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -97,45 +99,28 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setBattler(projectList[0]);
     setIsFightMenu(false);
     setIsFightOver(false);
-    setActionMenuDisabled(false);
     setAnimateAllyHit(false);
     setAnimateEnemyHit(false);
     setAnimateAllyAttack(false);
     setAnimateEnemyAttack(false);
     setAnimateAllySwitchReturn(false);
     setAnimateAllySwitchEnter(false);
-    setHpIntervalId(undefined);
-    setActionDialogText("What will you do?");
-    setIsTurnInProgress(false);
+    setShowActionMenu(true);
+
     await delay(10);
     setScreen("fight");
     await recoverHp();
     setWinner(undefined);
-    // await delay(1000);
+    // TODO: Move these two lower
+    setActionDialogText("What will you do?");
     setAnimateEnemyDeath(false);
     setAnimateAllyDeath(false);
   };
 
-  // Function that safeguards against setting the action menu enabled again before something finishes
-  const actionMenuEnable = useCallback(() => {
-    // Alternative method of using while(true) to "wait" since JS is single threaded
-    new Promise<void>((resolve) => {
-      const checkInterval = setInterval(() => {
-        if (hpIntervalId === undefined && !isTurnInProgress && battler.health > 0) {
-          clearInterval(checkInterval);
-          resolve();
-        }
-      }, 100); // Check every 100ms
-    }).then(() => {
-      setActionMenuDisabled(false);
-    });
-    // eslint-disable-next-line
-  }, [battler.health, isTurnInProgress, hpIntervalId]);
-
   const triggerEnemyDeath = useCallback(async () => {
     setWinner("ally");
     await delay(1000);
-    setActionMenuDisabled(true);
+    setShowActionMenu(false);
     setAnimateEnemyDeath(true);
     await delay(1000);
     setActionDialogText("Robert's Unemployment is defeated!");
@@ -144,13 +129,12 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     await delay(2000);
     setIsFightMenu(false);
     setIsFightOver(true);
-    setIsTurnInProgress(false);
-    actionMenuEnable();
-  }, [actionMenuEnable]);
+    setShowActionMenu(true);
+  }, []);
 
   const triggerBattlerDeath = useCallback(
     async (updatedProjects: ProjectInfo[]) => {
-      setActionMenuDisabled(true);
+      setShowActionMenu(false);
       await delay(1000);
       setAnimateAllyDeath(true);
       await delay(1000);
@@ -167,14 +151,13 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         await delay(2000);
         setIsFightMenu(false);
         setIsFightOver(true);
-        setIsTurnInProgress(false);
-        actionMenuEnable();
+        setShowActionMenu(true);
       } else {
         setScreen("projects");
         setActionDialogText("Select the next Project.");
       }
     },
-    [battler, actionMenuEnable]
+    [battler]
   );
 
   const recoverHp = useCallback(async () => {
@@ -256,11 +239,10 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const triggerAllyAttack = useCallback(
     async (battleMove: BattleMove) => {
       const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
-      // const enemyPower = 44.01;
+      // const enemyPower = 0.01;
 
       // Prepare UI for animations
-      setActionMenuDisabled(true);
-      setIsTurnInProgress(true);
+      setShowActionMenu(false);
       let updatedProjects = projects;
 
       // Prepare death flags
@@ -316,49 +298,38 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         if (battlerWillDie) {
           await triggerBattlerDeath(updatedProjects);
         } else {
-          setIsTurnInProgress(false);
-          actionMenuEnable();
+          setShowActionMenu(true);
+
           setTimeout(() => {
             setActionDialogText("What will you do?");
           }, 10);
         }
       }
     },
-    [
-      animateHp,
-      actionMenuEnable,
-      enemyHealth,
-      triggerEnemyDeath,
-      battler,
-      projects,
-      triggerBattlerDeath,
-    ]
+    [animateHp, enemyHealth, triggerEnemyDeath, battler, projects, triggerBattlerDeath]
   );
 
   // Will need to split triggerAllyAttack into triggerAllyAttack and triggerEnemyAttack
   // if want to implement an enemy turn on ally switch in
 
-  const triggerAllySwitch = useCallback(
-    async (newBattler: ProjectInfo) => {
-      setActionMenuDisabled(true);
-      await delay(500);
-      setAnimateAllySwitchReturn(true);
-      await delay(500);
-      setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
-      setBattler(newBattler);
-      await delay(1200);
-      // New ally enters
-      setAnimateAllyDeath(false);
-      setAnimateAllySwitchReturn(false);
-      setAnimateAllySwitchEnter(true);
-      await delay(600);
-      setAnimateAllySwitchEnter(false);
-      await delay(300);
-      setActionDialogText("What will you do?");
-      actionMenuEnable();
-    },
-    [actionMenuEnable]
-  );
+  const triggerAllySwitch = useCallback(async (newBattler: ProjectInfo) => {
+    setShowActionMenu(false);
+    await delay(500);
+    setAnimateAllySwitchReturn(true);
+    await delay(500);
+    setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
+    setBattler(newBattler);
+    await delay(1200);
+    // New ally enters
+    setAnimateAllyDeath(false);
+    setAnimateAllySwitchReturn(false);
+    setAnimateAllySwitchEnter(true);
+    await delay(600);
+    setAnimateAllySwitchEnter(false);
+    await delay(300);
+    setActionDialogText("What will you do?");
+    setShowActionMenu(true);
+  }, []);
 
   return (
     <ActionContext.Provider
@@ -376,8 +347,8 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         animateHp,
         actionDialogText,
         setActionDialogText,
-        actionMenuDisabled,
-        setActionMenuDisabled,
+        showActionMenu,
+        setShowActionMenu,
         triggerAllyAttack,
         animateAllyHit,
         animateEnemyHit,
@@ -393,9 +364,6 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setIsFightMenu,
         winner,
         setWinner,
-        isTurnInProgress,
-        setIsTurnInProgress,
-        actionMenuEnable,
         isFightOver,
         setIsFightOver,
         resetBattle,

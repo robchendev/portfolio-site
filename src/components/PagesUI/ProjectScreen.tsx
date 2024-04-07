@@ -130,9 +130,8 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     projectIndex,
     setActionDialogText,
     triggerAllySwitch,
-    setActionMenuDisabled,
+    setShowActionMenu,
     isFightOver,
-    setIsTurnInProgress,
   } = useActionContext();
 
   useEffect(() => {
@@ -172,11 +171,10 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     // When current ally is dead, "go, B!"
     if (battler.health === 0) {
       triggerAllySwitch(currProjects[projectIndex]);
-      setIsTurnInProgress(false);
     }
     // When current ally is alive, "A, come back!" -> "go, B!"
     else {
-      setActionMenuDisabled(true);
+      setShowActionMenu(false);
       setTimeout(() => {
         setActionDialogText(`${battler.name}, come back!`);
       }, 10);

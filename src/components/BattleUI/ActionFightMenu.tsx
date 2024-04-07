@@ -38,11 +38,11 @@ const Move = ({
 };
 
 const ActionFightMenu = ({ battleMoves }: { battleMoves: BattleMove[] }) => {
-  const { setActionMenuDisabled, setIsFightMenu, triggerAllyAttack } = useActionContext();
+  const { setShowActionMenu, setIsFightMenu, triggerAllyAttack } = useActionContext();
 
   const onBattleMoveSelect = (battleMove: BattleMove) => {
     setIsFightMenu(false);
-    setActionMenuDisabled(true);
+    setShowActionMenu(false);
     triggerAllyAttack(battleMove);
   };
 

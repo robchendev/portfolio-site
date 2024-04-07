@@ -89,11 +89,11 @@ const ActionButton = ({
   color: ButtonColor;
   onClick: () => void;
 }) => {
-  const { actionMenuDisabled } = useActionContext();
+  const { showActionMenu } = useActionContext();
   return (
     <span
       className={`w-1/2 h-1/2 inline-block ${
-        actionMenuDisabled ? "filter grayscale pointer-events-none" : ""
+        showActionMenu ? "" : "filter grayscale pointer-events-none"
       }`}
     >
       <div className="flex justify-center h-full" onClick={onClick}>
