@@ -5,8 +5,8 @@ import { IoMdMale } from "react-icons/io";
 
 const BattlerGlimpse = ({ name, level }: { name: string; level: number }) => (
   <HStack justifyContent="space-between">
-    <p className="font-medium text-4xl leading-4 mt-2.5 mb-2.5">{name}</p>
-    <p className="font-medium text-2xl">Lv{level}</p>
+    <p className="font-medium text-[1.65rem] leading-4 mt-2.5 mb-2.5">{name}</p>
+    <p className="font-medium text-[1.65rem] leading-4 ">Lv{level}</p>
   </HStack>
 );
 
@@ -31,7 +31,6 @@ const HitPointsBar = ({ hpVal, maxHpVal }: { hpVal: number; maxHpVal: number }) 
         </div>
         <div className="h-full w-full absolute top-0 left-0">
           <div
-            // Change color based on amount, use yellow and red
             className={`h-full ${colorTag}`}
             style={{
               width: `${hpPercent}%`,
@@ -55,7 +54,7 @@ export const EnemyBattlerPanel = ({
   maxHealth: number;
 }) => {
   return (
-    <div className="mr-2">
+    <div className="mr-1">
       <BattlerGlimpse name={name} level={level} />
       <HStack>
         <div className="w-1/4 text-blue-500 text-xl">
@@ -71,7 +70,7 @@ export const EnemyBattlerPanel = ({
 
 export const BattlerPanel = ({ battler }: { battler: ProjectInfo }) => {
   return (
-    <div className="ml-2">
+    <div className="ml-1">
       <BattlerGlimpse name={battler.name} level={battler.level} />
       <HStack>
         <div className="w-1/4" />

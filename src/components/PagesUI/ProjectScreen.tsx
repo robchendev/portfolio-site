@@ -12,7 +12,7 @@ type Subscreen = "summary" | "images" | "description";
 const SubscreenSummary = ({ project }: { project: ProjectInfo }) => {
   return (
     <section className="h-full bg-cyan-300 rounded-md p-4">
-      <h1 className="text-[4rem] font-semibold leading-8 tracking-wider mb-4">{project.name}</h1>
+      <h1 className="text-[3rem] tracking-wide leading-10 font-semibold mb-2">{project.name}</h1>
       {project.deploymentUrl && (
         <a
           href={project.deploymentUrl}
@@ -21,12 +21,12 @@ const SubscreenSummary = ({ project }: { project: ProjectInfo }) => {
           {project.deploymentUrl} <MdOutlineOpenInNew className="inline" />
         </a>
       )}
-      <HStack className="pt-3">
+      <HStack className={`pt-2 ${project.deploymentUrl && "mt-1"}`}>
         {project.stack?.map((stackItem: StackItem, index: number) => (
           <StackItemTag key={index} stackItem={stackItem} />
         ))}
       </HStack>
-      <p className="mt-4 text-4xl">{project.description}</p>
+      <p className="mt-4 text-[2rem] leading-10">{project.description}</p>
       {/* A single featured image here */}
     </section>
   );
@@ -96,6 +96,30 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   );
 };
 
+const SubscreenButton = ({
+  children,
+  isActive,
+  backgroundColor,
+  onClick,
+}: {
+  children: React.ReactNode;
+  isActive: boolean;
+  backgroundColor: string;
+  onClick: () => void;
+}) => {
+  const activeClasses = "pl-4 border-l-0 w-11/12 rounded-e-lg";
+  const inactiveClasses = "pl-[8px] border-l-8 w-10/12";
+
+  return (
+    <button
+      className={`p-3 -mb-1 ${backgroundColor} ${isActive ? activeClasses : inactiveClasses}`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+};
+
 const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: ProjectInfo[] }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
   const [subscreen, setSubscreen] = useState<Subscreen>("summary");
@@ -108,7 +132,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     triggerAllySwitch,
     setActionMenuDisabled,
     isFightOver,
-    setIsFullTurnInProgress,
+    setIsTurnInProgress,
   } = useActionContext();
 
   useEffect(() => {
@@ -148,7 +172,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     // When current ally is dead, "go, B!"
     if (battler.health === 0) {
       triggerAllySwitch(currProjects[projectIndex]);
-      setIsFullTurnInProgress(false);
+      setIsTurnInProgress(false);
     }
     // When current ally is alive, "A, come back!" -> "go, B!"
     else {
@@ -174,49 +198,40 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
         >
           <div className="pb-2 h-full bg-yellow-200">
             <HStack className="h-full" spacing={0}>
-              <div className="w-3/4 h-[94%] ">
+              <div className="w-3/4 h-[94%]">
                 <div className="ml-[2%] h-full border-8 rounded-xl border-black bg-black">
                   {subscreen === "summary" && <SubscreenSummary project={chosenProject} />}
                   {subscreen === "images" && <SubscreenImages project={chosenProject} />}
                   {subscreen === "description" && <SubscreenDesc project={chosenProject} />}
                 </div>
               </div>
-              <div className="w-1/4 h-full text-[3.25rem] leading-8">
+              <div className="w-1/4 h-full text-[2.25rem] leading-8">
                 <VStack justifyContent="space-between" className="h-full">
-                  <Text className="text-[2.75rem] pt-4 pb-2 px-2 leading-8" noOfLines={1}>
+                  <Text className="text-[2.25rem] pt-4 pb-2 px-2 leading-8" noOfLines={1}>
                     {chosenProject.shortName ?? chosenProject.name}
                   </Text>
                   <div className="-ml-2 [&_button]:text-left [&_button]:border-r-4 [&_button]:border-b-4 [&_button]:border-t-4 [&_button]:border-black">
-                    <button
-                      className={`p-3 bg-cyan-300 -mb-1 ${
-                        subscreen === "summary"
-                          ? "pl-4 border-l-0 w-11/12 rounded-e-lg"
-                          : "pl-[8px] border-l-8 w-10/12"
-                      }`}
+                    <SubscreenButton
+                      isActive={subscreen === "summary"}
+                      backgroundColor="bg-cyan-300"
                       onClick={() => setSubscreen("summary")}
                     >
                       Summary
-                    </button>
-                    <button
-                      className={`p-3 bg-blue-300 -mb-1 ${
-                        subscreen === "images"
-                          ? "pl-4 border-l-0 w-11/12 rounded-e-lg"
-                          : "pl-[8px] border-l-8 w-10/12"
-                      }`}
+                    </SubscreenButton>
+                    <SubscreenButton
+                      isActive={subscreen === "images"}
+                      backgroundColor="bg-blue-300"
                       onClick={() => setSubscreen("images")}
                     >
                       Images
-                    </button>
-                    <button
-                      className={`p-3 bg-violet-300 border-b-4 ${
-                        subscreen === "description"
-                          ? "pl-4 border-l-0 w-11/12 rounded-e-lg"
-                          : "pl-[8px] border-l-8 w-10/12"
-                      }`}
+                    </SubscreenButton>
+                    <SubscreenButton
+                      isActive={subscreen === "description"}
+                      backgroundColor="bg-violet-300 border-b-4"
                       onClick={() => setSubscreen("description")}
                     >
                       Info
-                    </button>
+                    </SubscreenButton>
                   </div>
                   <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-2 text-white">
                     <button
@@ -239,6 +254,10 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                         if (isCurrentBattlerDead) {
                           setTimeout(() => {
                             setActionDialogText("Select the next Project.");
+                          }, 10);
+                        } else {
+                          setTimeout(() => {
+                            setActionDialogText("Choose a project or CANCEL.");
                           }, 10);
                         }
                         onExit();

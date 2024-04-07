@@ -7,7 +7,6 @@ import { LuMail } from "react-icons/lu";
 const AboutMe = () => {
   return (
     <div className="bg-white h-full w-full flex justify-center items-center">
-      {/* <p className="text-3xl">Sorry, this page has not been made yet.</p> */}
       <VStack spacing={5}>
         <HStack spacing={8}>
           <p className="text-[4rem]">

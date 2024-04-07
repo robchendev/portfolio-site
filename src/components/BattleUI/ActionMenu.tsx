@@ -1,8 +1,7 @@
 import { HStack } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import ActionButton from "./ActionButton";
 import ActionDialog from "./ActionDialog";
-import { ScreenTypes } from "./BattleUI";
 import { useActionContext } from "@/context/ActionContext";
 import CancelButton from "./CancelButton";
 import ActionFightMenu from "./ActionFightMenu";
@@ -15,11 +14,9 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     actionDialogText,
     setActionDialogText,
     actionMenuDisabled,
-    setActionMenuDisabled,
     isFightMenu,
     setIsFightMenu,
     isFightOver,
-    setIsFightOver,
     resetBattle,
   } = useActionContext();
 
@@ -29,7 +26,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
   }, [screen]);
 
   return (
-    <div className="relative h-full">
+    <div className="relative h-full border-t-[0.5rem] border-black">
       <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 from-0% via-white via-50% to-gray-400 to-100% px-3 py-1.5">
         <HStack w="full" h="full">
           {isFightMenu ? (
@@ -63,7 +60,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                       onClick={() => {
                         resetBattle();
                       }}
-                      isCurrentScreen={screen === "fight"}
                     />
                   ) : (
                     <ActionButton
@@ -79,7 +75,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                           setScreen("fight");
                         }, 10);
                       }}
-                      isCurrentScreen={screen === "fight"}
                     />
                   )}
                   <ActionButton
@@ -93,7 +88,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                         setScreen("experience");
                       }, 10);
                     }}
-                    isCurrentScreen={false}
                   />
                   <ActionButton
                     text="Projects"
@@ -104,7 +98,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                         setScreen("projects");
                       }, 10);
                     }}
-                    isCurrentScreen={false}
                   />
                   <ActionButton
                     text="About Me"
@@ -117,7 +110,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                         setScreen("about");
                       }, 10);
                     }}
-                    isCurrentScreen={false}
                   />
                 </nav>
               )}

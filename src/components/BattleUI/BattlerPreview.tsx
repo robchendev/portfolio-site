@@ -1,10 +1,9 @@
-import { ExperienceInfo } from "@/data/experience";
 import { ProjectInfo } from "@/data/projects";
 import { Text } from "@chakra-ui/react";
 import React from "react";
 import { PokeballBottom, PokeballTop } from "./Pokeball";
 
-export const BattlerDisabled = ({ isBattling = false }: { isBattling?: boolean }) => {
+export const BattlerDisabled = () => {
   return (
     <div className="w-full h-full relative">
       <div className="absolute w-full h-full">

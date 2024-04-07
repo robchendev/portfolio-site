@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ActionMenu from "./ActionMenu";
 import CombatScene from "./CombatScene";
 import projects from "@/data/projects";
@@ -12,8 +12,7 @@ import EndScreen from "./EndScreen";
 export type ScreenTypes = "fight" | "experience" | "projects" | "about" | "end";
 
 const BattleUI = () => {
-  const { screen, setActionDialogText, projectIndex, setProjectIndex, isFightOver } =
-    useActionContext();
+  const { screen, projectIndex, setProjectIndex, isFightOver } = useActionContext();
 
   const screenVariants = {
     initial: { y: "100%" },
@@ -61,24 +60,19 @@ const BattleUI = () => {
         </AnimatePresence>
 
         <div
-          className={`h-full w-full absolute projects z-[10] ${
+          className={`h-full w-full absolute z-[10] ${
             projectIndex === -1 ? "pointer-events-none" : ""
           }`}
         >
           <ProjectScreen
             onExit={() => {
               setProjectIndex(-1);
-              // setActionDialogText("Choose a Project.");
             }}
             projects={projects}
           />
         </div>
-        <div className="w-full absolute bottom-0 z-[10]">
-          <hr className="h-2 w-full bg-black" />
-        </div>
       </main>
-
-      <footer className="h-1/4 z-2">
+      <footer className="h-[27%] z-2">
         <ActionMenu
           onProjectClose={() => {
             setProjectIndex(-1);

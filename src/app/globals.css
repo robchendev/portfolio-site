@@ -3,12 +3,13 @@
 @tailwind utilities;
 
 :root {
-  font-size: 16px !important;
   background-color: #000 !important;
 }
 
 body {
-  letter-spacing: 0px !important;
+  -webkit-font-smoothing: antialiased !important; /* for Chrome, Safari */
+  -moz-osx-font-smoothing: grayscale !important; /* for Firefox */
+  text-rendering: optimizeLegibility !important; /* for both */
 }
 
 .imgScroller ::-webkit-scrollbar {

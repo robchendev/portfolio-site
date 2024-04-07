@@ -98,6 +98,5 @@ const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] 
     </div>
   );
 };
-// top-[100%]
 
 export default ScreenSelectables;
