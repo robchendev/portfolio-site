@@ -28,8 +28,8 @@ const BattleUI = () => {
   };
 
   return (
-    <div className="w-full h-full relative overflow-hidden">
-      <main className="h-3/4 z-0 top-0 left-0 relative">
+    <div className="flex flex-col h-full relative overflow-hidden">
+      <main className="flex-grow overflow-hidden relative z-0">
         <AnimatePresence>
           <motion.div
             key="endscreen"
