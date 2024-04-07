@@ -41,7 +41,7 @@ const projects: ProjectInfo[] = [
     name: "Portfolio Website",
     shortName: "Portfolio",
     description:
-      "This portfolio website, showcasing my projects and work experience. Designed to closely replicate POKéMON battle UI.",
+      "This portfolio website, showcasing my projects, open-source contributions, commissions and work experience. Designed to closely replicate POKéMON battle UI.",
     stack: ["typescript", "react", "nextjs"],
     battleImage: "/img/sadpepe.png",
     imageUrls: [

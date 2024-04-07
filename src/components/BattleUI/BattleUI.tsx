@@ -3,11 +3,12 @@ import ActionMenu from "./ActionMenu";
 import CombatScene from "./CombatScene";
 import projects from "@/data/projects";
 import ScreenSelectables from "./ScreenSelectables";
-import AboutMe from "./AboutMe";
+import AboutScreen from "./AboutScreen";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectScreen from "../PagesUI/ProjectScreen";
 import { useActionContext } from "@/context/ActionContext";
 import EndScreen from "./EndScreen";
+import ExperienceScreen from "./ExperienceScreen";
 
 export type ScreenTypes = "fight" | "experience" | "projects" | "about" | "end";
 
@@ -52,9 +53,9 @@ const BattleUI = () => {
               exit="exit"
               transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
             >
-              {screen === "experience" && <div>Experience gym badge screen</div>}
+              {screen === "experience" && <ExperienceScreen />}
               {screen === "projects" && <ScreenSelectables items={projects} />}
-              {screen === "about" && <AboutMe />}
+              {screen === "about" && <AboutScreen />}
             </motion.div>
           )}
         </AnimatePresence>

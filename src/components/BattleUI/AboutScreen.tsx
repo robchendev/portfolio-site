@@ -4,7 +4,7 @@ import React from "react";
 import { FaGithub, FaLinkedin, FaSpotify, FaYoutube } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
 
-const AboutMe = () => {
+const AboutScreen = () => {
   return (
     <div className="bg-white h-full w-full flex justify-center items-center">
       <VStack spacing={5}>
@@ -68,4 +68,4 @@ const AboutMe = () => {
   );
 };
 
-export default AboutMe;
+export default AboutScreen;

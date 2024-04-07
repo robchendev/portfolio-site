@@ -81,9 +81,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     text="Experience"
                     color="orange"
                     onClick={() => {
-                      setActionDialogText(
-                        "Choose an Experience or CANCEL. Clicking experiences do nothing yet."
-                      );
+                      setActionDialogText("Choose an Experience or CANCEL.");
                       setTimeout(() => {
                         setScreen("experience");
                       }, 10);
@@ -103,9 +101,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     text="About Me"
                     color="blue"
                     onClick={() => {
-                      setActionDialogText(
-                        "Sorry, this page is incomplete and will be replaced with game UI soon."
-                      );
+                      setActionDialogText("Click around or CANCEL.");
                       setTimeout(() => {
                         setScreen("about");
                       }, 10);
