@@ -26,7 +26,7 @@ const AboutScreen = () => {
             size={560}
             fill="#efb563"
             stroke="#de6363"
-            className="absolute top-0 left-0 -z-[1] rotate-45 -translate-y-48 -translate-x-48"
+            className="absolute top-0 left-0 -z-[1] rotate-45 -translate-y-44 -translate-x-44 mt-3"
           />
           <VStack className="w-full h-full" align="flex-start" spacing={0}>
             <HStack spacing={0} align="center" className="mb-2">
