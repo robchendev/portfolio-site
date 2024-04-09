@@ -2,7 +2,7 @@ import React from "react";
 
 const CancelButton = () => {
   return (
-    <div className="rounded-[25px] font-medium text-4xl text-white text-outline bg-black w-full p-1.5">
+    <div className="rounded-[25px] font-medium text-4xl text-white text-outline bg-black w-full p-1.5 ml-2">
       <div className="h-full rounded-[20px] bg-white p-[3px]">
         <button className="w-full h-full rounded-[17px] bg-red-700 p-[3px]">
           <div className="h-full rounded-[14px] leading-3 bg-gradient-to-b from-red-500 from-40% to-red-700 to-80%">

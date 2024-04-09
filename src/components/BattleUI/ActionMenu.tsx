@@ -27,8 +27,8 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
 
   return (
     <div className="relative h-full border-t-[0.5rem] border-black">
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 from-0% via-white via-50% to-gray-400 to-100% px-3 py-1.5">
-        <HStack w="full" h="full">
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-gray-400 from-0% via-white via-50% to-gray-400 to-100% py-1.5">
+        <HStack w="full" h="full" gap={0}>
           {isFightMenu ? (
             <ActionFightMenu battleMoves={battler.battleMoves} />
           ) : (
@@ -37,7 +37,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
           {(screen === "fight" || screen === "end") && showActionMenu && (
             <>
               {isFightMenu ? (
-                <div className="w-1/3 h-2/3">
+                <div className="w-1/4 h-2/3 pr-2">
                   <div
                     className="flex justify-center h-full"
                     onClick={() => {
@@ -52,7 +52,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   </div>
                 </div>
               ) : (
-                <nav className="w-full h-full -mr-1">
+                <nav className="w-1/2 h-full mx-1">
                   {isFightOver ? (
                     <ActionButton
                       text="Reset"
@@ -112,7 +112,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
             </>
           )}
           {screen !== "fight" && screen !== "end" && (battler.health !== 0 || isFightOver) && (
-            <div className="w-1/3 h-2/3">
+            <div className="w-1/4 h-2/3 pr-2">
               <div
                 className="flex justify-center h-full"
                 onClick={() => {

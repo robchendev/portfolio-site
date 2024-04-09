@@ -1,10 +1,17 @@
+import { useActionContext } from "@/context/ActionContext";
 import TextWriter from "@/utils/typewriter";
 import { Text } from "@chakra-ui/react";
 import React from "react";
 
 const ActionDialog = ({ text }: { text: string }) => {
+  const { screen, showActionMenu } = useActionContext();
+  const isDialogWidth = (screen === "fight" || screen === "end") && showActionMenu;
   return (
-    <div className="flex-grow h-full rounded-[20px] text-[2.5rem] text-gray-600 bg-black w-full p-1.5">
+    <div
+      className={`h-full rounded-[20px] text-[2.5rem] text-gray-600 bg-black ${
+        isDialogWidth ? "w-1/2" : showActionMenu ? "w-3/4 flex-grow" : "w-3/4 flex-grow mr-2"
+      } p-1.5 ml-2`}
+    >
       <div className="h-full rounded-[14px] bg-yellow-300 p-[3px]">
         <div className="h-full rounded-[12px] bg-gray-500 py-1 px-2">
           <div className="h-full rounded-[8px] bg-white">

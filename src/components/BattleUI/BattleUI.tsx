@@ -54,7 +54,7 @@ const BattleUI = () => {
               transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
             >
               {screen === "experience" && <ExperienceScreen />}
-              {screen === "projects" && <ScreenSelectables items={projects} />}
+              {screen === "projects" && <ScreenSelectables />}
               {screen === "about" && <AboutScreen />}
             </motion.div>
           )}

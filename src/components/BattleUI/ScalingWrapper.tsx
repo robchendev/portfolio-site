@@ -47,12 +47,9 @@ export const DesktopScalingWrapper = () => {
     if (refOuter.current) {
       resizeObserver.observe(refOuter.current);
     }
-    const loadTimer = setTimeout(() => {
-      setIsLoading(false);
-    }, 500); // Minimum loader display time
+    setIsLoading(false);
     return () => {
       resizeObserver.disconnect();
-      clearTimeout(loadTimer);
     };
   }, []);
 

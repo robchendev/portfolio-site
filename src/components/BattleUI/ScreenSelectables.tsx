@@ -2,7 +2,6 @@ import { HStack, VStack } from "@chakra-ui/react";
 import React from "react";
 import BattlerPreview, { BattlerDisabled, BattlerPreviewDead } from "./BattlerPreview";
 import { ProjectInfo } from "@/data/projects";
-import { ExperienceInfo } from "@/data/experience";
 import { useActionContext } from "@/context/ActionContext";
 
 const BattlerPreviewSafe = ({ item, onClick }: { item?: ProjectInfo; onClick: () => void }) => {
@@ -16,7 +15,7 @@ const BattlerPreviewSafe = ({ item, onClick }: { item?: ProjectInfo; onClick: ()
   }
 };
 
-const ScreenSelectables = ({ items }: { items: ProjectInfo[] | ExperienceInfo[] }) => {
+const ScreenSelectables = () => {
   const { setActionDialogText, setProjectIndex, projects } = useActionContext();
   const onBattlerPreviewActionDialogText =
     "View Project information, switch Project into battle, or CLOSE.";

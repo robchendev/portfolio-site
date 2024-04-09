@@ -47,7 +47,7 @@ const ActionFightMenu = ({ battleMoves }: { battleMoves: BattleMove[] }) => {
   };
 
   return (
-    <div className="flex-grow h-full rounded-[20px] font-semibold text-[2.25rem] text-gray-600 bg-black w-full p-1.5">
+    <div className="h-full rounded-[20px] font-semibold text-[2.25rem] text-gray-600 bg-black w-3/4 p-1.5 ml-2">
       <div className="h-full rounded-[14px] bg-yellow-300 p-[3px]">
         <div className="h-full rounded-[12px] bg-gray-500 py-1 px-2">
           <div className="h-full rounded-[8px] bg-white">
