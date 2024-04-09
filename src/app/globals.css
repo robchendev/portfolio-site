@@ -24,3 +24,7 @@ body {
 .imgScroller ::-webkit-scrollbar-thumb {
   background-color: #000 !important;
 }
+
+.fix-safari {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}

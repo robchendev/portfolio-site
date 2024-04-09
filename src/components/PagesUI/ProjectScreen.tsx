@@ -175,6 +175,8 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     // When current ally is alive, "A, come back!" -> "go, B!"
     else {
       setShowActionMenu(false);
+      // TODO: Refactor next 4 lines into a more streamlined action text setting function
+      setActionDialogText(""); // Clear for smoothness
       setTimeout(() => {
         setActionDialogText(`${battler.name}, come back!`);
       }, 10);

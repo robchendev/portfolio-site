@@ -19,54 +19,57 @@ const AboutDetail = ({ left, right }: { left: string; right: string }) => (
 const AboutScreen = () => {
   return (
     <HStack className="bg-teal-200 h-full py-4" spacing={0} align="flex-start">
-      <VStack className="ml-2 bg-[#de6363] overflow-hidden h-full w-3/4 p-3 rounded-[25px] drop-shadow-[0_2px_2px_rgba(0,0,0,.2)] border-4 border-white">
-        <PokeballFill
-          size={560}
-          fill="#efb563"
-          stroke="#de6363"
-          className="absolute top-0 left-0 -z-[1] rotate-45 -translate-y-48 -translate-x-48"
-        />
-        <VStack className="w-full h-full" align="flex-start" spacing={0}>
-          <HStack spacing={0} align="center" className="mb-2">
-            <PokeballTop
-              size={40}
-              className="-rotate-90 -mr-1 drop-shadow-[-1px_1px_0.5px_rgba(0,0,0,.4)]"
-            />
-            <p className="text-white text-[2.5rem] leading-8 drop-shadow-[2px_2px_0.5px_rgba(0,0,0,.4)]">
-              Applicant Card
-            </p>
-            <PokeballBottom
-              size={40}
-              className="-rotate-90 -ml-2  drop-shadow-[-1px_1px_0.5px_rgba(0,0,0,.4)]"
-            />
-          </HStack>
-          <HStack className="w-full h-full" align="flex-start" justify="space-between" gap={4}>
-            <VStack className="w-3/4">
-              <AboutDetail left="name" right="Robert Chen" />
-              <AboutDetail left="email" right="robchendev@gmail.com" />
-              <AboutDetail left="money" right="$0.00" />
-              <AboutDetail left="graduated" right="Dec. 16, 2023" />
-            </VStack>
-            <div className="w-1/3 overflow-hidden h-full rounded-[14px] bg-[rgba(255,255,255,0.4)]">
-              <Image
-                loading="eager"
-                src="/img/sadpepe.png"
-                height={300}
-                width={300}
-                alt="job seeker"
-                className="object-contain "
+      {/* This wrapping div is necessary because of a safari bug https://github.com/tailwindlabs/tailwindcss/discussions/5675 */}
+      <div className="bg-white ml-2 w-3/4 h-full rounded-[25px] p-1">
+        <VStack className="bg-[#de6363] overflow-hidden fix-safari h-full w-full p-3 rounded-[21px]">
+          <PokeballFill
+            size={560}
+            fill="#efb563"
+            stroke="#de6363"
+            className="absolute top-0 left-0 -z-[1] rotate-45 -translate-y-48 -translate-x-48"
+          />
+          <VStack className="w-full h-full" align="flex-start" spacing={0}>
+            <HStack spacing={0} align="center" className="mb-2">
+              <PokeballTop
+                size={40}
+                className="-rotate-90 -mr-1 drop-shadow-[-1px_1px_0.5px_rgba(0,0,0,.4)]"
               />
-            </div>
-          </HStack>
+              <p className="text-white text-[2.5rem] leading-8 drop-shadow-[2px_2px_0.5px_rgba(0,0,0,.4)]">
+                Applicant Card
+              </p>
+              <PokeballBottom
+                size={40}
+                className="-rotate-90 -ml-2  drop-shadow-[-1px_1px_0.5px_rgba(0,0,0,.4)]"
+              />
+            </HStack>
+            <HStack className="w-full h-full" align="flex-start" justify="space-between" gap={4}>
+              <VStack className="w-3/4">
+                <AboutDetail left="name" right="Robert Chen" />
+                <AboutDetail left="email" right="robchendev@gmail.com" />
+                <AboutDetail left="money" right="$0.00" />
+                <AboutDetail left="graduated" right="Dec. 16, 2023" />
+              </VStack>
+              <div className="w-1/3 overflow-hidden h-full rounded-[14px] bg-[rgba(255,255,255,0.4)]">
+                <Image
+                  loading="eager"
+                  src="/img/sadpepe.png"
+                  height={300}
+                  width={300}
+                  alt="job seeker"
+                  className="object-contain "
+                />
+              </div>
+            </HStack>
+          </VStack>
+          <div className="mt-2 w-full h-full text-[1.8rem] bg-[rgba(255,255,255,0.4)] rounded-[14px] leading-10 px-2 py-1.5 text-gray-800">
+            <p className="drop-shadow-[2px_1px_0.5px_rgba(255,255,255,.8)]">
+              &quot;Something about myself, written in a long form paragraph that spans multiple
+              lines.&quot;
+            </p>
+          </div>
+          {/* <VStack className="mt-2 w-full">sdasdasdasdadasasd</VStack> */}
         </VStack>
-        <div className="mt-2 w-full h-full text-[1.8rem] bg-[rgba(255,255,255,0.4)] rounded-[14px] leading-10 px-2 py-1.5 text-gray-800">
-          <p className="drop-shadow-[2px_1px_0.5px_rgba(255,255,255,.8)]">
-            &quot;Something about myself, written in a long form paragraph that spans multiple
-            lines.&quot;
-          </p>
-        </div>
-        {/* <VStack className="mt-2 w-full">sdasdasdasdadasasd</VStack> */}
-      </VStack>
+      </div>
       <VStack spacing={2} className="w-1/4 px-2 h-full" align="flex-start">
         <div className="text-[2rem] bg-sky-500 overflow-hidden h-full w-full px-3 py-2 rounded-[25px] drop-shadow-[0_2px_2px_rgba(0,0,0,.2)] border-4 border-white">
           Resume, Linkedin, Github
