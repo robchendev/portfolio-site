@@ -21,10 +21,10 @@ const AboutScreen = () => {
     <HStack className="bg-teal-200 h-full py-4" spacing={0} align="flex-start">
       <VStack className="ml-2 bg-[#de6363] overflow-hidden h-full w-3/4 p-3 rounded-[25px] drop-shadow-[0_2px_2px_rgba(0,0,0,.2)] border-4 border-white">
         <PokeballFill
-          size={500}
+          size={560}
           fill="#efb563"
           stroke="#de6363"
-          className="absolute top-0 left-0 -z-[1] rotate-45 -translate-y-36 -translate-x-36"
+          className="absolute top-0 left-0 -z-[1] rotate-45 -translate-y-48 -translate-x-48"
         />
         <VStack className="w-full h-full" align="flex-start" spacing={0}>
           <HStack spacing={0} align="center" className="mb-2">
@@ -47,7 +47,7 @@ const AboutScreen = () => {
               <AboutDetail left="money" right="$0.00" />
               <AboutDetail left="graduated" right="Dec. 16, 2023" />
             </VStack>
-            <div className="w-1/3 h-full rounded-[14px] bg-[rgba(255,255,255,0.4)]">
+            <div className="w-1/3 overflow-hidden h-full rounded-[14px] bg-[rgba(255,255,255,0.4)]">
               <Image
                 loading="eager"
                 src="/img/sadpepe.png"

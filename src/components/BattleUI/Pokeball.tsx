@@ -36,10 +36,10 @@ export const PokeballFill = ({
       viewBox="0 0 200 200"
       className={className}
     >
-      <circle cx="100" cy="100" r="90" fill="#efb563" stroke="#de6363" strokeWidth="22" />
-      <path d="M 10 100 A 90 90 0 0 1 190 100" fill="#efb563" stroke="#de6363" strokeWidth="22" />
-      <rect x="10" y="89" width="180" height="22" fill="#de6363" strokeWidth="22" />
-      <circle cx="100" cy="100" r="35" fill="#efb563" stroke="#de6363" strokeWidth="22" />
+      <circle cx="100" cy="100" r="90" fill={fill} stroke={stroke} strokeWidth="22" />
+      <path d="M 10 100 A 90 90 0 0 1 190 100" fill={fill} stroke={stroke} strokeWidth="22" />
+      <rect x="10" y="89" width="180" height="22" fill={stroke} strokeWidth="22" />
+      <circle cx="100" cy="100" r="35" fill={fill} stroke={stroke} strokeWidth="22" />
     </svg>
   );
 };
