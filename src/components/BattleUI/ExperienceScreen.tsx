@@ -1,14 +1,12 @@
-import { HStack, VStack } from "@chakra-ui/react";
-import Link from "next/link";
+import { HStack } from "@chakra-ui/react";
 import React from "react";
-import { FaGithub, FaLinkedin, FaSpotify, FaYoutube } from "react-icons/fa";
-import { LuMail } from "react-icons/lu";
 
 const ExperienceScreen = () => {
   return (
-    <div className="bg-white h-full w-full flex justify-center items-center">
-      This page has not been made yet
-    </div>
+    <HStack spacing={0} className="bg-white h-full w-full">
+      <div className="w-3/4 h-full">This page has not been made yet</div>
+      <div className="w-1/4 h-full bg-slate-300">s</div>
+    </HStack>
   );
 };
 

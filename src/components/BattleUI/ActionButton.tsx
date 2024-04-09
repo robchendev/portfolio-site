@@ -47,7 +47,15 @@ const buttonStyles: {
   },
 };
 
-const IntermediateButton = ({ text, color }: { text: string; color: ButtonColor }) => {
+const IntermediateButton = ({
+  text,
+  color,
+  onClick,
+}: {
+  text: string;
+  color: ButtonColor;
+  onClick: () => void;
+}) => {
   const defaultStyles = {
     outerBg: "bg-black",
     buttonBg: "bg-amber-600",
@@ -64,7 +72,7 @@ const IntermediateButton = ({ text, color }: { text: string; color: ButtonColor 
       className={`rounded-[25px] font-medium text-4xl text-white text-outline ${outerBg} w-full p-1.5 ${margin}`}
     >
       <div className="h-full rounded-[20px] bg-white p-[3px]">
-        <button className={`w-full h-full rounded-[17px] ${buttonBg} p-[3px]`}>
+        <button className={`w-full h-full rounded-[17px] ${buttonBg} p-[3px]`} onClick={onClick}>
           <div
             className={`h-full rounded-[14px] leading-3 bg-gradient-to-b ${gradientFrom} from-40% ${gradientTo} to-80%`}
           >
@@ -96,8 +104,8 @@ const ActionButton = ({
         showActionMenu ? "" : "filter grayscale pointer-events-none"
       }`}
     >
-      <div className="flex justify-center h-full" onClick={onClick}>
-        <IntermediateButton text={text} color={color} />
+      <div className="flex justify-center h-full">
+        <IntermediateButton text={text} color={color} onClick={onClick} />
       </div>
     </span>
   );
