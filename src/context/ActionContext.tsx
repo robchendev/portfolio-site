@@ -7,6 +7,7 @@ import React, {
   useCallback,
   ReactNode,
   useEffect,
+  useRef,
 } from "react";
 
 export const ENEMY_INIT_HEALTH = 100;
@@ -37,7 +38,7 @@ interface CombinedContextType {
   animateEnemyAttack: boolean;
   animateAllySwitchReturn: boolean;
   animateAllySwitchEnter: boolean;
-  triggerAllySwitch: (newBattler: ProjectInfo) => void;
+  triggerAllySwitch: (newBattler: ProjectInfo, prevBattlerDied: boolean) => void;
   animateEnemyDeath: boolean;
   triggerEnemyDeath: () => void;
   animateAllyDeath: boolean;
@@ -93,6 +94,8 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
 
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+  const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
+
   const resetBattle = async () => {
     setProjects(projectList);
     setProjectIndex(-1);
@@ -115,6 +118,19 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setAnimateAllyDeath(false);
   };
 
+  // Prevention of stale closure on states:
+  // If callback functions have async operations or delays
+  // and need the latest state value after these operations,
+  // then use stateRef.current for most up-to-date state.
+  const battlerRef = useRef(battler);
+  useEffect(() => {
+    battlerRef.current = battler;
+  }, [battler]);
+  const enemyHealthRef = useRef(enemyHealth);
+  useEffect(() => {
+    enemyHealthRef.current = enemyHealth;
+  }, [enemyHealth]);
+
   const triggerEnemyDeath = useCallback(async () => {
     setWinner("ally");
     await delay(1000);
@@ -130,39 +146,36 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setShowActionMenu(true);
   }, []);
 
-  const triggerBattlerDeath = useCallback(
-    async (updatedProjects: ProjectInfo[]) => {
-      setShowActionMenu(false);
+  const triggerBattlerDeath = useCallback(async (updatedProjects: ProjectInfo[]) => {
+    setShowActionMenu(false);
+    await delay(1000);
+    setAnimateAllyDeath(true);
+    await delay(1000);
+    setActionDialogText(`${battlerRef.current.name} is defeated!`);
+    await delay(1000);
+    // Open projects screen if one battler still alive. Otherwise, game over
+    const allDead = updatedProjects.every((project) => project.health === 0 || !project.enabled);
+    if (allDead) {
+      setWinner("enemy");
       await delay(1000);
-      setAnimateAllyDeath(true);
-      await delay(1000);
-      setActionDialogText(`${battler.name} is defeated!`);
-      await delay(1000);
-      // Open projects screen if one battler still alive. Otherwise, game over
-      const allDead = updatedProjects.every((project) => project.health === 0 || !project.enabled);
-      if (allDead) {
-        setWinner("enemy");
-        await delay(1000);
-        setActionDialogText("All your projects are dead!");
-        await delay(2000);
-        setActionDialogText("You lost!");
-        await delay(2000);
-        setIsFightMenu(false);
-        setIsFightOver(true);
-        setShowActionMenu(true);
-      } else {
-        setScreen("projects");
-        setActionDialogText("Select the next Project.");
-      }
-    },
-    [battler]
-  );
+      setActionDialogText("All your projects are dead!");
+      await delay(2000);
+      setActionDialogText("You lost!");
+      await delay(2000);
+      setIsFightMenu(false);
+      setIsFightOver(true);
+      setShowActionMenu(true);
+    } else {
+      setScreen("projects");
+      setActionDialogText("Select the next Project.");
+    }
+  }, []);
 
   const recoverHp = useCallback(async () => {
     return new Promise<void>((resolve) => {
       const duration = 1000;
       const startTime = Date.now();
-      const initialHealth = enemyHealth;
+      const initialHealth = enemyHealthRef.current;
       const targetHealth = ENEMY_INIT_HEALTH;
 
       const updateHealth = (newHealth: number) => {
@@ -188,14 +201,14 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
 
       requestAnimationFrame(animate);
     });
-  }, [enemyHealth]);
+  }, []);
 
   const animateHp = useCallback(
     async (hpChange: number, type: "ally" | "enemy") => {
       return new Promise<void>((resolve) => {
         const duration = 1000;
         const startTime = Date.now();
-        const initialHealth = type === "enemy" ? enemyHealth : battler.health;
+        const initialHealth = type === "enemy" ? enemyHealthRef.current : battlerRef.current.health;
         const targetHealth = initialHealth - hpChange;
 
         const updateHealth = (newHealth: number) => {
@@ -204,7 +217,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
           } else if (type === "ally") {
             setBattler((prevBattler) => ({
               ...prevBattler,
-              health: Math.max(0, Math.min(newHealth, prevBattler.maxHealth)),
+              health: Math.max(0, Math.min(newHealth, battlerRef.current.maxHealth)),
             }));
           }
         };
@@ -229,16 +242,39 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         requestAnimationFrame(animate);
       });
     },
-    [enemyHealth, battler, setEnemyHealth, setBattler]
+    [setEnemyHealth, setBattler]
   );
 
   // Animation functions
+  const triggerEnemyAttack = useCallback(
+    async (battlerWillDie: boolean, updatedProjects: ProjectInfo[]) => {
+      setActionDialogText(`Robert's Unemployment used RandomMove (${enemyPower} DMG)!`);
+      setAnimateEnemyAttack(true);
+      await delay(150);
+      setAnimateAllyHit(true);
+      await delay(300);
+      setAnimateEnemyAttack(false);
+      setAnimateAllyHit(false);
+      if (battlerWillDie) {
+        await animateHp(battlerRef.current.health, "ally");
+      } else {
+        await animateHp(enemyPower, "ally");
+      }
+
+      if (battlerWillDie) {
+        await triggerBattlerDeath(updatedProjects);
+      } else {
+        setShowActionMenu(true);
+        setTimeout(() => {
+          setActionDialogText("What will you do?");
+        }, 10);
+      }
+    },
+    [animateHp, triggerBattlerDeath, enemyPower]
+  );
 
   const triggerAllyAttack = useCallback(
     async (battleMove: BattleMove) => {
-      const enemyPower = Math.floor(Math.random() * (randomMax - randomMin + 1)) + randomMin;
-      // const enemyPower = 0.01;
-
       // Prepare UI for animations
       setShowActionMenu(false);
       let updatedProjects = projects;
@@ -246,24 +282,24 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       // Prepare death flags
       let enemyWillDie = false;
       let battlerWillDie = false;
-      if (enemyHealth - battleMove.power < 0.01 * ENEMY_INIT_HEALTH) {
+      if (enemyHealthRef.current - battleMove.power < 0.01 * ENEMY_INIT_HEALTH) {
         enemyWillDie = true;
       }
-      if (battler.health - enemyPower < 0.01 * battler.maxHealth) {
+      if (battlerRef.current.health - enemyPower < 0.01 * battlerRef.current.health) {
         battlerWillDie = true;
         // We know ally will die here, so update battler into projects
         const updatedBattler = {
-          ...battler,
+          ...battlerRef.current,
           health: 0,
         };
         updatedProjects = projects.map((project) =>
-          project.name === battler.name ? updatedBattler : project
+          project.name === battlerRef.current.name ? updatedBattler : project
         );
         setProjects(updatedProjects);
       }
 
       // Begin animations for ally turn
-      setActionDialogText(`${battler.name} used ${battleMove.name}!`);
+      setActionDialogText(`${battlerRef.current.name} used ${battleMove.name}!`);
       setAnimateAllyAttack(true);
       await delay(150);
       setAnimateEnemyHit(true);
@@ -271,7 +307,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       setAnimateAllyAttack(false);
       setAnimateEnemyHit(false);
       if (enemyWillDie) {
-        await animateHp(enemyHealth, "enemy");
+        await animateHp(enemyHealthRef.current, "enemy");
       } else {
         if (battleMove.power < 0) {
           await animateHp(battleMove.power, "enemy");
@@ -286,38 +322,17 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       if (enemyWillDie) {
         await triggerEnemyDeath();
       } else {
-        setActionDialogText(`Robert's Unemployment used RandomMove (${enemyPower} DMG)!`);
-        setAnimateEnemyAttack(true);
-        await delay(150);
-        setAnimateAllyHit(true);
-        await delay(300);
-        setAnimateEnemyAttack(false);
-        setAnimateAllyHit(false);
-        if (battlerWillDie) {
-          await animateHp(battler.health, "ally");
-        } else {
-          await animateHp(enemyPower, "ally");
-        }
-
-        if (battlerWillDie) {
-          await triggerBattlerDeath(updatedProjects);
-        } else {
-          setShowActionMenu(true);
-
-          setTimeout(() => {
-            setActionDialogText("What will you do?");
-          }, 10);
-        }
+        await triggerEnemyAttack(battlerWillDie, updatedProjects);
       }
     },
-    [animateHp, enemyHealth, triggerEnemyDeath, battler, projects, triggerBattlerDeath]
+    [animateHp, triggerEnemyDeath, projects, triggerEnemyAttack, enemyPower]
   );
 
   // Will need to split triggerAllyAttack into triggerAllyAttack and triggerEnemyAttack
   // if want to implement an enemy turn on ally switch in
 
   const triggerAllySwitch = useCallback(
-    async (newBattler: ProjectInfo) => {
+    async (newBattler: ProjectInfo, prevBattlerDied: boolean) => {
       setShowActionMenu(false);
       await delay(500);
       setAnimateAllySwitchReturn(true);
@@ -332,10 +347,15 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       await delay(600);
       setAnimateAllySwitchEnter(false);
       await delay(300);
-      setActionDialogText("What will you do?");
-      setShowActionMenu(true);
+
+      if (prevBattlerDied) {
+        setActionDialogText("What will you do?");
+        setShowActionMenu(true);
+      } else {
+        await triggerEnemyAttack(false, projects);
+      }
     },
-    [projects]
+    [projects, triggerEnemyAttack]
   );
 
   return (

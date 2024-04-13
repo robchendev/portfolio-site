@@ -171,7 +171,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
 
     // When current ally is dead, "go, B!"
     if (battler.health === 0) {
-      triggerAllySwitch(currProjects[projectIndex]);
+      triggerAllySwitch(currProjects[projectIndex], true);
     }
     // When current ally is alive, "A, come back!" -> "go, B!"
     else {
@@ -186,7 +186,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
         setActionDialogText(`${battler.name}, come back!`);
       }, 10);
       setTimeout(() => {
-        triggerAllySwitch(currProjects[projectIndex]);
+        triggerAllySwitch(currProjects[projectIndex], false);
       }, 1000);
     }
   };
