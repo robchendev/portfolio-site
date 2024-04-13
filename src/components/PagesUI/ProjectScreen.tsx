@@ -127,6 +127,7 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     battler,
     setScreen,
     projects: currProjects,
+    setProjects,
     projectIndex,
     setActionDialogText,
     triggerAllySwitch,
@@ -174,6 +175,10 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
     }
     // When current ally is alive, "A, come back!" -> "go, B!"
     else {
+      const updatedProjects = projects.map((project) =>
+        project.name === battler.name ? battler : project
+      );
+      setProjects(updatedProjects);
       setShowActionMenu(false);
       // TODO: Refactor next 4 lines into a more streamlined action text setting function
       setActionDialogText(""); // Clear for smoothness

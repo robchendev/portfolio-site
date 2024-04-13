@@ -316,24 +316,27 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   // Will need to split triggerAllyAttack into triggerAllyAttack and triggerEnemyAttack
   // if want to implement an enemy turn on ally switch in
 
-  const triggerAllySwitch = useCallback(async (newBattler: ProjectInfo) => {
-    setShowActionMenu(false);
-    await delay(500);
-    setAnimateAllySwitchReturn(true);
-    await delay(500);
-    setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
-    setBattler(newBattler);
-    await delay(1200);
-    // New ally enters
-    setAnimateAllyDeath(false);
-    setAnimateAllySwitchReturn(false);
-    setAnimateAllySwitchEnter(true);
-    await delay(600);
-    setAnimateAllySwitchEnter(false);
-    await delay(300);
-    setActionDialogText("What will you do?");
-    setShowActionMenu(true);
-  }, []);
+  const triggerAllySwitch = useCallback(
+    async (newBattler: ProjectInfo) => {
+      setShowActionMenu(false);
+      await delay(500);
+      setAnimateAllySwitchReturn(true);
+      await delay(500);
+      setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
+      setBattler(newBattler);
+      await delay(1200);
+      // New ally enters
+      setAnimateAllyDeath(false);
+      setAnimateAllySwitchReturn(false);
+      setAnimateAllySwitchEnter(true);
+      await delay(600);
+      setAnimateAllySwitchEnter(false);
+      await delay(300);
+      setActionDialogText("What will you do?");
+      setShowActionMenu(true);
+    },
+    [projects]
+  );
 
   return (
     <ActionContext.Provider
