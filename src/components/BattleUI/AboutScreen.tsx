@@ -49,15 +49,8 @@ const AboutScreen = () => {
                 <AboutDetail left="money" right="$0.00" />
                 <AboutDetail left="graduated" right="Dec. 16, 2023" />
               </VStack>
-              <div className="w-1/3 overflow-hidden max-h-full rounded-[14px] bg-[rgba(255,255,255,0.4)]">
-                <Image
-                  loading="eager"
-                  src="/img/sadpepe.png"
-                  height={300}
-                  width={300}
-                  alt="job seeker"
-                  className="object-contain "
-                />
+              <div className="w-1/3 h-full overflow-hidden relative rounded-[14px] bg-[rgba(255,255,255,0.4)]">
+                <Image src="/img/sadpepe.png" fill alt="job seeker" />
               </div>
             </HStack>
           </VStack>
