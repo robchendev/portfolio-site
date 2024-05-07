@@ -47,19 +47,17 @@ const ActionFightMenu = ({ battleMoves }: { battleMoves: BattleMove[] }) => {
   };
 
   return (
-    <div className="h-full rounded-[20px] font-semibold text-[2.25rem] text-gray-600 bg-black w-3/4 p-1.5 ml-2">
-      <div className="h-full rounded-[14px] bg-yellow-300 p-[3px]">
-        <div className="h-full rounded-[12px] bg-gray-500 py-1 px-2">
-          <div className="h-full rounded-[8px] bg-white">
-            <Grid h="full" templateRows="repeat(2, 1fr)" templateColumns="repeat(2, 1fr)">
-              <Move battleMove={battleMoves[0]} onClick={onBattleMoveSelect} />
-              <Move battleMove={battleMoves[1]} onClick={onBattleMoveSelect} />
-              <Move battleMove={battleMoves[2]} onClick={onBattleMoveSelect} />
-              <Move battleMove={battleMoves[3]} onClick={onBattleMoveSelect} />
-            </Grid>
-          </div>
-        </div>
-      </div>
+    <div className="h-full p-[12px] rounded-[20px] font-semibold text-[2.25rem] text-gray-600 w-3/4 shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_#fcd34d] bg-gray-500 py-[13px] px-[17px] ml-2">
+      <Grid
+        className="h-full rounded-[8px] bg-white"
+        templateRows="repeat(2, 1fr)"
+        templateColumns="repeat(2, 1fr)"
+      >
+        <Move battleMove={battleMoves[0]} onClick={onBattleMoveSelect} />
+        <Move battleMove={battleMoves[1]} onClick={onBattleMoveSelect} />
+        <Move battleMove={battleMoves[2]} onClick={onBattleMoveSelect} />
+        <Move battleMove={battleMoves[3]} onClick={onBattleMoveSelect} />
+      </Grid>
     </div>
   );
 };
