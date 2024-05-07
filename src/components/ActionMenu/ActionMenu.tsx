@@ -5,7 +5,7 @@ import ActionDialog from "./ActionDialog";
 import { useActionContext } from "@/context/ActionContext";
 import CancelButton from "../Buttons/CancelButton";
 import ActionFightMenu from "./ActionFightMenu";
-import SwitchButton from "../Buttons/SwitchButton";
+import SwitchButton, { SwitchButtonDisabled } from "../Buttons/SwitchButton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
@@ -177,18 +177,17 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     }
                   }}
                 >
-                  <SwitchButton
-                    disabled={chosenProjectIsDead || battler.name === projects[projectIndex]?.name}
-                  />
+                  {chosenProjectIsDead || battler.name === projects[projectIndex]?.name ? (
+                    <SwitchButtonDisabled />
+                  ) : (
+                    <SwitchButton />
+                  )}
                 </div>
                 <div
                   className="flex justify-center w-full h-full -mt-[0.175rem]"
                   onClick={() => {
                     onProjectClose();
                     setActionDialogText("Select a Project or CANCEL.");
-                    // setTimeout(() => {
-                    //   setScreen("projects");
-                    // }, 10);
                   }}
                 >
                   <CancelButton />
@@ -209,16 +208,13 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   }
                 }}
               >
-                <SwitchButton disabled={chosenProjectIsDead} />
+                {chosenProjectIsDead ? <SwitchButtonDisabled /> : <SwitchButton />}
               </div>
               <div
                 className="flex justify-center w-full h-full -mt-[0.175rem]"
                 onClick={() => {
                   onProjectClose();
                   setActionDialogText(`What will ${personalizedName} do?`);
-                  // setTimeout(() => {
-                  //   setScreen("projects");
-                  // }, 10);
                 }}
               >
                 <CancelButton />

@@ -46,7 +46,6 @@ const TabButton = ({
   isActive: boolean;
   onClick: () => void;
 }) => {
-  // const activeClasses = color;
   const defaultStyles = {
     base: "bg-green-500",
     from: "from-green-700",
