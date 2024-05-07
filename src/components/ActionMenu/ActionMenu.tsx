@@ -1,11 +1,11 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import ActionButton from "./ActionButton";
+import ActionButton from "../Buttons/ActionButton";
 import ActionDialog from "./ActionDialog";
 import { useActionContext } from "@/context/ActionContext";
-import CancelButton from "./CancelButton";
+import CancelButton from "../Buttons/CancelButton";
 import ActionFightMenu from "./ActionFightMenu";
-import SwitchButton from "./SwitchButton";
+import SwitchButton from "../Buttons/SwitchButton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {

@@ -1,7 +1,7 @@
 import { BattleMove } from "@/data/projects";
 import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
-import MoveSelector from "./MoveSelectArrow";
+import MoveSelector from "../Elements/MoveSelectArrow";
 import { useActionContext } from "@/context/ActionContext";
 
 const Move = ({

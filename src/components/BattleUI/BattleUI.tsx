@@ -1,14 +1,14 @@
 import React from "react";
-import ActionMenu from "./ActionMenu";
-import CombatScene from "./CombatScene";
+import ActionMenu from "../ActionMenu/ActionMenu";
+import CombatScene from "../ScreenFight/CombatScene";
 import projects from "@/data/projects";
-import ScreenSelectables from "./ScreenSelectables";
-import AboutScreen from "./AboutScreen";
+import ProjectsScreen from "../ScreenProjects/ProjectsScreen";
+import AboutScreen from "../ScreenAbout/AboutScreen";
 import { motion, AnimatePresence } from "framer-motion";
-import ProjectScreen from "../PagesUI/ProjectScreen";
+import ProjectScreen from "../ScreenProjects/ProjectScreen";
 import { useActionContext } from "@/context/ActionContext";
-import EndScreen from "./EndScreen";
-import ExperienceScreen from "./ExperienceScreen";
+import EndScreen from "../ScreenFight/EndScreen";
+import ExperienceScreen from "../ScreenExperience/ExperienceScreen";
 
 export type ScreenTypes = "fight" | "experience" | "projects" | "about" | "end";
 
@@ -54,7 +54,7 @@ const BattleUI = () => {
               transition={{ type: "tween", ease: "easeInOut", duration: 0.5 }}
             >
               {screen === "experience" && <ExperienceScreen />}
-              {screen === "projects" && <ScreenSelectables />}
+              {screen === "projects" && <ProjectsScreen />}
               {screen === "about" && <AboutScreen />}
             </motion.div>
           )}

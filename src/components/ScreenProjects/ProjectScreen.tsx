@@ -1,13 +1,13 @@
 import { BattleMove, ProjectInfo, StackItem } from "@/data/projects";
 import { Flex, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import StackItemTag from "./StackItemTag";
+import StackItemTag from "../Elements/StackItemTag";
 import { MdOutlineImage, MdOutlineInfo, MdOutlineLock, MdOutlineOpenInNew } from "react-icons/md";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActionContext } from "@/context/ActionContext";
-import { Pokeball } from "../BattleUI/Pokeball";
-import TabButton from "../BattleUI/TabButton";
+import { Pokeball } from "../Elements/Pokeball";
+import TabButton from "../Buttons/TabButton";
 import {
   RiImage2Fill,
   RiInformation2Fill,

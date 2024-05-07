@@ -15,7 +15,7 @@ const BattlerPreviewSafe = ({ item, onClick }: { item?: ProjectInfo; onClick: ()
   }
 };
 
-const ScreenSelectables = () => {
+const ProjectScreen = () => {
   const { setActionDialogText, setProjectIndex, projects, isFightOver } = useActionContext();
 
   const onProjectSelect = (i: number) => {
@@ -59,4 +59,4 @@ const ScreenSelectables = () => {
   );
 };
 
-export default ScreenSelectables;
+export default ProjectScreen;

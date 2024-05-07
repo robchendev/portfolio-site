@@ -1,7 +1,7 @@
 import { ProjectInfo } from "@/data/projects";
 import { Text } from "@chakra-ui/react";
 import React from "react";
-import { PokeballBottom, PokeballTop } from "./Pokeball";
+import { PokeballBottom, PokeballTop } from "../Elements/Pokeball";
 
 export const BattlerDisabled = () => {
   return (

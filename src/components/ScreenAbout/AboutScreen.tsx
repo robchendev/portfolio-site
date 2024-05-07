@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { FaGithub, FaLinkedin, FaSpotify, FaYoutube } from "react-icons/fa";
 import { LuMail } from "react-icons/lu";
-import { PokeballBottom, PokeballFill, PokeballTop } from "./Pokeball";
+import { PokeballBottom, PokeballFill, PokeballTop } from "../Elements/Pokeball";
 import Image from "next/image";
 
 const AboutDetail = ({ left, right }: { left: string; right: string }) => (
