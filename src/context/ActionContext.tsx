@@ -321,7 +321,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         }, 10);
       }
     },
-    [animateHp, triggerBattlerDeath, enemyPower]
+    [animateHp, triggerBattlerDeath, enemyPower, personalizedName]
   );
 
   const triggerAllyAttack = useCallback(
@@ -362,7 +362,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       } else {
         if (battleMove.power < 0) {
           await animateHp(battleMove.power, "enemy");
-          setActionDialogText(`Robert's Unemployment drained the attack!`);
+          setActionDialogText(`Robert's Unemployment was healed!`);
           await delay(2000);
         } else {
           await animateHp(battleMove.power, "enemy");
@@ -403,10 +403,24 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setActionDialogText(`What will ${personalizedName} do?`);
         setShowActionMenu(true);
       } else {
-        await triggerEnemyAttack(false, projects);
+        let battlerWillDie = false;
+        if (battlerRef.current.health - enemyPower < 0.01 * battlerRef.current.health) {
+          battlerWillDie = true;
+          let updatedProjects = projects;
+          // We know ally will die here, so update battler into projects
+          const updatedBattler = {
+            ...battlerRef.current,
+            health: 0,
+          };
+          updatedProjects = projects.map((project) =>
+            project.name === battlerRef.current.name ? updatedBattler : project
+          );
+          setProjects(updatedProjects);
+        }
+        await triggerEnemyAttack(battlerWillDie, projects); // Shouldn't always be false!
       }
     },
-    [projects, triggerEnemyAttack]
+    [projects, triggerEnemyAttack, personalizedName, enemyPower]
   );
 
   return (
