@@ -181,6 +181,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   if (!chosenProjectIsDead) {
                     onProjectSwitch();
                   } else {
+                    setActionDialogText("This project is dead!");
                   }
                 }}
               >
