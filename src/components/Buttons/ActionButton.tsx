@@ -5,8 +5,7 @@ type ButtonColor = "pink" | "orange" | "green" | "blue";
 
 const buttonStyles: {
   [K in ButtonColor]?: {
-    outerBg: string;
-    buttonBg: string;
+    borders: string;
     gradientFrom: string;
     gradientTo: string;
     hoverBg: string;
@@ -14,78 +13,37 @@ const buttonStyles: {
   };
 } = {
   pink: {
-    outerBg: "bg-black",
-    buttonBg: "bg-red-700",
+    borders:
+      "shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_white,inset_0_0_0_12px_#b91c1c] bg-red-500",
     gradientFrom: "from-red-500",
     gradientTo: "to-red-700",
     hoverBg: "hover:bg-red-500",
     margin: "-mr-[0.35rem] -mb-[0.175rem]",
   },
   orange: {
-    outerBg: "bg-black",
-    buttonBg: "bg-amber-600",
+    borders:
+      "shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_white,inset_0_0_0_12px_#d97706] bg-amber-500",
     gradientFrom: "from-amber-500",
     gradientTo: "to-amber-600",
     hoverBg: "hover:bg-amber-500",
     margin: "-ml-[0.35rem] -mb-[0.175rem]",
   },
   green: {
-    outerBg: "bg-black",
-    buttonBg: "bg-green-700",
+    borders:
+      "shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_white,inset_0_0_0_12px_#4d7c0f] bg-green-500",
     gradientFrom: "from-green-500",
     gradientTo: "to-green-700",
     hoverBg: "hover:bg-green-500",
     margin: "-mr-[0.35rem] -mt-[0.175rem]",
   },
   blue: {
-    outerBg: "bg-black",
-    buttonBg: "bg-sky-700",
+    borders:
+      "shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_white,inset_0_0_0_12px_#0369a1] bg-sky-500",
     gradientFrom: "from-sky-500",
     gradientTo: "to-sky-700",
     hoverBg: "hover:bg-sky-500",
     margin: "-ml-[0.35rem] -mt-[0.175rem]",
   },
-};
-
-const IntermediateButton = ({
-  text,
-  color,
-  onClick,
-}: {
-  text: string;
-  color: ButtonColor;
-  onClick: () => void;
-}) => {
-  const defaultStyles = {
-    outerBg: "bg-black",
-    buttonBg: "bg-amber-600",
-    gradientFrom: "from-amber-500",
-    gradientTo: "to-amber-600",
-    hoverBg: "hover:bg-amber-500",
-    margin: "-ml-[0.35rem] -mb-[0.175rem]",
-  };
-  const { outerBg, buttonBg, gradientFrom, gradientTo, hoverBg, margin } =
-    buttonStyles[color] || defaultStyles;
-
-  return (
-    <div
-      className={`rounded-[25px] font-medium text-4xl text-white text-outline ${outerBg} w-full p-1.5 ${margin}`}
-    >
-      <div className="h-full rounded-[20px] bg-white p-[3px]">
-        <button className={`w-full h-full rounded-[17px] ${buttonBg} p-[3px]`} onClick={onClick}>
-          <div
-            className={`h-full rounded-[14px] leading-3 bg-gradient-to-b ${gradientFrom} from-40% ${gradientTo} to-80%`}
-          >
-            <div
-              className={`h-full w-full flex items-center pt-px justify-center rounded-[14px] bg-transparent ${hoverBg} transition ease-out duration-300`}
-            >
-              <div className="drop-shadow-[0_2px_2px_rgba(0,0,0,.35)]">{text}</div>
-            </div>
-          </div>
-        </button>
-      </div>
-    </div>
-  );
 };
 
 const ActionButton = ({
@@ -98,15 +56,36 @@ const ActionButton = ({
   onClick: () => void;
 }) => {
   const { showActionMenu } = useActionContext();
+  const defaultStyles = {
+    borders:
+      "shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_white,inset_0_0_0_12px_#d97706] bg-amber-500",
+    gradientFrom: "from-amber-500",
+    gradientTo: "to-amber-600",
+    hoverBg: "hover:bg-amber-500",
+    margin: "-ml-[0.35rem] -mb-[0.175rem]",
+  };
+  const { borders, gradientFrom, gradientTo, hoverBg, margin } =
+    buttonStyles[color] || defaultStyles;
   return (
     <span
-      className={`w-1/2 h-1/2 inline-block ${
-        showActionMenu ? "" : "filter grayscale pointer-events-none"
+      className={`w-1/2 h-1/2 inline-flex justify-center ${
+        showActionMenu ? "" : "pointer-events-none"
       }`}
     >
-      <div className="flex justify-center h-full">
-        <IntermediateButton text={text} color={color} onClick={onClick} />
-      </div>
+      <button
+        className={`${borders} rounded-[25px] p-[12px] font-medium text-4xl text-white h-full w-full ${margin}`}
+        onClick={onClick}
+      >
+        <div
+          className={`rounded-[14px] w-full h-full leading-3 bg-gradient-to-b ${gradientFrom} from-40% ${gradientTo} to-80%`}
+        >
+          <div
+            className={`flex items-center h-full pt-px justify-center rounded-[14px] bg-transparent ${hoverBg} transition ease-out duration-300`}
+          >
+            <h2 className="drop-shadow-[0_2px_2px_rgba(0,0,0,.35)]">{text}</h2>
+          </div>
+        </div>
+      </button>
     </span>
   );
 };
