@@ -19,6 +19,7 @@ interface CombinedContextType {
   setScreen: React.Dispatch<React.SetStateAction<ScreenTypes>>;
   projects: ProjectInfo[];
   setProjects: React.Dispatch<React.SetStateAction<ProjectInfo[]>>;
+  onProjectSwitch: () => void;
   projectIndex: number;
   setProjectIndex: React.Dispatch<React.SetStateAction<number>>;
   battler: ProjectInfo;
@@ -130,6 +131,52 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   useEffect(() => {
     enemyHealthRef.current = enemyHealth;
   }, [enemyHealth]);
+
+  const onProjectSwitch = () => {
+    let errors: string[] = [];
+
+    if (!projects[projectIndex]) {
+      errors.push("The current project at the specified index does not exist.");
+    }
+    if (isFightOver) {
+      errors.push("The fight is already over.");
+    }
+    if (battler.name === projects[projectIndex].name) {
+      errors.push("The battler's name matches the current project's name.");
+    }
+    if (projects[projectIndex].health <= 0) {
+      errors.push("The current project's health is 0 or less.");
+    }
+
+    if (errors.length > 0) {
+      console.error(errors);
+      return;
+    }
+
+    setProjectIndex(-1);
+    setScreen("fight");
+
+    // When current ally is dead, "go, B!"
+    if (battler.health === 0) {
+      triggerAllySwitch(projects[projectIndex], true);
+    }
+    // When current ally is alive, "A, come back!" -> "go, B!"
+    else {
+      const updatedProjects = projects.map((project) =>
+        project.name === battler.name ? battler : project
+      );
+      setProjects(updatedProjects);
+      setShowActionMenu(false);
+      // TODO: Refactor next 4 lines into a more streamlined action text setting function
+      setActionDialogText(""); // Clear for smoothness
+      setTimeout(() => {
+        setActionDialogText(`${battler.name}, come back!`);
+      }, 10);
+      setTimeout(() => {
+        triggerAllySwitch(projects[projectIndex], false);
+      }, 1000);
+    }
+  };
 
   const triggerEnemyDeath = useCallback(async () => {
     setWinner("ally");
@@ -365,6 +412,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setScreen,
         projects,
         setProjects,
+        onProjectSwitch,
         projectIndex,
         setProjectIndex,
         battler,

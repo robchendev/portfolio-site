@@ -25,9 +25,9 @@ const StackItemTag = ({ stackItem }: { stackItem: StackItem }) => {
 
   return (
     <span
-      className={`inline-block rounded border-t ${borderColor} ${bgColor} py-0.5 px-1.5 pr-1 drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,.2)]`}
+      className={`rounded border-t ${borderColor} ${bgColor} px-1.5 drop-shadow-[1.5px_1.5px_0px_rgba(0,0,0,.2)]`}
     >
-      <p className="inline-block text-3xl tracking-wide font-semibold leading-8 text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">
+      <p className="inline-block text-[2rem] tracking-wide font-semibold leading-[2.25rem] text-white drop-shadow-[2px_2px_0px_rgba(0,0,0,0.5)]">
         {text}
       </p>
     </span>

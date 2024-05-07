@@ -71,6 +71,7 @@ const CombatScene = () => {
                 animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
                 variants={enemyVariants}
               >
+                {/* TODO: CHANGE TO NEXT IMAGE */}
                 <Image src={getEnemyImage()} alt="Image of me - This image has not been made yet" />
               </motion.div>
             </motion.div>
@@ -87,7 +88,7 @@ const CombatScene = () => {
         </div>
 
         {/* Enemy Pokemon Info */}
-        <div className="h-full w-full absolute top-[12%]">
+        <div className="h-full w-full absolute top-[12%] drop-shadow-[4px_4px_1px_rgba(0,0,0,0.25)]">
           <BattlerWrapperEnemy>
             <EnemyBattlerPanel
               name="Robert's Unemployment"
@@ -130,7 +131,7 @@ const CombatScene = () => {
 
         {/* TODO: Animate this upon switching */}
         {/* Ally Pokemon Info */}
-        <div className="h-full w-full absolute top-[67%]">
+        <div className="h-full w-full absolute top-[67%] drop-shadow-[5px_5px_1px_rgba(0,0,0,0.25)]">
           <BattlerWrapper>
             <BattlerPanel battler={battler} />
           </BattlerWrapper>

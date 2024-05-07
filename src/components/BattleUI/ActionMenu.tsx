@@ -1,10 +1,11 @@
-import { HStack } from "@chakra-ui/react";
+import { HStack, VStack } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import ActionButton from "./ActionButton";
 import ActionDialog from "./ActionDialog";
 import { useActionContext } from "@/context/ActionContext";
 import CancelButton from "./CancelButton";
 import ActionFightMenu from "./ActionFightMenu";
+import SwitchButton from "./SwitchButton";
 
 const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
   const {
@@ -18,8 +19,12 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     setIsFightMenu,
     isFightOver,
     resetBattle,
+    projectIndex,
+    projects,
+    onProjectSwitch,
   } = useActionContext();
 
+  const chosenProjectIsDead = !projects[projectIndex]?.health;
   useEffect(() => {
     // @ts-ignore
     return () => clearTimeout(window.secondTextTimeout);
@@ -111,21 +116,89 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
               )}
             </>
           )}
-          {screen !== "fight" && screen !== "end" && (battler.health !== 0 || isFightOver) && (
-            <div className="w-1/4 h-2/3 pr-2">
+          {/* Other screens */}
+          {screen !== "fight" &&
+            screen !== "end" &&
+            projectIndex === -1 &&
+            (battler.health !== 0 || isFightOver) && (
+              <div className="w-1/4 h-2/3 pr-2">
+                <div
+                  className="flex justify-center h-full"
+                  onClick={() => {
+                    onProjectClose();
+                    setActionDialogText("What will you do?");
+                    setTimeout(() => {
+                      setScreen("fight");
+                    }, 10);
+                  }}
+                >
+                  <CancelButton />
+                </div>
+              </div>
+            )}
+          {/* A project is chosen in the projects screen */}
+          {screen === "projects" &&
+            projectIndex !== -1 &&
+            (battler.health !== 0 || isFightOver) && (
+              <VStack className="w-1/4 h-full pr-2" spacing={0}>
+                <div
+                  className="flex justify-center w-full h-full -mb-[0.175rem]"
+                  onClick={() => {
+                    if (battler.name === projects[projectIndex]?.name) {
+                      setActionDialogText("This project is already in battle!");
+                    }
+                    if (!chosenProjectIsDead) {
+                      onProjectSwitch();
+                    } else {
+                      setActionDialogText("This project is dead!");
+                    }
+                  }}
+                >
+                  <SwitchButton
+                    disabled={chosenProjectIsDead || battler.name === projects[projectIndex]?.name}
+                  />
+                </div>
+                <div
+                  className="flex justify-center w-full h-full -mt-[0.175rem]"
+                  onClick={() => {
+                    onProjectClose();
+                    setActionDialogText("Select a Project or CANCEL.");
+                    // setTimeout(() => {
+                    //   setScreen("projects");
+                    // }, 10);
+                  }}
+                >
+                  <CancelButton />
+                </div>
+              </VStack>
+            )}
+          {/* Battler is dead */}
+          {projectIndex !== -1 && screen === "projects" && battler.health === 0 && !isFightOver && (
+            <VStack className="w-1/4 h-full pr-2 -ml-2" spacing={0}>
               <div
-                className="flex justify-center h-full"
+                className="flex justify-center w-full h-full -mb-[0.175rem]"
+                onClick={() => {
+                  if (!chosenProjectIsDead) {
+                    onProjectSwitch();
+                  } else {
+                  }
+                }}
+              >
+                <SwitchButton disabled={chosenProjectIsDead} />
+              </div>
+              <div
+                className="flex justify-center w-full h-full -mt-[0.175rem]"
                 onClick={() => {
                   onProjectClose();
                   setActionDialogText("What will you do?");
-                  setTimeout(() => {
-                    setScreen("fight");
-                  }, 10);
+                  // setTimeout(() => {
+                  //   setScreen("projects");
+                  // }, 10);
                 }}
               >
                 <CancelButton />
               </div>
-            </div>
+            </VStack>
           )}
         </HStack>
       </div>

@@ -1,41 +1,58 @@
 import { BattleMove, ProjectInfo, StackItem } from "@/data/projects";
-import { HStack, Text, VStack } from "@chakra-ui/react";
+import { Flex, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import StackItemTag from "./StackItemTag";
-import { MdOutlineOpenInNew } from "react-icons/md";
+import { MdOutlineImage, MdOutlineInfo, MdOutlineLock, MdOutlineOpenInNew } from "react-icons/md";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActionContext } from "@/context/ActionContext";
+import { Pokeball } from "../BattleUI/Pokeball";
+import TabButton from "../BattleUI/TabButton";
 
-type Subscreen = "summary" | "images" | "description";
+type Subscreen = "info" | "images" | "forms";
 
-const SubscreenSummary = ({ project }: { project: ProjectInfo }) => {
+const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
   return (
-    <section className="h-full bg-cyan-300 rounded-md p-4">
-      <h1 className="text-[3rem] tracking-wide leading-10 font-semibold mb-2">{project.name}</h1>
-      {project.deploymentUrl && (
-        <a
-          href={project.deploymentUrl}
-          className="mt-4 text-4xl text-blue-700 underline underline-offset-4"
-        >
-          {project.deploymentUrl} <MdOutlineOpenInNew className="inline" />
-        </a>
-      )}
-      <HStack className={`pt-2 ${project.deploymentUrl && "mt-1"}`}>
-        {project.stack?.map((stackItem: StackItem, index: number) => (
-          <StackItemTag key={index} stackItem={stackItem} />
-        ))}
+    <VStack className="h-full bg-green-200 checkerboard p-2" justifyContent="space-between">
+      <HStack className="w-full" justifyContent="space-between">
+        <VStack spacing={0} align="flex-start" className="bg-yellow-100 p-2 text-4xl rounded-xl">
+          <HStack className="whitespace-nowrap">
+            <Pokeball size={40} />
+            <h1>{project.name}</h1>
+          </HStack>
+          {project.deploymentUrl && (
+            <a
+              href={project.deploymentUrl}
+              className="whitespace-nowrap text-4xl text-blue-700 underline underline-offset-4"
+            >
+              {project.deploymentUrl}
+              <MdOutlineOpenInNew className="ml-1 inline" />
+            </a>
+          )}
+        </VStack>
+        <div className="w-full text-xl h-full flex items-center">
+          <Wrap justify="flex-end" className="w-full" spacing={2}>
+            {project.stack?.map((stackItem: StackItem, index: number) => (
+              <StackItemTag key={index} stackItem={stackItem} />
+            ))}
+          </Wrap>
+        </div>
       </HStack>
-      <p className="mt-4 text-[2rem] leading-10">{project.description}</p>
-      {/* A single featured image here */}
-    </section>
+      <HStack className="rounded-xl bg-blue-400 border-blue-400 border-8 h-full">
+        <div className="h-[75%] w-4 bg-blue-500 rounded-full" />
+        <div className="bg-white h-full w-full text-4xl px-3 py-2 leading-[2.65rem]">
+          {project.description}
+        </div>
+        <div className="h-[75%] w-4 bg-blue-500 rounded-full" />
+      </HStack>
+    </VStack>
   );
 };
 
 const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   const [selectedImage, setSelectedImage] = useState(project.imageUrls[0]);
   return (
-    <section className="h-full bg-blue-300 rounded-md px-4 py-3 flex justify-center">
+    <section className="h-full bg-blue-300 checkerboard rounded-md px-4 py-3 flex justify-center">
       {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
       {/* <figure>IMAGES</figure>
       <figcaption>img caption</figcaption>
@@ -80,7 +97,7 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
 
 const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   return (
-    <section className="h-full bg-violet-300 rounded-md px-4 py-3">
+    <section className="h-full bg-violet-300 checkerboard rounded-md px-4 py-3">
       {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
       {/* RENDER MARKDOWN? */}
       {/* COMBAT POWER AND ABILITIES<div>{project.description}</div> */}
@@ -96,99 +113,19 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   );
 };
 
-const SubscreenButton = ({
-  children,
-  isActive,
-  backgroundColor,
-  onClick,
-}: {
-  children: React.ReactNode;
-  isActive: boolean;
-  backgroundColor: string;
-  onClick: () => void;
-}) => {
-  const activeClasses = "pl-4 border-l-0 w-11/12 rounded-e-lg";
-  const inactiveClasses = "pl-[8px] border-l-8 w-10/12";
-
-  return (
-    <button
-      className={`p-3 -mb-1 ${backgroundColor} ${isActive ? activeClasses : inactiveClasses}`}
-      onClick={onClick}
-    >
-      {children}
-    </button>
-  );
-};
-
-const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: ProjectInfo[] }) => {
+const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
-  const [subscreen, setSubscreen] = useState<Subscreen>("summary");
-  const {
-    battler,
-    setScreen,
-    projects: currProjects,
-    setProjects,
-    projectIndex,
-    setActionDialogText,
-    triggerAllySwitch,
-    setShowActionMenu,
-    isFightOver,
-  } = useActionContext();
+  const [subscreen, setSubscreen] = useState<Subscreen>("info");
+  const { projectIndex } = useActionContext();
 
   useEffect(() => {
     setChosenProject(projects[projectIndex]);
-    setSubscreen("summary");
+    setSubscreen("info");
   }, [projectIndex, projects]);
 
   const variants = {
     visible: { y: 0, transition: { duration: 0.5, ease: "easeInOut" } },
     hidden: { y: "100%", transition: { duration: 0.5, ease: "easeInOut" } },
-  };
-
-  const onProjectSwitch = () => {
-    let errors: string[] = [];
-
-    if (!currProjects[projectIndex]) {
-      errors.push("The current project at the specified index does not exist.");
-    }
-    if (isFightOver) {
-      errors.push("The fight is already over.");
-    }
-    if (battler.name === currProjects[projectIndex].name) {
-      errors.push("The battler's name matches the current project's name.");
-    }
-    if (currProjects[projectIndex].health <= 0) {
-      errors.push("The current project's health is 0 or less.");
-    }
-
-    if (errors.length > 0) {
-      console.error(errors);
-      return;
-    }
-
-    onExit();
-    setScreen("fight");
-
-    // When current ally is dead, "go, B!"
-    if (battler.health === 0) {
-      triggerAllySwitch(currProjects[projectIndex], true);
-    }
-    // When current ally is alive, "A, come back!" -> "go, B!"
-    else {
-      const updatedProjects = projects.map((project) =>
-        project.name === battler.name ? battler : project
-      );
-      setProjects(updatedProjects);
-      setShowActionMenu(false);
-      // TODO: Refactor next 4 lines into a more streamlined action text setting function
-      setActionDialogText(""); // Clear for smoothness
-      setTimeout(() => {
-        setActionDialogText(`${battler.name}, come back!`);
-      }, 10);
-      setTimeout(() => {
-        triggerAllySwitch(currProjects[projectIndex], false);
-      }, 1000);
-    }
   };
 
   return (
@@ -201,7 +138,49 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
           variants={variants}
           style={{ height: "100%" }}
         >
-          <div className="pb-2 h-full bg-yellow-200">
+          <div className="h-full">
+            {/* Subscreen Selector Tabs */}
+            <div className="bg-gradient-to-b from-gray-300 to-white h-[12%]">
+              <HStack className="h-full pl-3" spacing={1}>
+                <TabButton
+                  color="green"
+                  isActive={subscreen === "info"}
+                  onClick={() => setSubscreen("info")}
+                >
+                  <HStack className="block whitespace-nowrap pb-0.5">
+                    <MdOutlineInfo size="38" className="-ml-1.5" />
+                    <h2>Info</h2>
+                  </HStack>
+                </TabButton>
+                <TabButton
+                  color="blue"
+                  isActive={subscreen === "images"}
+                  onClick={() => setSubscreen("images")}
+                >
+                  <HStack className="block whitespace-nowrap pb-0.5">
+                    <MdOutlineImage size="38" className="-ml-1.5" />
+                    <h2>Images</h2>
+                  </HStack>
+                </TabButton>
+                <TabButton
+                  color="purple"
+                  isActive={subscreen === "forms"}
+                  onClick={() => setSubscreen("forms")}
+                >
+                  <HStack className="block whitespace-nowrap pb-0.5">
+                    <MdOutlineLock size="38" className="-ml-1.5" />
+                    <h2>TODO</h2>
+                  </HStack>
+                </TabButton>
+              </HStack>
+            </div>
+            <div className="border-t-4 border-black checkerboard h-[88%]">
+              {subscreen === "info" && <SubscreenInfo project={chosenProject} />}
+              {subscreen === "images" && <SubscreenImages project={chosenProject} />}
+              {subscreen === "forms" && <SubscreenDesc project={chosenProject} />}
+            </div>
+          </div>
+          {/* <div className="pb-2 h-full bg-yellow-200"> 
             <HStack className="h-full" spacing={0}>
               <div className="w-3/4 h-[94%]">
                 <div className="ml-[2%] h-full border-8 rounded-xl border-black bg-black">
@@ -216,27 +195,27 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                     {chosenProject.shortName ?? chosenProject.name}
                   </Text>
                   <div className="-ml-2 [&_button]:text-left [&_button]:border-r-4 [&_button]:border-b-4 [&_button]:border-t-4 [&_button]:border-black">
-                    <SubscreenButton
+                    <TabButton
                       isActive={subscreen === "summary"}
                       backgroundColor="bg-cyan-300"
                       onClick={() => setSubscreen("summary")}
                     >
                       Summary
-                    </SubscreenButton>
-                    <SubscreenButton
+                    </TabButton>
+                    <TabButton
                       isActive={subscreen === "images"}
                       backgroundColor="bg-blue-300"
                       onClick={() => setSubscreen("images")}
                     >
                       Images
-                    </SubscreenButton>
-                    <SubscreenButton
+                    </TabButton>
+                    <TabButton
                       isActive={subscreen === "description"}
                       backgroundColor="bg-violet-300 border-b-4"
                       onClick={() => setSubscreen("description")}
                     >
                       Battle
-                    </SubscreenButton>
+                    </TabButton>
                   </div>
                   <VStack className="w-full [&_button]:w-full [&_button]:rounded-xl [&_button]:p-2 [&_button]:py-3 [&_button]:border-4 [&_button]:border-black p-2 text-white">
                     <button
@@ -273,8 +252,8 @@ const ProjectScreen = ({ onExit, projects }: { onExit: () => void; projects: Pro
                   </VStack>
                 </VStack>
               </div>
-            </HStack>
-          </div>
+            </HStack> 
+          </div> */}
         </motion.div>
       )}
     </AnimatePresence>

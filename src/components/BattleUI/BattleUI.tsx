@@ -65,18 +65,15 @@ const BattleUI = () => {
             projectIndex === -1 ? "pointer-events-none" : ""
           }`}
         >
-          <ProjectScreen
-            onExit={() => {
-              setProjectIndex(-1);
-            }}
-            projects={projects}
-          />
+          <ProjectScreen projects={projects} />
         </div>
       </main>
       <footer className="h-[27%] z-2">
         <ActionMenu
           onProjectClose={() => {
-            setProjectIndex(-1);
+            setTimeout(() => {
+              setProjectIndex(-1);
+            }, 10);
           }}
         />
       </footer>

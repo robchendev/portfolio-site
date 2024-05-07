@@ -18,7 +18,7 @@ const BattlerPreviewSafe = ({ item, onClick }: { item?: ProjectInfo; onClick: ()
 const ScreenSelectables = () => {
   const { setActionDialogText, setProjectIndex, projects } = useActionContext();
   const onBattlerPreviewActionDialogText =
-    "View Project information, switch Project into battle, or CLOSE.";
+    "View Project information, SWITCH Project into battle, or CANCEL.";
 
   return (
     <div className="bg-slate-100 h-full">
