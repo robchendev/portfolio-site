@@ -8,10 +8,19 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useActionContext } from "@/context/ActionContext";
 import { Pokeball } from "../BattleUI/Pokeball";
 import TabButton from "../BattleUI/TabButton";
+import {
+  RiImage2Fill,
+  RiInformation2Fill,
+  RiInformationFill,
+  RiQuestionFill,
+  RiSwordFill,
+  RiSwordLine,
+} from "react-icons/ri";
 
 type Subscreen = "info" | "images" | "forms";
 
 const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
+  const { setActionDialogText } = useActionContext();
   return (
     <VStack className="h-full bg-green-200 checkerboard p-2" justifyContent="space-between">
       <HStack className="w-full" justifyContent="space-between">
@@ -21,13 +30,33 @@ const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
             <h1>{project.name}</h1>
           </HStack>
           {project.deploymentUrl && (
-            <a
-              href={project.deploymentUrl}
-              className="whitespace-nowrap text-4xl text-blue-700 underline underline-offset-4"
-            >
-              {project.deploymentUrl}
-              <MdOutlineOpenInNew className="ml-1 inline" />
-            </a>
+            <>
+              {project.deploymentUrl === "https://robchen.dev" ? (
+                <p
+                  className="whitespace-nowrap cursor-pointer text-4xl text-blue-700 underline underline-offset-4"
+                  onClick={() => {
+                    if (project.deploymentUrl === "https://robchen.dev") {
+                      setActionDialogText("");
+                      setTimeout(() => {
+                        setActionDialogText("You are already on this website!");
+                      }, 10);
+                    }
+                  }}
+                >
+                  {project.deploymentUrl}
+                  <MdOutlineOpenInNew className="ml-1 inline" />
+                </p>
+              ) : (
+                <a
+                  href={project.deploymentUrl}
+                  target="_blank"
+                  className="whitespace-nowrap text-4xl text-blue-700 underline underline-offset-4"
+                >
+                  {project.deploymentUrl}
+                  <MdOutlineOpenInNew className="ml-1 inline" />
+                </a>
+              )}
+            </>
           )}
         </VStack>
         <div className="w-full text-xl h-full flex items-center">
@@ -148,8 +177,8 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
                   onClick={() => setSubscreen("info")}
                 >
                   <HStack className="block whitespace-nowrap pb-0.5">
-                    <MdOutlineInfo size="38" className="-ml-1.5" />
-                    <h2>Info</h2>
+                    <RiInformation2Fill size="38" className="-ml-1.5" />
+                    <h2>Details</h2>
                   </HStack>
                 </TabButton>
                 <TabButton
@@ -158,7 +187,7 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
                   onClick={() => setSubscreen("images")}
                 >
                   <HStack className="block whitespace-nowrap pb-0.5">
-                    <MdOutlineImage size="38" className="-ml-1.5" />
+                    <RiImage2Fill size="38" className="-ml-1.5" />
                     <h2>Images</h2>
                   </HStack>
                 </TabButton>
@@ -168,8 +197,8 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
                   onClick={() => setSubscreen("forms")}
                 >
                   <HStack className="block whitespace-nowrap pb-0.5">
-                    <MdOutlineLock size="38" className="-ml-1.5" />
-                    <h2>TODO</h2>
+                    <RiSwordFill size="38" className="-ml-1.5" />
+                    <h2>Battle Data</h2>
                   </HStack>
                 </TabButton>
               </HStack>
