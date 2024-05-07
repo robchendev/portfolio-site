@@ -138,7 +138,8 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
             </>
           )}
           {/* Other screens */}
-          {screen !== "fight" &&
+          {!isFightOver &&
+            screen !== "fight" &&
             screen !== "end" &&
             projectIndex === -1 &&
             (battler.health !== 0 || isFightOver) && (
@@ -158,7 +159,8 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
               </div>
             )}
           {/* A project is chosen in the projects screen */}
-          {screen === "projects" &&
+          {!isFightOver &&
+            screen === "projects" &&
             projectIndex !== -1 &&
             (battler.health !== 0 || isFightOver) && (
               <VStack className="w-1/4 h-full pr-2" spacing={0}>
@@ -194,8 +196,9 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
               </VStack>
             )}
           {/* Battler is dead */}
-          {projectIndex !== -1 && screen === "projects" && battler.health === 0 && !isFightOver && (
+          {!isFightOver && projectIndex !== -1 && screen === "projects" && battler.health === 0 && (
             <VStack className="w-1/4 h-full pr-2 -ml-2" spacing={0}>
+              NO
               <div
                 className="flex justify-center w-full h-full -mb-[0.175rem]"
                 onClick={() => {
@@ -221,6 +224,35 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 <CancelButton />
               </div>
             </VStack>
+          )}
+          {isFightOver && screen !== "fight" && screen !== "end" && projectIndex === -1 && (
+            <div className="w-1/4 h-2/3 pr-2">
+              <div
+                className="flex justify-center h-full"
+                onClick={() => {
+                  onProjectClose();
+                  setActionDialogText(`What will ${personalizedName} do?`);
+                  setTimeout(() => {
+                    setScreen("fight");
+                  }, 10);
+                }}
+              >
+                <CancelButton />
+              </div>
+            </div>
+          )}
+          {isFightOver && projectIndex !== -1 && screen === "projects" && (
+            <div className="w-1/4 h-2/3 pr-2">
+              <div
+                className="flex justify-center h-full"
+                onClick={() => {
+                  onProjectClose();
+                  setActionDialogText(`Select a Project or CANCEL.`);
+                }}
+              >
+                <CancelButton />
+              </div>
+            </div>
           )}
         </HStack>
       </div>

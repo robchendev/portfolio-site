@@ -16,9 +16,18 @@ const BattlerPreviewSafe = ({ item, onClick }: { item?: ProjectInfo; onClick: ()
 };
 
 const ScreenSelectables = () => {
-  const { setActionDialogText, setProjectIndex, projects } = useActionContext();
-  const onBattlerPreviewActionDialogText =
-    "View Project information, SWITCH Project into battle, or CANCEL.";
+  const { setActionDialogText, setProjectIndex, projects, isFightOver } = useActionContext();
+
+  const onProjectSelect = (i: number) => {
+    setProjectIndex(i);
+    setTimeout(() => {
+      if (isFightOver) {
+        setActionDialogText("View Project details, images, or battle data.");
+      } else {
+        setActionDialogText("View Project information, SWITCH Project into battle, or CANCEL.");
+      }
+    }, 10);
+  };
 
   return (
     <div className="bg-slate-100 h-full">
@@ -32,64 +41,16 @@ const ScreenSelectables = () => {
         <HStack justifyContent="space-between" px={8} pt={2} pb={4} h="full">
           <div className="h-full w-full">
             <VStack justifyContent="space-between" className="h-[90%] w-full">
-              <BattlerPreviewSafe
-                item={projects[0]}
-                onClick={() => {
-                  setProjectIndex(0);
-                  setTimeout(() => {
-                    setActionDialogText(onBattlerPreviewActionDialogText);
-                  }, 10);
-                }}
-              />
-              <BattlerPreviewSafe
-                item={projects[2]}
-                onClick={() => {
-                  setProjectIndex(2);
-                  setTimeout(() => {
-                    setActionDialogText(onBattlerPreviewActionDialogText);
-                  }, 10);
-                }}
-              />
-              <BattlerPreviewSafe
-                item={projects[4]}
-                onClick={() => {
-                  setProjectIndex(4);
-                  setTimeout(() => {
-                    setActionDialogText(onBattlerPreviewActionDialogText);
-                  }, 10);
-                }}
-              />
+              <BattlerPreviewSafe item={projects[0]} onClick={() => onProjectSelect(0)} />
+              <BattlerPreviewSafe item={projects[2]} onClick={() => onProjectSelect(2)} />
+              <BattlerPreviewSafe item={projects[4]} onClick={() => onProjectSelect(4)} />
             </VStack>
           </div>
           <div className="h-full w-full">
             <VStack justifyContent="space-between" className="mt-[10%] h-[90%] w-full">
-              <BattlerPreviewSafe
-                item={projects[1]}
-                onClick={() => {
-                  setProjectIndex(1);
-                  setTimeout(() => {
-                    setActionDialogText(onBattlerPreviewActionDialogText);
-                  }, 10);
-                }}
-              />
-              <BattlerPreviewSafe
-                item={projects[3]}
-                onClick={() => {
-                  setProjectIndex(3);
-                  setTimeout(() => {
-                    setActionDialogText(onBattlerPreviewActionDialogText);
-                  }, 10);
-                }}
-              />
-              <BattlerPreviewSafe
-                item={projects[5]}
-                onClick={() => {
-                  setProjectIndex(5);
-                  setTimeout(() => {
-                    setActionDialogText(onBattlerPreviewActionDialogText);
-                  }, 10);
-                }}
-              />
+              <BattlerPreviewSafe item={projects[1]} onClick={() => onProjectSelect(1)} />
+              <BattlerPreviewSafe item={projects[3]} onClick={() => onProjectSelect(3)} />
+              <BattlerPreviewSafe item={projects[5]} onClick={() => onProjectSelect(5)} />
             </VStack>
           </div>
         </HStack>

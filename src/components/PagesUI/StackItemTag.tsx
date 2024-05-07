@@ -17,6 +17,7 @@ const stackItemStyles: {
   react: { borderColor: "border-teal-200", bgColor: "bg-teal-500", text: "React" },
   typescript: { borderColor: "border-blue-200", bgColor: "bg-blue-500", text: "TypeScript" },
   javascript: { borderColor: "border-yellow-200", bgColor: "bg-yellow-500", text: "JavaScript" },
+  framer: { borderColor: "border-pink-300", bgColor: "bg-pink-600", text: "Framer Motion" },
 };
 
 const StackItemTag = ({ stackItem }: { stackItem: StackItem }) => {

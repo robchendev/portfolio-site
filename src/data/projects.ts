@@ -12,7 +12,8 @@ export type StackItem =
   | "graphql"
   | "discordapi"
   | "html"
-  | "css";
+  | "css"
+  | "framer";
 
 export type BattleMove = {
   name: string;
@@ -43,7 +44,7 @@ const projects: ProjectInfo[] = [
     shortName: "Portfolio",
     description:
       "This portfolio website, showcasing my projects, open-source contributions, commissions and work experience. Designed to closely replicate POKéMON battle UI.",
-    stack: ["typescript", "react", "nextjs"],
+    stack: ["typescript", "react", "nextjs", "framer"],
     battleImage: "/img/sadpepe.png",
     imageUrls: [
       "/img/visual2.png",
