@@ -1,9 +1,9 @@
 import React from "react";
-import { BattlerPanel, EnemyBattlerPanel } from "./BattlerPanel";
+import { BattlerPanel } from "./BattlerPanel";
 import EnemyPlatform from "./EnemyPlatform";
 import BattleBackground from "./BattleBackground";
-import { BattlerWrapper, BattlerWrapperEnemy } from "./BattlerWrapper";
-import { Flex, Image } from "@chakra-ui/react";
+import { BattlerWrapper } from "./BattlerWrapper";
+import { Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { ENEMY_INIT_HEALTH, useActionContext } from "@/context/ActionContext";
 import {
@@ -13,6 +13,9 @@ import {
   enemyDeathVariants,
   enemyVariants,
 } from "@/data/animations";
+import EnemyPanel from "./EnemyPanel";
+import EnemyWrapper from "./EnemyWrapper";
+import Image from "next/image";
 
 const CombatScene = () => {
   const {
@@ -71,8 +74,12 @@ const CombatScene = () => {
                 animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
                 variants={enemyVariants}
               >
-                {/* TODO: CHANGE TO NEXT IMAGE */}
-                <Image src={getEnemyImage()} alt="Image of me - This image has not been made yet" />
+                <Image
+                  src={getEnemyImage()}
+                  width="200"
+                  height="200"
+                  alt="Image of me - This image has not been made yet"
+                />
               </motion.div>
             </motion.div>
           </Flex>
@@ -89,14 +96,12 @@ const CombatScene = () => {
 
         {/* Enemy Pokemon Info */}
         <div className="h-full w-full absolute top-[12%] drop-shadow-[4px_4px_1px_rgba(0,0,0,0.25)]">
-          <BattlerWrapperEnemy>
-            <EnemyBattlerPanel
-              name="Robert's Unemployment"
-              health={enemyHealth}
-              maxHealth={ENEMY_INIT_HEALTH}
-              level={25}
-            />
-          </BattlerWrapperEnemy>
+          <EnemyPanel
+            name="Robert's Unemployment"
+            health={enemyHealth}
+            maxHealth={ENEMY_INIT_HEALTH}
+            level={25}
+          />
         </div>
 
         {/* Ally Pokemon */}
@@ -120,6 +125,8 @@ const CombatScene = () => {
                   variants={allyVariants}
                 >
                   <Image
+                    width="300"
+                    height="300"
                     src={battler.battleImage}
                     alt="Portfolio Image - This image has not been made yet"
                   />
@@ -129,12 +136,9 @@ const CombatScene = () => {
           </Flex>
         </div>
 
-        {/* TODO: Animate this upon switching */}
         {/* Ally Pokemon Info */}
         <div className="h-full w-full absolute top-[67%] drop-shadow-[5px_5px_1px_rgba(0,0,0,0.25)]">
-          <BattlerWrapper>
-            <BattlerPanel battler={battler} />
-          </BattlerWrapper>
+          <BattlerPanel battler={battler} />
         </div>
       </div>
     </div>
