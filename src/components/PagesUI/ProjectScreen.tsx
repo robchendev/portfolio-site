@@ -170,7 +170,7 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
           <div className="h-full">
             {/* Subscreen Selector Tabs */}
             <div className="bg-gradient-to-b from-gray-300 to-white h-[12%]">
-              <HStack className="h-full pl-3" spacing={1}>
+              <HStack className="h-full pl-2" spacing={2}>
                 <TabButton
                   color="green"
                   isActive={subscreen === "info"}

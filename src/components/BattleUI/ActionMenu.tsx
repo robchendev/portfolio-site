@@ -6,6 +6,7 @@ import { useActionContext } from "@/context/ActionContext";
 import CancelButton from "./CancelButton";
 import ActionFightMenu from "./ActionFightMenu";
 import SwitchButton from "./SwitchButton";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
   const {
@@ -22,6 +23,8 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     projectIndex,
     projects,
     onProjectSwitch,
+    personalizedName,
+    setPersonalizedName,
   } = useActionContext();
 
   const chosenProjectIsDead = !projects[projectIndex]?.health;
@@ -29,6 +32,24 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     // @ts-ignore
     return () => clearTimeout(window.secondTextTimeout);
   }, [screen]);
+
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const campaign = searchParams.get("c");
+
+  useEffect(() => {
+    if (campaign) {
+      setPersonalizedName(campaign);
+      setActionDialogText(`What will ${campaign} do?`);
+      router.push(pathname);
+    } else {
+      setActionDialogText(`What will you do?`);
+    }
+    // Add /?campaign=your_custom_value to the base url
+    // to give the user a personalized name
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="relative h-full border-t-[0.5rem] border-black">
@@ -47,7 +68,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     className="flex justify-center h-full"
                     onClick={() => {
                       onProjectClose();
-                      setActionDialogText("What will you do?");
+                      setActionDialogText(`What will ${personalizedName} do?`);
                       setTimeout(() => {
                         setIsFightMenu(false);
                       }, 10);
@@ -74,7 +95,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                         if (screen === "fight") {
                           setIsFightMenu(true);
                         } else {
-                          setActionDialogText("What will you do?");
+                          setActionDialogText(`What will ${personalizedName} do?`);
                         }
                         setTimeout(() => {
                           setScreen("fight");
@@ -126,7 +147,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   className="flex justify-center h-full"
                   onClick={() => {
                     onProjectClose();
-                    setActionDialogText("What will you do?");
+                    setActionDialogText(`What will ${personalizedName} do?`);
                     setTimeout(() => {
                       setScreen("fight");
                     }, 10);
@@ -191,7 +212,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 className="flex justify-center w-full h-full -mt-[0.175rem]"
                 onClick={() => {
                   onProjectClose();
-                  setActionDialogText("What will you do?");
+                  setActionDialogText(`What will ${personalizedName} do?`);
                   // setTimeout(() => {
                   //   setScreen("projects");
                   // }, 10);

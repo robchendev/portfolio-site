@@ -1,5 +1,6 @@
 import { ScreenTypes } from "@/components/BattleUI/BattleUI";
 import { default as projectList, ProjectInfo, BattleMove } from "@/data/projects";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, {
   createContext,
   useContext,
@@ -49,6 +50,8 @@ interface CombinedContextType {
   setWinner: (val: "ally" | "enemy" | undefined) => void;
   isFightOver: boolean;
   setIsFightOver: (val: boolean) => void;
+  personalizedName: string;
+  setPersonalizedName: (val: string) => void;
   resetBattle: () => void;
 }
 
@@ -73,9 +76,10 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [battler, setBattler] = useState<ProjectInfo>(projectList[0]);
   const [isFightMenu, setIsFightMenu] = useState(false);
   const [isFightOver, setIsFightOver] = useState(false);
+  const [personalizedName, setPersonalizedName] = useState("you");
 
   // Action Bar
-  const [actionDialogText, setActionDialogText] = useState("This portfolio is under development.");
+  const [actionDialogText, setActionDialogText] = useState("");
   const [showActionMenu, setShowActionMenu] = useState(true);
 
   // Enemy HP
@@ -114,7 +118,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setScreen("fight");
     await recoverHp();
     setWinner(undefined);
-    setActionDialogText("What will you do?");
+    setActionDialogText(`What will ${personalizedName} do?`);
     setAnimateEnemyDeath(false);
     setAnimateAllyDeath(false);
   };
@@ -313,7 +317,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       } else {
         setShowActionMenu(true);
         setTimeout(() => {
-          setActionDialogText("What will you do?");
+          setActionDialogText(`What will ${personalizedName} do?`);
         }, 10);
       }
     },
@@ -396,7 +400,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       await delay(300);
 
       if (prevBattlerDied) {
-        setActionDialogText("What will you do?");
+        setActionDialogText(`What will ${personalizedName} do?`);
         setShowActionMenu(true);
       } else {
         await triggerEnemyAttack(false, projects);
@@ -441,6 +445,8 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setWinner,
         isFightOver,
         setIsFightOver,
+        personalizedName,
+        setPersonalizedName,
         resetBattle,
       }}
     >
