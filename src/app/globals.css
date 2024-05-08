@@ -41,3 +41,29 @@ body {
   background-size: var(--size) var(--size);
   background-position: 0 0, 0 var(--step), var(--step) var(--rev-step), var(--rev-step) 0px;
 }
+
+.stripes {
+  --color: rgba(0, 0, 0, 0.06);
+  --step: 9px;
+  --step2: calc(var(--step) * 2);
+  background: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent var(--step),
+    var(--color) var(--step),
+    var(--color) var(--step2)
+  );
+}
+
+.stripes-preview {
+  --color: rgba(0, 0, 0, 0.04);
+  --step: 7px;
+  --step2: calc(var(--step) * 2);
+  background: repeating-linear-gradient(
+    135deg,
+    transparent,
+    transparent var(--step),
+    var(--color) var(--step),
+    var(--color) var(--step2)
+  );
+}

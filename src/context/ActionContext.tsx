@@ -261,6 +261,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         const startTime = Date.now();
         const initialHealth = type === "enemy" ? enemyHealthRef.current : battlerRef.current.health;
         const targetHealth = initialHealth - hpChange;
+        let updatedProjects = projects;
 
         const updateHealth = (newHealth: number) => {
           if (type === "enemy") {
@@ -286,6 +287,14 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
           } else {
             // Ensuring the final health is accurately set to the target
             updateHealth(targetHealth);
+            const updatedBattler = {
+              ...battlerRef.current,
+              health: targetHealth,
+            };
+            updatedProjects = projects.map((project) =>
+              project.name === battlerRef.current.name ? updatedBattler : project
+            );
+            setProjects(updatedProjects);
             resolve();
           }
         };
@@ -293,7 +302,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         requestAnimationFrame(animate);
       });
     },
-    [setEnemyHealth, setBattler]
+    [setEnemyHealth, setBattler, projects]
   );
 
   // Animation functions

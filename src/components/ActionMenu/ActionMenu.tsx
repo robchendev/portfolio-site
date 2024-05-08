@@ -197,7 +197,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
           {/* Battler is dead */}
           {!isFightOver && projectIndex !== -1 && screen === "projects" && battler.health === 0 && (
             <VStack className="w-1/4 h-full pr-2 -ml-2" spacing={0}>
-              NO
               <div
                 className="flex justify-center w-full h-full -mb-[0.175rem]"
                 onClick={() => {
@@ -214,7 +213,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 className="flex justify-center w-full h-full -mt-[0.175rem]"
                 onClick={() => {
                   onProjectClose();
-                  setActionDialogText(`What will ${personalizedName} do?`);
+                  setActionDialogText(`Select the next project.`);
                 }}
               >
                 <CancelButton />
