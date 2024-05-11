@@ -105,6 +105,7 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
               src={selectedImage}
               height={1000}
               width={1500}
+              unoptimized
               alt={project.shortName + " image"}
               onLoadingComplete={() => {
                 setIsImageLoading(false);
