@@ -42,7 +42,7 @@ const ApplicantCard = () => {
               <CardDetail left="graduated" right="Dec. 16, 2023" />
             </VStack>
             <div className="w-1/3 h-full overflow-hidden relative rounded-[14px] bg-[rgba(255,255,255,0.4)]">
-              <Image src="/img/sadpepe.png" fill alt="job seeker" />
+              <Image src="/img/pfp.jpeg" width={500} height={500} alt="job seeker" />
             </div>
           </HStack>
         </VStack>

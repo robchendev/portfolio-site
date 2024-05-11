@@ -34,14 +34,14 @@ const CombatScene = () => {
   // Gradually make me happier as my unemployment's HP gets lower
   const getEnemyImage = () => {
     const hpPercent = (enemyHealth / ENEMY_INIT_HEALTH) * 100;
-    let imgSrc = "/img/sadpepe.png";
-    if (hpPercent <= 25) {
-      imgSrc = "/img/pepestare.png";
-    } else if (hpPercent <= 50) {
-      imgSrc = "/img/pepeworried.png";
-    } else if (hpPercent <= 75) {
-      imgSrc = "/img/amogus.png";
-    }
+    let imgSrc = "/img/placeholder.png";
+    // if (hpPercent <= 25) {
+    //   imgSrc = "/img/pepestare.png";
+    // } else if (hpPercent <= 50) {
+    //   imgSrc = "/img/pepeworried.png";
+    // } else if (hpPercent <= 75) {
+    //   imgSrc = "/img/amogus.png";
+    // }
     return imgSrc;
   };
 
@@ -127,7 +127,8 @@ const CombatScene = () => {
                   <Image
                     width="300"
                     height="300"
-                    src={battler.battleImage}
+                    // src={battler.battleImage}
+                    src="/img/placeholder.png"
                     alt="Portfolio Image - This image has not been made yet"
                   />
                 </motion.div>
