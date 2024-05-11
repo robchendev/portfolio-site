@@ -84,15 +84,11 @@ const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
 const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   const [selectedImage, setSelectedImage] = useState(project.imageUrls[0]);
   const [isImageLoading, setIsImageLoading] = useState(true);
-  const [timeoutId, setTimeoutId] = useState<number | null>(null);
 
   const handleSelectImage = (imageUrl: string) => {
     if (selectedImage !== imageUrl) {
       setSelectedImage(imageUrl);
-      const newTimeoutId = setTimeout(() => {
-        setIsImageLoading(false);
-      }, 80) as unknown as number;
-      setTimeoutId(newTimeoutId);
+      setIsImageLoading(false);
     }
   };
   return (
@@ -111,9 +107,6 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
               width={1500}
               alt={project.shortName + " image"}
               onLoadingComplete={() => {
-                if (timeoutId) {
-                  clearTimeout(timeoutId);
-                }
                 setIsImageLoading(false);
               }}
               className="absolute top-0 left-0 w-full h-full object-contain"
@@ -165,7 +158,41 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   );
 };
 
-const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {};
+const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
+  const { projects } = useActionContext();
+  const thisProject = projects.find((p: ProjectInfo) => p.name === project.name);
+  return (
+    <section className="h-full bg-violet-300 checkerboard rounded-md px-4 py-3">
+      {/* TODO */}
+      {/* <div>Battle image here</div> */}
+      <h1 className="text-[2.25rem] leading-10">{project.name}</h1>
+      <h2 className="text-[2.25rem]">Lv.{project.level}</h2>
+      {thisProject && (
+        <div>
+          <div className="h-8">
+            <HitPointsBar hpVal={thisProject.health} maxHpVal={project.maxHealth} />
+          </div>
+          <p className="text-[2.25rem] leading-12">
+            {thisProject.health} / {project.maxHealth}
+          </p>
+        </div>
+      )}
+      <h2 className="text-[2.25rem]">Battle Moves:</h2>
+      <ul>
+        {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
+          <li
+            key={index}
+            className={`text-4xl ${
+              index % 2 == 0 ? "bg-[rgba(255,255,255,0.7)]" : "bg-[rgba(255,255,255,0.5)]"
+            }`}
+          >
+            {battleMove.name}, Power: {battleMove.power}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+};
 
 const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
