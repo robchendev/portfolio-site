@@ -1,5 +1,5 @@
 import { BattleMove, ProjectInfo, StackItem } from "@/data/projects";
-import { Flex, HStack, Text, VStack, Wrap } from "@chakra-ui/react";
+import { Flex, HStack, Spinner, Text, VStack, Wrap } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import StackItemTag from "../Elements/StackItemTag";
 import { MdOutlineImage, MdOutlineInfo, MdOutlineLock, MdOutlineOpenInNew } from "react-icons/md";
@@ -83,6 +83,18 @@ const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
 
 const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   const [selectedImage, setSelectedImage] = useState(project.imageUrls[0]);
+  const [isImageLoading, setIsImageLoading] = useState(true);
+  const [timeoutId, setTimeoutId] = useState<number | null>(null);
+
+  const handleSelectImage = (imageUrl: string) => {
+    if (selectedImage !== imageUrl) {
+      setSelectedImage(imageUrl);
+      const newTimeoutId = setTimeout(() => {
+        setIsImageLoading(false);
+      }, 80) as unknown as number;
+      setTimeoutId(newTimeoutId);
+    }
+  };
   return (
     <section className="h-full bg-blue-300 checkerboard rounded-md flex justify-center">
       {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
@@ -91,15 +103,26 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
       <div>{project.imageUrls?.toString()}</div> */}
       {project.imageUrls.length ? (
         <>
-          <div className="h-full w-3/4">
+          <div className="h-full w-3/4 relative">
             <Image
               loading="eager"
               src={selectedImage}
               height={1000}
               width={1500}
-              alt={project.shortName + " Image"}
-              className="w-full h-full object-contain"
+              alt={project.shortName + " image"}
+              onLoadingComplete={() => {
+                if (timeoutId) {
+                  clearTimeout(timeoutId);
+                }
+                setIsImageLoading(false);
+              }}
+              className="absolute top-0 left-0 w-full h-full object-contain"
             />
+            {isImageLoading && (
+              <div className="absolute text-[4rem] top-0 gap-2 left-0 w-full h-full flex justify-center items-center">
+                <Spinner color="red.500" emptyColor="white" thickness="8px" speed=".5s" size="xl" />
+              </div>
+            )}
           </div>
           <div className="h-full w-1/4 overflow-y-scroll p-1">
             {/* <ScrollContainer className="list flex overflow-auto" hideScrollbars={false}> */}
@@ -116,13 +139,13 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
                       ? "border-black border-2"
                       : "border-2 border-transparent"
                   } rounded-md flex-shrink-0 overflow-hidden bg-placeholder-light dark:bg-placeholder-dark`}
-                  onClick={() => setSelectedImage(imageUrl)}
+                  onClick={() => handleSelectImage(imageUrl)}
                 >
                   <Image
                     loading="eager"
                     src={imageUrl}
-                    height={300}
-                    width={300}
+                    height={200}
+                    width={200}
                     alt={project.shortName + " Image"}
                     className={`cursor-pointer ${
                       imageUrl === selectedImage ? "brightness-100 " : "brightness-75"
@@ -142,41 +165,7 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   );
 };
 
-const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
-  const { projects } = useActionContext();
-  const thisProject = projects.find((p: ProjectInfo) => p.name === project.name);
-  return (
-    <section className="h-full bg-violet-300 checkerboard rounded-md px-4 py-3">
-      {/* TODO */}
-      {/* <div>Battle image here</div> */}
-      <h1 className="text-[2.25rem] leading-10">{project.name}</h1>
-      <h2 className="text-[2.25rem]">Lv.{project.level}</h2>
-      {thisProject && (
-        <div>
-          <div className="h-8">
-            <HitPointsBar hpVal={thisProject.health} maxHpVal={project.maxHealth} />
-          </div>
-          <p className="text-[2.25rem] leading-12">
-            {thisProject.health} / {project.maxHealth}
-          </p>
-        </div>
-      )}
-      <h2 className="text-[2.25rem]">Battle Moves:</h2>
-      <ul>
-        {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
-          <li
-            key={index}
-            className={`text-4xl ${
-              index % 2 == 0 ? "bg-[rgba(255,255,255,0.7)]" : "bg-[rgba(255,255,255,0.5)]"
-            }`}
-          >
-            {battleMove.name}, Power: {battleMove.power}
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-};
+const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {};
 
 const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
