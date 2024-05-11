@@ -15,9 +15,12 @@ const stackItemStyles: {
   electron: { borderColor: "border-cyan-200", bgColor: "bg-cyan-500", text: "Electron" },
   mongodb: { borderColor: "border-green-200", bgColor: "bg-green-500", text: "MongoDB" },
   react: { borderColor: "border-teal-200", bgColor: "bg-teal-500", text: "React" },
-  typescript: { borderColor: "border-blue-200", bgColor: "bg-blue-500", text: "TypeScript" },
-  javascript: { borderColor: "border-yellow-200", bgColor: "bg-yellow-500", text: "JavaScript" },
+  typescript: { borderColor: "border-blue-200", bgColor: "bg-blue-500", text: "TS" },
+  javascript: { borderColor: "border-yellow-200", bgColor: "bg-yellow-500", text: "JS" },
   framer: { borderColor: "border-pink-300", bgColor: "bg-pink-600", text: "Framer Motion" },
+  postgresql: { borderColor: "border-sky-300", bgColor: "bg-sky-700", text: "PostgreSQL" },
+  zustand: { borderColor: "border-amber-200", bgColor: "bg-amber-500", text: "Zustand" },
+  vite: { borderColor: "border-fuchsia-300", bgColor: "bg-fuchsia-600", text: "Vite" },
 };
 
 const StackItemTag = ({ stackItem }: { stackItem: StackItem }) => {

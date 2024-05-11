@@ -8,8 +8,8 @@ const ApplicantCard = () => {
   // This wrapping div is necessary because of a safari bug
   // https://github.com/tailwindlabs/tailwindcss/discussions/5675
   return (
-    <div className="bg-white ml-2 w-3/4 h-full rounded-[25px] p-1">
-      <VStack className="bg-[#de6363] overflow-hidden fix-safari h-full w-full p-3 rounded-[21px]">
+    <div className="bg-white border-black border-[6px] ml-2 w-3/4 h-full rounded-[25px] p-1">
+      <VStack className="bg-[#de6363] overflow-hidden fix-safari h-full w-full p-3 rounded-[16px]">
         <PokeballFill
           size={560}
           fill="#efb563"
@@ -33,7 +33,11 @@ const ApplicantCard = () => {
           <HStack className="w-full h-full" align="flex-start" justify="space-between" gap={4}>
             <VStack className="w-3/4">
               <CardDetail left="name" right="Robert Chen" />
-              <CardDetail left="email" right="robchendev@gmail.com" />
+              <CardDetail
+                left="email"
+                right="robchendev@gmail.com"
+                href="mailto:robchendev@gmail.com?subject=👋 Hi Robert, let's talk"
+              />
               <CardDetail left="money" right="$0.00" />
               <CardDetail left="graduated" right="Dec. 16, 2023" />
             </VStack>
@@ -42,10 +46,12 @@ const ApplicantCard = () => {
             </div>
           </HStack>
         </VStack>
-        <div className="mt-2 w-full h-full text-[1.8rem] bg-[rgba(255,255,255,0.4)] rounded-[14px] leading-10 px-2 py-1.5 text-gray-800">
-          <p className="drop-shadow-[2px_1px_0.5px_rgba(255,255,255,.8)]">
-            &quot;Something about myself, written in a long form paragraph that spans multiple
-            lines.&quot;
+        <div className="w-full h-full text-[1.8rem] bg-[rgba(255,255,255,0.4)] rounded-[14px] leading-[2.25rem] px-2 py-1.5 text-gray-800">
+          <p className="drop-shadow-[1.5px_1px_0.5px_rgba(255,255,255,.8)]">
+            {/* &quot;Something about myself, written in a long form paragraph that spans multiple
+            lines.&quot; */}
+            &quot;Hi, thank you for visiting my portfolio! I&apos;m a freelance full-stack web
+            developer seeking permanent employment opportunities.&quot;
           </p>
         </div>
       </VStack>

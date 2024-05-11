@@ -81,45 +81,53 @@ const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
 const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   const [selectedImage, setSelectedImage] = useState(project.imageUrls[0]);
   return (
-    <section className="h-full bg-blue-300 checkerboard rounded-md px-4 py-3 flex justify-center">
+    <section className="h-full bg-blue-300 checkerboard rounded-md flex justify-center">
       {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
       {/* <figure>IMAGES</figure>
       <figcaption>img caption</figcaption>
       <div>{project.imageUrls?.toString()}</div> */}
-      <div className="h-full w-3/4 border-2 border-r-0 border-red-500 ">
-        <Image
-          loading="eager"
-          src={selectedImage}
-          height={300}
-          width={300}
-          alt={project.shortName + " Image"}
-          className="w-full h-full object-contain"
-        />
-      </div>
-      <div className="h-full w-1/4 overflow-y-scroll">
-        {/* <ScrollContainer className="list flex overflow-auto" hideScrollbars={false}> */}
-        {/* Onclick should open a lightbox */}
-        <VStack spacing={1}>
-          {project.imageUrls?.map((imageUrl: string, index: number) => (
-            <figure
-              key={index}
-              className="flex-shrink-0 overflow-hidden bg-placeholder-light dark:bg-placeholder-dark"
-              onClick={() => setSelectedImage(imageUrl)}
-            >
-              <Image
-                loading="eager"
-                src={imageUrl}
-                height={300}
-                width={300}
-                alt={project.shortName + " Image"}
-                className={`cursor-pointer ${
-                  imageUrl === selectedImage ? "brightness-100" : "brightness-75"
-                } hover:brightness-100 transition duration-300`}
-              />
-            </figure>
-          ))}
-        </VStack>
-      </div>
+      {project.imageUrls.length ? (
+        <>
+          <div className="h-full w-3/4">
+            <Image
+              loading="eager"
+              src={selectedImage}
+              height={300}
+              width={300}
+              alt={project.shortName + " Image"}
+              className="w-full h-full object-contain"
+            />
+          </div>
+          <div className="h-full w-1/4 overflow-y-scroll">
+            {/* <ScrollContainer className="list flex overflow-auto" hideScrollbars={false}> */}
+            {/* Onclick should open a lightbox */}
+            <VStack spacing={1}>
+              {project.imageUrls?.map((imageUrl: string, index: number) => (
+                <figure
+                  key={index}
+                  className="flex-shrink-0 overflow-hidden bg-placeholder-light dark:bg-placeholder-dark"
+                  onClick={() => setSelectedImage(imageUrl)}
+                >
+                  <Image
+                    loading="eager"
+                    src={imageUrl}
+                    height={300}
+                    width={300}
+                    alt={project.shortName + " Image"}
+                    className={`cursor-pointer ${
+                      imageUrl === selectedImage ? "brightness-100" : "brightness-75"
+                    } hover:brightness-100 transition duration-300`}
+                  />
+                </figure>
+              ))}
+            </VStack>
+          </div>
+        </>
+      ) : (
+        <div className="flex justify-center items-center text-[3rem]">
+          This project has no images to show
+        </div>
+      )}
     </section>
   );
 };

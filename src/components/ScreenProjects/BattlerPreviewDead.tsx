@@ -45,7 +45,7 @@ export const BattlerPreviewDead = ({
         <PokeballBottom size={70} />
       </div>
       <div className={`absolute bottom-0 left-0 pointer-events-none bg-black text-white`}>
-        Lv.{item.level}
+        {/* Lv.{item.level} */}
       </div>
     </div>
   );
