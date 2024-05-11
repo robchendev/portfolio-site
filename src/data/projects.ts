@@ -113,7 +113,8 @@ const projects: ProjectInfo[] = [
     enabled: true,
     name: "Vikelabs Dashboard",
     shortName: "Vikes Dashboard",
-    description: "",
+    description:
+      "Software club administrative web app that gives members of the club tiered access to member, team lead and admin dashboards. Team leads can edit their project's detail including title, description, tech stack, images and members, and submit the changes for admin approval.",
     stack: ["typescript", "react", "nextjs", "postgresql"],
     battleImage: "",
     imageUrls: [
