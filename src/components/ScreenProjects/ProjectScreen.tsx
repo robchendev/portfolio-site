@@ -88,7 +88,7 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
   const handleSelectImage = (imageUrl: string) => {
     if (selectedImage !== imageUrl) {
       setSelectedImage(imageUrl);
-      setIsImageLoading(false);
+      setIsImageLoading(true);
     }
   };
   return (
