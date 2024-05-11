@@ -16,6 +16,9 @@ import {
   RiSwordFill,
   RiSwordLine,
 } from "react-icons/ri";
+import { BiDownArrow } from "react-icons/bi";
+import { FaArrowDown } from "react-icons/fa";
+import HitPointsBar from "../Elements/HitPointsBar";
 
 type Subscreen = "info" | "images" | "forms";
 
@@ -92,20 +95,27 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
             <Image
               loading="eager"
               src={selectedImage}
-              height={300}
-              width={300}
+              height={1000}
+              width={1500}
               alt={project.shortName + " Image"}
               className="w-full h-full object-contain"
             />
           </div>
-          <div className="h-full w-1/4 overflow-y-scroll">
+          <div className="h-full w-1/4 overflow-y-scroll p-1">
             {/* <ScrollContainer className="list flex overflow-auto" hideScrollbars={false}> */}
             {/* Onclick should open a lightbox */}
             <VStack spacing={1}>
+              <h2 className="px-2 flex justify-between items-center text-[2rem] w-full h-full bg-yellow-100 text-center rounded-md ">
+                <FaArrowDown /> Scroll <FaArrowDown />
+              </h2>
               {project.imageUrls?.map((imageUrl: string, index: number) => (
                 <figure
                   key={index}
-                  className="flex-shrink-0 overflow-hidden bg-placeholder-light dark:bg-placeholder-dark"
+                  className={`${
+                    imageUrl === selectedImage
+                      ? "border-black border-2"
+                      : "border-2 border-transparent"
+                  } rounded-md flex-shrink-0 overflow-hidden bg-placeholder-light dark:bg-placeholder-dark`}
                   onClick={() => setSelectedImage(imageUrl)}
                 >
                   <Image
@@ -115,7 +125,7 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
                     width={300}
                     alt={project.shortName + " Image"}
                     className={`cursor-pointer ${
-                      imageUrl === selectedImage ? "brightness-100" : "brightness-75"
+                      imageUrl === selectedImage ? "brightness-100 " : "brightness-75"
                     } hover:brightness-100 transition duration-300`}
                   />
                 </figure>
@@ -133,16 +143,34 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
 };
 
 const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
+  const { projects } = useActionContext();
+  const thisProject = projects.find((p: ProjectInfo) => p.name === project.name);
   return (
     <section className="h-full bg-violet-300 checkerboard rounded-md px-4 py-3">
-      {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
-      {/* RENDER MARKDOWN? */}
-      {/* COMBAT POWER AND ABILITIES<div>{project.description}</div> */}
-      {/* Move:Power:Type */}
+      {/* TODO */}
+      {/* <div>Battle image here</div> */}
+      <h1 className="text-[2.25rem] leading-10">{project.name}</h1>
+      <h2 className="text-[2.25rem]">Lv.{project.level}</h2>
+      {thisProject && (
+        <div>
+          <div className="h-8">
+            <HitPointsBar hpVal={thisProject.health} maxHpVal={project.maxHealth} />
+          </div>
+          <p className="text-[2.25rem] leading-12">
+            {thisProject.health} / {project.maxHealth}
+          </p>
+        </div>
+      )}
+      <h2 className="text-[2.25rem]">Battle Moves:</h2>
       <ul>
         {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
-          <li key={index} className={`text-4xl ${index % 2 == 0 ? "bg-white" : "bg-slate-200"}`}>
-            Name: {battleMove.name}, Power: {battleMove.power}
+          <li
+            key={index}
+            className={`text-4xl ${
+              index % 2 == 0 ? "bg-[rgba(255,255,255,0.7)]" : "bg-[rgba(255,255,255,0.5)]"
+            }`}
+          >
+            {battleMove.name}, Power: {battleMove.power}
           </li>
         ))}
       </ul>
