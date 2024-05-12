@@ -12,7 +12,7 @@ const HitPointsBar = ({ hpVal, maxHpVal }: { hpVal: number; maxHpVal: number }) 
 
   return (
     <HStack
-      className="bg-gray-700 rounded w-full h-full px-1 py-[0.3rem] drop-shadow-[2px_2px_1px_rgba(0,0,0,.15)]"
+      className="bg-slate-800 rounded w-full h-full px-1 py-[0.3rem] drop-shadow-[2px_2px_1px_rgba(0,0,0,.15)]"
       spacing={1.5}
     >
       <div className="text-amber-400 font-extrabold tracking-wide leading-none">HP</div>

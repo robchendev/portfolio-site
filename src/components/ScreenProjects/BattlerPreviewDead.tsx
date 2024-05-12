@@ -12,10 +12,10 @@ export const BattlerPreviewDead = ({
   onClick: () => void;
 }) => {
   return (
-    <div className="w-full h-full relative" onClick={onClick}>
+    <div className="w-full h-full relative group" onClick={onClick}>
       <div className="absolute w-full h-full">
         <div
-          className={`group bg-gradient-to-t from-slate-600 from-35% to-slate-700 to-60% w-full h-full border-[3px] border-cyan-900 hover:border-red-500 rounded-ss-[38px] cursor-pointer`}
+          className={` bg-gradient-to-t from-slate-600 from-35% to-slate-700 to-60% w-full h-full border-[3px] border-cyan-900 hover:border-red-500 rounded-ss-[38px] cursor-pointer`}
         >
           <div className=" border-slate-400 border-[5px] group-hover:border-red-500 h-full w-full px-4 py-3 rounded-ss-[35px]"></div>
         </div>
@@ -33,6 +33,20 @@ export const BattlerPreviewDead = ({
             {item.health} / {item.maxHealth}
           </p>
         </VStack>
+      </div>
+      <div
+        className={`absolute bottom-[6px] left-[6px] pointer-events-none h-[33.2%] w-[24.5%] overflow-hidden`}
+      >
+        <div className="h-full w-full bg-slate-400 group-hover:bg-rose-500 skew-x-[36deg] -ml-4">
+          <div className="h-full w-full flex items-center ml-5 -skew-x-[36deg] text-white text-3xl" />
+        </div>
+      </div>
+      <div className={`absolute bottom-0 left-0 pointer-events-none h-1/3 w-1/4 overflow-hidden`}>
+        <div className="h-full w-full bg-slate-800 skew-x-[36deg] -ml-4">
+          <div className="h-full w-full flex items-center ml-5 -skew-x-[36deg] text-white text-3xl">
+            Lv.{item.level}
+          </div>
+        </div>
       </div>
       <div
         className={`absolute w-full h-full top-[4px] left-[4px] pointer-events-none transition-all ease-in-out duration-200`}

@@ -14,16 +14,16 @@ const BattlerPreviewAlive = ({
   isBattling?: boolean;
 }) => {
   return (
-    <div className="w-full h-full relative" onClick={onClick}>
+    <div className="w-full h-full relative group" onClick={onClick}>
       <div className="absolute w-full h-full peer">
         <div
-          className={`group bg-gradient-to-t ${
+          className={` bg-gradient-to-t ${
             isBattling ? "from-green-400" : "from-green-600"
           } from-35% ${
             isBattling ? "to-green-500" : "to-green-700"
-          } to-60% w-full h-full border-[3px] border-cyan-900 hover:border-red-500 rounded-ss-[38px] cursor-pointer`}
+          } to-60% w-full h-full border-[3px] border-slate-800 hover:border-rose-500 rounded-ss-[38px] cursor-pointer`}
         >
-          <div className=" border-green-400 border-[5px] group-hover:border-red-500 rounded-ss-[35px] h-full" />
+          <div className=" border-green-400 border-[5px] group-hover:border-rose-500 rounded-ss-[35px] h-full" />
         </div>
       </div>
       <div className="absolute w-full h-full stripes-preview z-2 px-[24px] py-[20px] pointer-events-none">
@@ -41,6 +41,20 @@ const BattlerPreviewAlive = ({
         </VStack>
       </div>
       <div
+        className={`absolute bottom-[6px] left-[6px] pointer-events-none h-[33.2%] w-[24.5%] overflow-hidden`}
+      >
+        <div className="h-full w-full bg-green-400 group-hover:bg-rose-500 skew-x-[36deg] -ml-4">
+          <div className="h-full w-full flex items-center ml-5 -skew-x-[36deg] text-white text-3xl" />
+        </div>
+      </div>
+      <div className={`absolute bottom-0 left-0 pointer-events-none h-1/3 w-1/4 overflow-hidden`}>
+        <div className="h-full w-full bg-slate-800 skew-x-[36deg] -ml-4">
+          <div className="h-full w-full flex items-center ml-5 -skew-x-[36deg] text-white text-3xl">
+            Lv.{item.level}
+          </div>
+        </div>
+      </div>
+      <div
         className={`absolute top-[4px] left-[4px] pointer-events-none transition-all ease-in-out duration-200 ${
           isBattling && "-mt-2"
         } peer-hover:-mt-2`}
@@ -53,9 +67,6 @@ const BattlerPreviewAlive = ({
         } peer-hover:mt-2`}
       >
         <PokeballBottom size={70} />
-      </div>
-      <div className={`absolute bottom-0 left-0 pointer-events-none bg-black text-white`}>
-        {/* Lv.{item.level} */}
       </div>
     </div>
   );
