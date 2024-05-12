@@ -1,29 +1,21 @@
 import { BattleMove, ProjectInfo, StackItem } from "@/data/projects";
-import { Flex, HStack, Spinner, Text, VStack, Wrap } from "@chakra-ui/react";
+import { HStack, Spinner, VStack, Wrap } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import StackItemTag from "../Elements/StackItemTag";
-import { MdOutlineImage, MdOutlineInfo, MdOutlineLock, MdOutlineOpenInNew } from "react-icons/md";
+import { MdOutlineOpenInNew } from "react-icons/md";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useActionContext } from "@/context/ActionContext";
 import { Pokeball } from "../Elements/Pokeball";
 import TabButton from "../Buttons/TabButton";
-import {
-  RiImage2Fill,
-  RiInformation2Fill,
-  RiInformationFill,
-  RiQuestionFill,
-  RiSwordFill,
-  RiSwordLine,
-} from "react-icons/ri";
-import { BiDownArrow } from "react-icons/bi";
+import { RiImage2Fill, RiInformation2Fill, RiSwordFill } from "react-icons/ri";
 import { FaArrowDown } from "react-icons/fa";
 import HitPointsBar from "../Elements/HitPointsBar";
 
 type Subscreen = "info" | "images" | "forms";
 
 const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
-  const { setActionDialogText } = useActionContext();
+  const { handleActionText } = useActionContext();
   return (
     <VStack className="h-full bg-green-200 checkerboard p-2" justifyContent="space-between">
       <HStack className="w-full" justifyContent="space-between">
@@ -39,10 +31,7 @@ const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
                   className="whitespace-nowrap cursor-pointer text-4xl text-blue-700 underline underline-offset-4"
                   onClick={() => {
                     if (project.deploymentUrl === "https://robchen.dev") {
-                      setActionDialogText("");
-                      setTimeout(() => {
-                        setActionDialogText("You are already on this website!");
-                      }, 10);
+                      handleActionText("You are already on this website!");
                     }
                   }}
                 >

@@ -25,6 +25,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     onProjectSwitch,
     personalizedName,
     setPersonalizedName,
+    handleActionText,
   } = useActionContext();
 
   const chosenProjectIsDead = !projects[projectIndex]?.health;
@@ -41,10 +42,10 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
   useEffect(() => {
     if (campaign) {
       setPersonalizedName(campaign);
-      setActionDialogText(`What will ${campaign} do?`);
+      handleActionText(`What will ${campaign} do?`);
       router.push(pathname);
     } else {
-      setActionDialogText(`What will you do?`);
+      handleActionText(`What will you do?`);
     }
     // Add /?campaign=your_custom_value to the base url
     // to give the user a personalized name
@@ -68,7 +69,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     className="flex justify-center h-full"
                     onClick={() => {
                       onProjectClose();
-                      setActionDialogText(`What will ${personalizedName} do?`);
+                      handleActionText(`What will ${personalizedName} do?`);
                       setTimeout(() => {
                         setIsFightMenu(false);
                       }, 10);
@@ -95,7 +96,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                         if (screen === "fight") {
                           setIsFightMenu(true);
                         } else {
-                          setActionDialogText(`What will ${personalizedName} do?`);
+                          handleActionText(`What will ${personalizedName} do?`);
                         }
                         setTimeout(() => {
                           setScreen("fight");
@@ -107,7 +108,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     text="Experience"
                     color="orange"
                     onClick={() => {
-                      setActionDialogText("Choose an Experience or CANCEL.");
+                      handleActionText("Choose an Experience or CANCEL.");
                       setTimeout(() => {
                         setScreen("experience");
                       }, 10);
@@ -117,7 +118,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     text="Projects"
                     color="green"
                     onClick={() => {
-                      setActionDialogText("Choose a Project or CANCEL.");
+                      handleActionText("Choose a Project or CANCEL.");
                       setTimeout(() => {
                         setScreen("projects");
                       }, 10);
@@ -127,7 +128,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     text="About Me"
                     color="blue"
                     onClick={() => {
-                      setActionDialogText("Click around or CANCEL.");
+                      handleActionText("Click around or CANCEL.");
                       setTimeout(() => {
                         setScreen("about");
                       }, 10);
@@ -148,7 +149,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   className="flex justify-center h-full"
                   onClick={() => {
                     onProjectClose();
-                    setActionDialogText(`What will ${personalizedName} do?`);
+                    handleActionText(`What will ${personalizedName} do?`);
                     setTimeout(() => {
                       setScreen("fight");
                     }, 10);
@@ -168,12 +169,12 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   className="flex justify-center w-full h-full -mb-[0.175rem]"
                   onClick={() => {
                     if (battler.name === projects[projectIndex]?.name) {
-                      setActionDialogText("This project is already in battle!");
+                      handleActionText("This project is already in battle!");
                     }
                     if (!chosenProjectIsDead) {
                       onProjectSwitch();
                     } else {
-                      setActionDialogText("This project is dead!");
+                      handleActionText("This project is dead!");
                     }
                   }}
                 >
@@ -187,7 +188,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   className="flex justify-center w-full h-full -mt-[0.175rem]"
                   onClick={() => {
                     onProjectClose();
-                    setActionDialogText("Select a Project or CANCEL.");
+                    handleActionText("Select a Project or CANCEL.");
                   }}
                 >
                   <CancelButton />
@@ -203,7 +204,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                   if (!chosenProjectIsDead) {
                     onProjectSwitch();
                   } else {
-                    setActionDialogText("This project is dead!");
+                    handleActionText("This project is dead!");
                   }
                 }}
               >
@@ -213,7 +214,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 className="flex justify-center w-full h-full -mt-[0.175rem]"
                 onClick={() => {
                   onProjectClose();
-                  setActionDialogText(`Select the next project.`);
+                  handleActionText("Select the next project.");
                 }}
               >
                 <CancelButton />
@@ -226,7 +227,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 className="flex justify-center h-full"
                 onClick={() => {
                   onProjectClose();
-                  setActionDialogText(`What will ${personalizedName} do?`);
+                  handleActionText(`What will ${personalizedName} do?`);
                   setTimeout(() => {
                     setScreen("fight");
                   }, 10);
@@ -242,7 +243,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 className="flex justify-center h-full"
                 onClick={() => {
                   onProjectClose();
-                  setActionDialogText(`Select a Project or CANCEL.`);
+                  handleActionText("Select a Project or CANCEL.");
                 }}
               >
                 <CancelButton />

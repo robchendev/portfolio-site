@@ -4,15 +4,15 @@ import BattlerPreview from "./BattlerPreview";
 import { useActionContext } from "@/context/ActionContext";
 
 const ProjectScreens = () => {
-  const { setActionDialogText, setProjectIndex, projects, isFightOver } = useActionContext();
+  const { setProjectIndex, projects, isFightOver, handleActionText } = useActionContext();
 
   const onProjectSelect = (i: number) => {
     setProjectIndex(i);
     setTimeout(() => {
       if (isFightOver) {
-        setActionDialogText("View Project details, images, or battle data.");
+        handleActionText("View Project details, images, or battle data.");
       } else {
-        setActionDialogText("View Project information, SWITCH Project into battle, or CANCEL.");
+        handleActionText("View Project information, SWITCH Project into battle, or CANCEL.");
       }
     }, 10);
   };

@@ -50,7 +50,9 @@ interface CombinedContextType {
   personalizedName: string;
   setPersonalizedName: (val: string) => void;
   resetBattle: () => void;
+  handleActionText: (val: string) => Promise<void>;
 }
+// TODO: Change the above to async where necessary like handleActionText
 
 const ActionContext = createContext<CombinedContextType | undefined>(undefined);
 
@@ -113,10 +115,16 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setScreen("fight");
     await recoverHp();
     setWinner(undefined);
-    setActionDialogText(`What will ${personalizedName} do?`);
+    handleActionText(`What will ${personalizedName} do?`);
     setAnimateEnemyDeath(false);
     setAnimateAllyDeath(false);
   };
+
+  const handleActionText = useCallback(async (text: string) => {
+    setActionDialogText("");
+    await delay(10);
+    setActionDialogText(text);
+  }, []);
 
   // Prevention of stale closure on states:
   // If callback functions have async operations or delays
@@ -166,11 +174,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       );
       setProjects(updatedProjects);
       setShowActionMenu(false);
-      // TODO: Refactor next 4 lines into a more streamlined action text setting function
-      setActionDialogText(""); // Clear for smoothness
-      setTimeout(() => {
-        setActionDialogText(`${battler.shortName ?? battler.name}, come back!`);
-      }, 10);
+      handleActionText(`${battler.shortName ?? battler.name}, come back!`);
       setTimeout(() => {
         triggerAllySwitch(projects[projectIndex], false);
       }, 1000);
@@ -183,39 +187,42 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setShowActionMenu(false);
     setAnimateEnemyDeath(true);
     await delay(1000);
-    setActionDialogText(`${enemyData.name} is defeated!`);
+    handleActionText(`${enemyData.name} is defeated!`);
     await delay(2000);
-    setActionDialogText("Congrats, you won!");
+    handleActionText("Congrats, you won!");
     await delay(2000);
     setIsFightMenu(false);
     setIsFightOver(true);
     setShowActionMenu(true);
-  }, []);
+  }, [handleActionText]);
 
-  const triggerBattlerDeath = useCallback(async (updatedProjects: ProjectInfo[]) => {
-    setShowActionMenu(false);
-    await delay(1000);
-    setAnimateAllyDeath(true);
-    await delay(1000);
-    setActionDialogText(`${battlerRef.current.shortName ?? battlerRef.current.name} is defeated!`);
-    await delay(1000);
-    // Open projects screen if one battler still alive. Otherwise, game over
-    const allDead = updatedProjects.every((project) => project.health === 0 || !project.enabled);
-    if (allDead) {
-      setWinner("enemy");
+  const triggerBattlerDeath = useCallback(
+    async (updatedProjects: ProjectInfo[]) => {
+      setShowActionMenu(false);
       await delay(1000);
-      setActionDialogText("All your projects are dead!");
-      await delay(2000);
-      setActionDialogText("You lost!");
-      await delay(2000);
-      setIsFightMenu(false);
-      setIsFightOver(true);
-      setShowActionMenu(true);
-    } else {
-      setScreen("projects");
-      setActionDialogText("Select the next Project.");
-    }
-  }, []);
+      setAnimateAllyDeath(true);
+      await delay(1000);
+      handleActionText(`${battlerRef.current.shortName ?? battlerRef.current.name} is defeated!`);
+      await delay(1000);
+      // Open projects screen if one battler still alive. Otherwise, game over
+      const allDead = updatedProjects.every((project) => project.health === 0 || !project.enabled);
+      if (allDead) {
+        setWinner("enemy");
+        await delay(1000);
+        handleActionText("All your projects are dead!");
+        await delay(2000);
+        handleActionText("You lost!");
+        await delay(2000);
+        setIsFightMenu(false);
+        setIsFightOver(true);
+        setShowActionMenu(true);
+      } else {
+        setScreen("projects");
+        handleActionText("Select the next Project.");
+      }
+    },
+    [handleActionText]
+  );
 
   const recoverHp = useCallback(async () => {
     return new Promise<void>((resolve) => {
@@ -307,7 +314,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       battlerWillDie: boolean,
       updatedProjects: ProjectInfo[]
     ) => {
-      setActionDialogText(`${enemyData.name} used "${enemyAttackMove.name}"!`);
+      handleActionText(`${enemyData.name} used "${enemyAttackMove.name}"!`);
       setAnimateEnemyAttack(true);
       await delay(150);
       setAnimateAllyHit(true);
@@ -325,13 +332,13 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       } else {
         await delay(500);
         setShowActionMenu(true);
-        setActionDialogText("");
+        handleActionText("");
         setTimeout(() => {
-          setActionDialogText(`What will ${personalizedName} do?`);
+          handleActionText(`What will ${personalizedName} do?`);
         }, 10);
       }
     },
-    [animateHp, triggerBattlerDeath, personalizedName]
+    [animateHp, triggerBattlerDeath, personalizedName, handleActionText]
   );
 
   const triggerAllyAttack = useCallback(
@@ -363,7 +370,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       }
 
       // Begin animations for ally turn
-      setActionDialogText(`${battlerRef.current.name} used "${battleMove.name}"!`);
+      handleActionText(`${battlerRef.current.name} used "${battleMove.name}"!`);
       setAnimateAllyAttack(true);
       await delay(150);
       setAnimateEnemyHit(true);
@@ -375,7 +382,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       } else {
         if (battleMove.power < 0) {
           await animateHp(allyMoveDamage, "enemy");
-          setActionDialogText(`${enemyData.name} was healed!`);
+          handleActionText(`${enemyData.name} was healed!`);
           await delay(2000);
         } else {
           await animateHp(allyMoveDamage, "enemy");
@@ -389,7 +396,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         await triggerEnemyAttack(enemyMove, battlerWillDie, updatedProjects);
       }
     },
-    [animateHp, triggerEnemyDeath, projects, triggerEnemyAttack]
+    [animateHp, triggerEnemyDeath, projects, triggerEnemyAttack, handleActionText]
   );
 
   const triggerAllySwitch = useCallback(
@@ -400,7 +407,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         setAnimateAllySwitchReturn(true);
         await delay(500);
       }
-      setActionDialogText(`Go, ${newBattler.shortName ?? newBattler.name}!`); // should put this in switch enter
+      handleActionText(`Go, ${newBattler.shortName ?? newBattler.name}!`); // should put this in switch enter
       setBattler(newBattler);
       await delay(1200);
       // New ally enters
@@ -414,7 +421,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       const enemyMove: BattleMove =
         enemyData.battleMoves[Math.floor(Math.random() * enemyData.battleMoves.length)];
       if (prevBattlerDied) {
-        setActionDialogText(`What will ${personalizedName} do?`);
+        handleActionText(`What will ${personalizedName} do?`);
         setShowActionMenu(true);
       } else {
         let battlerWillDie = false;
@@ -434,7 +441,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         await triggerEnemyAttack(enemyMove, battlerWillDie, projects); // Shouldn't always be false!
       }
     },
-    [projects, triggerEnemyAttack, personalizedName]
+    [projects, triggerEnemyAttack, personalizedName, handleActionText]
   );
 
   return (
@@ -476,6 +483,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         personalizedName,
         setPersonalizedName,
         resetBattle,
+        handleActionText,
       }}
     >
       {children}

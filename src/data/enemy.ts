@@ -30,7 +30,7 @@ export const enemyData: EnemyData = {
       power: 27,
     },
     {
-      name: "5+ years of experience required",
+      name: "10+ years of experience required",
       power: 35,
     },
     {
