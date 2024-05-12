@@ -2,10 +2,9 @@ import React from "react";
 import { BattlerPanel } from "./BattlerPanel";
 import EnemyPlatform from "./EnemyPlatform";
 import BattleBackground from "./BattleBackground";
-import { BattlerWrapper } from "./BattlerWrapper";
 import { Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { ENEMY_INIT_HEALTH, useActionContext } from "@/context/ActionContext";
+import { useActionContext } from "@/context/ActionContext";
 import {
   allyDeathVariants,
   allySwitchVariants,
@@ -14,8 +13,8 @@ import {
   enemyVariants,
 } from "@/data/animations";
 import EnemyPanel from "./EnemyPanel";
-import EnemyWrapper from "./EnemyWrapper";
 import Image from "next/image";
+import { enemyData } from "@/data/enemy";
 
 const CombatScene = () => {
   const {
@@ -33,15 +32,15 @@ const CombatScene = () => {
 
   // Gradually make me happier as my unemployment's HP gets lower
   const getEnemyImage = () => {
-    const hpPercent = (enemyHealth / ENEMY_INIT_HEALTH) * 100;
-    let imgSrc = "/img/placeholder.png";
-    // if (hpPercent <= 25) {
-    //   imgSrc = "/img/pepestare.png";
-    // } else if (hpPercent <= 50) {
-    //   imgSrc = "/img/pepeworried.png";
-    // } else if (hpPercent <= 75) {
-    //   imgSrc = "/img/amogus.png";
-    // }
+    const hpPercent = (enemyHealth / enemyData.maxHealth) * 100;
+    let imgSrc = enemyData.images[0];
+    if (hpPercent <= 25) {
+      imgSrc = enemyData.images[3];
+    } else if (hpPercent <= 50) {
+      imgSrc = enemyData.images[2];
+    } else if (hpPercent <= 75) {
+      imgSrc = enemyData.images[1];
+    }
     return imgSrc;
   };
 
@@ -74,12 +73,7 @@ const CombatScene = () => {
                 animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
                 variants={enemyVariants}
               >
-                <Image
-                  src={getEnemyImage()}
-                  width="200"
-                  height="200"
-                  alt="Image of me - This image has not been made yet"
-                />
+                <Image src={getEnemyImage()} width="200" height="200" alt="Enemy image" />
               </motion.div>
             </motion.div>
           </Flex>
@@ -97,10 +91,10 @@ const CombatScene = () => {
         {/* Enemy Pokemon Info */}
         <div className="h-full w-full absolute top-[12%] drop-shadow-[4px_4px_1px_rgba(0,0,0,0.25)]">
           <EnemyPanel
-            name="Robert's Unemployment"
+            name={enemyData.name}
             health={enemyHealth}
-            maxHealth={ENEMY_INIT_HEALTH}
-            level={25}
+            maxHealth={enemyData.maxHealth}
+            level={enemyData.level}
           />
         </div>
 
