@@ -392,15 +392,14 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     [animateHp, triggerEnemyDeath, projects, triggerEnemyAttack]
   );
 
-  // Will need to split triggerAllyAttack into triggerAllyAttack and triggerEnemyAttack
-  // if want to implement an enemy turn on ally switch in
-
   const triggerAllySwitch = useCallback(
     async (newBattler: ProjectInfo, prevBattlerDied: boolean) => {
       setShowActionMenu(false);
-      await delay(500);
-      setAnimateAllySwitchReturn(true);
-      await delay(500);
+      if (!prevBattlerDied) {
+        await delay(500);
+        setAnimateAllySwitchReturn(true);
+        await delay(500);
+      }
       setActionDialogText(`Go, ${newBattler.shortName ?? newBattler.name}!`); // should put this in switch enter
       setBattler(newBattler);
       await delay(1200);
