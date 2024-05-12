@@ -57,10 +57,12 @@ const TabButton = ({
 
   return (
     <button
-      className={`${base} text-white rounded-t-[24px] border-4 border-b-0 border-black mt-2 stroketest h-full text-[2.5rem] leading-[2.5rem] font-medium`}
+      className={`${base} text-white rounded-t-[24px] border-4  border-black ${
+        isActive ? "-mb-1 h-[calc(100%+4px)] border-b-0" : "mt-2 h-full "
+      } stroketest  text-[2.5rem] leading-[2.5rem] font-medium`}
       onClick={onClick}
     >
-      <div className="border-[3px] border-b-0 h-full rounded-t-[20px] border-white">
+      <div className={`border-[3px] border-b-0 h-full rounded-t-[20px] border-white`}>
         <div className={`border-[3px] border-b-0 h-full rounded-t-[17px] ${border}`}>
           <div
             className={`h-full rounded-t-[14px] ${
