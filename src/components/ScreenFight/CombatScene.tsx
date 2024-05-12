@@ -65,7 +65,7 @@ const CombatScene = () => {
         <div className="h-full w-full absolute top-[24%]">
           <Flex justify="center" className="ml-[65%] w-[20%]">
             <motion.div
-              initial="initial"
+              initial="animate"
               animate={animateEnemyDeath ? "animate" : "initial"}
               variants={enemyDeathVariants}
             >
@@ -108,7 +108,7 @@ const CombatScene = () => {
         <div className="h-full w-full absolute top-[50%]">
           <Flex justify="center" className="ml-[10%] w-[32%]">
             <motion.div
-              initial="initial"
+              initial="animate"
               animate={animateAllyDeath ? "animate" : "initial"}
               variants={allyDeathVariants}
             >
