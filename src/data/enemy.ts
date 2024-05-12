@@ -16,8 +16,8 @@ export type EnemyData = {
 export const enemyData: EnemyData = {
   name: "Robert's Unemployment",
   level: 25,
-  health: 2000,
-  maxHealth: 2000,
+  health: 1600,
+  maxHealth: 1600,
   images: [
     "/img/placeholder.png", // 75% < HP <= 100%
     "/img/placeholder.png", // 50% < HP <= 75%
@@ -26,16 +26,20 @@ export const enemyData: EnemyData = {
   ],
   battleMoves: [
     {
-      name: "'Not good enough!'",
-      power: 29,
+      name: "Not good enough",
+      power: 27,
     },
     {
-      name: "'Difficult Job Market!'",
-      power: 51,
+      name: "5+ years of experience required",
+      power: 35,
     },
     {
-      name: "'Tech Market Crash!'",
-      power: 76,
+      name: "Hiring Freeze",
+      power: 46,
+    },
+    {
+      name: "Tech Market Crash",
+      power: 59,
     },
   ],
 };

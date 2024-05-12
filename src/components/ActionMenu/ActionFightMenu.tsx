@@ -26,9 +26,7 @@ const Move = ({
           className={`mt-0.5 -ml-[8px] hidden ${battleMove ? "group-hover:block" : ""}`}
         />
         {battleMove ? (
-          <p className="drop-shadow-[3px_2px_0px_rgba(0,0,0,.15)] ">
-            {battleMove.name} {battleMove.power}
-          </p>
+          <p className="drop-shadow-[3px_2px_0px_rgba(0,0,0,.15)] ">{battleMove.name}</p>
         ) : (
           "- - -"
         )}
@@ -47,7 +45,7 @@ const ActionFightMenu = ({ battleMoves }: { battleMoves: BattleMove[] }) => {
   };
 
   return (
-    <div className="h-full p-[12px] rounded-[20px] font-semibold text-[2.25rem] text-gray-600 w-3/4 shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_#fcd34d] bg-gray-500 py-[13px] px-[17px] ml-2">
+    <div className="h-full p-[12px] rounded-[20px] font-semibold -tracking-[0.01em] text-[2.25rem] text-gray-600 w-3/4 shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_#fcd34d] bg-gray-500 py-[13px] px-[17px] ml-2">
       <Grid
         className="h-full rounded-[8px] bg-white"
         templateRows="repeat(2, 1fr)"

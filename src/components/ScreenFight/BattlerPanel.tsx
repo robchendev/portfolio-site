@@ -12,7 +12,7 @@ export const BattlerPanel = ({ battler }: { battler: ProjectInfo }) => {
       <HStack>
         <div className="w-1/4" />
         <div className="w-3/4 h-[1.25rem] pr-2">
-          <HitPointsBar hpVal={battler.health} maxHpVal={100} />
+          <HitPointsBar hpVal={battler.health} maxHpVal={battler.maxHealth} />
         </div>
       </HStack>
       <div className="ml-[50%] rounded-lg bg-gray-200 mr-2 text-right px-4 font-semibold text-xl leading-6">

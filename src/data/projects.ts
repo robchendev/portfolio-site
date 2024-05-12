@@ -1,3 +1,5 @@
+import { enemyData } from "./enemy";
+
 export type StackItem =
   | "javascript"
   | "typescript"
@@ -53,19 +55,23 @@ const projects: ProjectInfo[] = [
     battleMoves: [
       {
         name: "Impress",
-        power: 20,
+        power: 30,
       },
       {
         name: "Disappoint",
         power: -20,
       },
       {
-        name: "Move3",
+        name: "Skillshow",
         power: 40,
       },
+      {
+        name: "Assure",
+        power: 20,
+      },
     ],
-    health: 100,
-    maxHealth: 100,
+    health: 84,
+    maxHealth: 84,
     level: 30,
   },
   {
@@ -93,21 +99,21 @@ const projects: ProjectInfo[] = [
     ],
     battleMoves: [
       {
-        name: "Impress",
-        power: 20,
+        name: "Harmonize",
+        power: 60,
       },
       {
-        name: "Disappoint",
-        power: -20,
+        name: "Tremolo",
+        power: 80,
       },
       {
-        name: "Move3",
-        power: 40,
+        name: "Hyper Beam",
+        power: 150,
       },
     ],
-    health: 100,
-    maxHealth: 100,
-    level: 30,
+    health: 27,
+    maxHealth: 27,
+    level: 18,
   },
   {
     enabled: true,
@@ -138,21 +144,21 @@ const projects: ProjectInfo[] = [
     ],
     battleMoves: [
       {
-        name: "Impress",
-        power: 20,
+        name: "Full-stack Slash",
+        power: 50,
       },
       {
-        name: "Disappoint",
-        power: -20,
+        name: "; drop table users;",
+        power: -40,
       },
       {
-        name: "Move3",
-        power: 40,
+        name: "Resume Blast",
+        power: 50,
       },
     ],
-    health: 100,
-    maxHealth: 100,
-    level: 30,
+    health: 61,
+    maxHealth: 61,
+    level: 21,
   },
   {
     enabled: true,
@@ -175,21 +181,21 @@ const projects: ProjectInfo[] = [
     ],
     battleMoves: [
       {
-        name: "Impress",
-        power: 20,
-      },
-      {
-        name: "Disappoint",
-        power: -20,
-      },
-      {
-        name: "Move3",
+        name: "Code Review",
         power: 40,
       },
+      {
+        name: "Git Gud",
+        power: 60,
+      },
+      {
+        name: "Access API",
+        power: 50,
+      },
     ],
-    health: 100,
-    maxHealth: 100,
-    level: 30,
+    health: 68,
+    maxHealth: 68,
+    level: 26,
   },
   {
     enabled: true,
@@ -210,21 +216,21 @@ const projects: ProjectInfo[] = [
     ],
     battleMoves: [
       {
-        name: "Impress",
+        name: "Tackle",
+        power: 30,
+      },
+      {
+        name: "P.R. Approval",
+        power: 30,
+      },
+      {
+        name: "LGTM",
         power: 20,
       },
-      {
-        name: "Disappoint",
-        power: -20,
-      },
-      {
-        name: "Move3",
-        power: 40,
-      },
     ],
-    health: 100,
-    maxHealth: 100,
-    level: 30,
+    health: 114,
+    maxHealth: 114,
+    level: 27,
   },
   // {
   //   enabled: false,

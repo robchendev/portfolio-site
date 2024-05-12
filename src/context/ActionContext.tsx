@@ -307,7 +307,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       battlerWillDie: boolean,
       updatedProjects: ProjectInfo[]
     ) => {
-      setActionDialogText(`${enemyData.name} used ${enemyAttackMove.name}!`);
+      setActionDialogText(`${enemyData.name} used "${enemyAttackMove.name}"!`);
       setAnimateEnemyAttack(true);
       await delay(150);
       setAnimateAllyHit(true);
@@ -363,7 +363,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       }
 
       // Begin animations for ally turn
-      setActionDialogText(`${battlerRef.current.name} used ${battleMove.name}!`);
+      setActionDialogText(`${battlerRef.current.name} used "${battleMove.name}"!`);
       setAnimateAllyAttack(true);
       await delay(150);
       setAnimateEnemyHit(true);
