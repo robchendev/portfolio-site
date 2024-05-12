@@ -50,8 +50,8 @@ const ApplicantCard = () => {
           <p className="drop-shadow-[1.5px_1px_0.5px_rgba(255,255,255,.8)]">
             {/* &quot;Something about myself, written in a long form paragraph that spans multiple
             lines.&quot; */}
-            &quot;Hi, thank you for visiting my portfolio! I&apos;m a freelance full-stack web
-            developer seeking permanent employment opportunities.&quot;
+            &quot;Hi, thank you for visiting my portfolio! I am a full-stack web developer seeking
+            permanent employment opportunities.&quot;
           </p>
         </div>
       </VStack>

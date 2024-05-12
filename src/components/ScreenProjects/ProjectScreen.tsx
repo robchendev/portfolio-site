@@ -174,9 +174,9 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
           <table className="w-full">
             <tbody>
               <tr className="text-left text-[2.25rem] leading-10 w-full">
-                <th className="">Slot</th>
+                <th>Slot</th>
                 <th>Move Name</th>
-                <th>Power</th>
+                <th className="text-right">Power</th>
               </tr>
               {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
                 <tr
@@ -210,7 +210,7 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
                     </div>
                   </td>
                   <td>{battleMove.name}</td>
-                  <td>{battleMove.power}</td>
+                  <td className="text-right pr-4">{battleMove.power}</td>
                 </tr>
               ))}
             </tbody>

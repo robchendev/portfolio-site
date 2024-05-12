@@ -10,7 +10,7 @@ import { FaEnvelope, FaFilePdf } from "react-icons/fa6";
 const AboutScreen = () => {
   const iconSize = 36;
   return (
-    <HStack className="bg-white h-full py-4" spacing={0} align="flex-start">
+    <HStack className="bg-cyan-300 h-full py-4 checkerboard" spacing={0} align="flex-start">
       <ApplicantCard />
       <VStack spacing={0} className="w-1/4 px-2 h-full" align="flex-start">
         <AboutButton
