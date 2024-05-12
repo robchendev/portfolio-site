@@ -154,32 +154,70 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   return (
     <section className="h-full bg-violet-300 checkerboard rounded-md px-4 py-3">
       {/* TODO */}
-      {/* <div>Battle image here</div> */}
-      <h1 className="text-[2.25rem] leading-10">{project.name}</h1>
-      <h2 className="text-[2.25rem]">Lv.{project.level}</h2>
-      {thisProject && (
-        <div>
-          <div className="h-8">
-            <HitPointsBar hpVal={thisProject.health} maxHpVal={project.maxHealth} />
-          </div>
-          <p className="text-[2.25rem] leading-12">
-            {thisProject.health} / {project.maxHealth}
-          </p>
+      <HStack className="w-full h-full" align="flex-start" spacing={0}>
+        <div className="w-[38%] h-full">
+          <div className="w-full h-1/2 bg-white">Battle image here</div>
+          <h1 className="text-[2.25rem] leading-10">{project.name}</h1>
+          <h2 className="text-[2.25rem]">Lv.{project.level}</h2>
+          {thisProject && (
+            <div>
+              <div className="h-6">
+                <HitPointsBar hpVal={thisProject.health} maxHpVal={project.maxHealth} />
+              </div>
+              <p className="text-[2.25rem] leading-12">
+                {thisProject.health} / {project.maxHealth}
+              </p>
+            </div>
+          )}
         </div>
-      )}
-      <h2 className="text-[2.25rem]">Battle Moves:</h2>
-      <ul>
-        {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
-          <li
-            key={index}
-            className={`text-4xl ${
-              index % 2 == 0 ? "bg-[rgba(255,255,255,0.7)]" : "bg-[rgba(255,255,255,0.5)]"
-            }`}
-          >
-            {battleMove.name}, Power: {battleMove.power}
-          </li>
-        ))}
-      </ul>
+        <VStack className="w-[62%] pl-4 h-full" gap={4} justify="space-between">
+          <table className="w-full">
+            <tbody>
+              <tr className="text-left text-[2.25rem] leading-10 w-full">
+                <th className="">Slot</th>
+                <th>Move Name</th>
+                <th>Power</th>
+              </tr>
+              {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
+                <tr
+                  key={index}
+                  className={`text-4xl ${
+                    index % 2 == 0 ? "bg-[rgba(255,255,255,0.7)]" : "bg-[rgba(255,255,255,0.4)]"
+                  }`}
+                >
+                  <td className="p-1.5">
+                    <div className="grid grid-cols-2 w-[6.5rem] h-[2.25rem] [&>div]:border-slate-600">
+                      <div
+                        className={`border-l-[4px] border-t-[4px] border-r-[2px] border-b-[2px] ${
+                          index === 0 && "bg-slate-600"
+                        }`}
+                      />
+                      <div
+                        className={`border-r-[4px] border-t-[4px] border-l-[2px] border-b-[2px] ${
+                          index === 1 && "bg-slate-600"
+                        }`}
+                      />
+                      <div
+                        className={`border-l-[4px] border-b-[4px] border-r-[2px] border-t-[2px] ${
+                          index === 2 && "bg-slate-600"
+                        }`}
+                      />
+                      <div
+                        className={`border-r-[4px] border-b-[4px] border-l-[2px] border-t-[2px] ${
+                          index === 3 && "bg-slate-600"
+                        }`}
+                      />
+                    </div>
+                  </td>
+                  <td>{battleMove.name}</td>
+                  <td>{battleMove.power}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div className="bg-white w-full text-4xl">Something goes here</div>
+        </VStack>
+      </HStack>
     </section>
   );
 };
