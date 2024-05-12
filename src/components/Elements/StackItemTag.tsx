@@ -21,6 +21,7 @@ const stackItemStyles: {
   postgresql: { borderColor: "border-sky-300", bgColor: "bg-sky-700", text: "PostgreSQL" },
   zustand: { borderColor: "border-amber-200", bgColor: "bg-amber-500", text: "Zustand" },
   vite: { borderColor: "border-fuchsia-300", bgColor: "bg-fuchsia-600", text: "Vite" },
+  reactquery: { borderColor: "border-orange-300", bgColor: "bg-orange-600", text: "React Query" },
 };
 
 const StackItemTag = ({ stackItem }: { stackItem: StackItem }) => {
