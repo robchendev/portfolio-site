@@ -45,7 +45,6 @@ const projects: ProjectInfo[] = [
     enabled: true,
     name: "Portfolio Website",
     deploymentUrl: "https://robchen.dev",
-    shortName: "Portfolio",
     description:
       "This portfolio website, showcasing my projects, commissions and work experience. Designed to closely replicate POKéMON battle UI, with a turn based game engine for gameplay replication.",
     stack: ["typescript", "react", "nextjs", "framer"],

@@ -8,7 +8,7 @@ import { BattlerWrapper } from "./BattlerWrapper";
 export const BattlerPanel = ({ battler }: { battler: ProjectInfo }) => {
   return (
     <BattlerWrapper>
-      <BattlerGlimpse name={battler.name} level={battler.level} />
+      <BattlerGlimpse name={battler.shortName ?? battler.name} level={battler.level} />
       <HStack>
         <div className="w-1/4" />
         <div className="w-3/4 h-[1.25rem] pr-2">

@@ -174,7 +174,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       // TODO: Refactor next 4 lines into a more streamlined action text setting function
       setActionDialogText(""); // Clear for smoothness
       setTimeout(() => {
-        setActionDialogText(`${battler.name}, come back!`);
+        setActionDialogText(`${battler.shortName ?? battler.name}, come back!`);
       }, 10);
       setTimeout(() => {
         triggerAllySwitch(projects[projectIndex], false);
@@ -202,7 +202,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     await delay(1000);
     setAnimateAllyDeath(true);
     await delay(1000);
-    setActionDialogText(`${battlerRef.current.name} is defeated!`);
+    setActionDialogText(`${battlerRef.current.shortName ?? battlerRef.current.name} is defeated!`);
     await delay(1000);
     // Open projects screen if one battler still alive. Otherwise, game over
     const allDead = updatedProjects.every((project) => project.health === 0 || !project.enabled);
@@ -397,7 +397,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       await delay(500);
       setAnimateAllySwitchReturn(true);
       await delay(500);
-      setActionDialogText(`Go, ${newBattler.name}!`); // should put this in switch enter
+      setActionDialogText(`Go, ${newBattler.shortName ?? newBattler.name}!`); // should put this in switch enter
       setBattler(newBattler);
       await delay(1200);
       // New ally enters
