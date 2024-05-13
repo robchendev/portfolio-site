@@ -157,8 +157,16 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
       {/* TODO */}
       <HStack className="w-full h-full" align="flex-start" spacing={0}>
         <VStack className="w-[38%] h-full" align="flex-start" justify="space-between">
-          <div className="border-4 border-slate-800 w-full h-full relative shadow-[inset_0px_0px_0px_8px_white,inset_0px_0px_0px_16px_rgba(255,255,255,0.5)] rounded-[25px] overflow-hidden">
-            <div className="flex justify-center items-center h-full">Battle Image Goes Here</div>
+          <div className="border-4 border-slate-800 w-full h-full relative bg-[rgba(255,255,255,0.3)] shadow-[inset_0px_0px_0px_8px_white,inset_0px_0px_0px_16px_rgba(255,255,255,0.5)] rounded-[25px] overflow-hidden">
+            <div className="flex justify-center items-center h-full">
+              <Image
+                width={250}
+                height={250}
+                // src={battler.battleImage}
+                src="/img/placeholder.png"
+                alt="Portfolio Image - This image has not been made yet"
+              />
+            </div>
             <div className="absolute top-0 left-0 w-32 h-7 bg-white -skew-x-[45deg] -ml-8 rounded-lg">
               <div
                 className={`w-12 h-3 ${indicatorColor} mr-4 float-right skew-x-[45deg] mt-2 rounded-full border-2 border-black`}
@@ -170,7 +178,7 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
             <div className="absolute bottom-0 right-0 w-32 h-7 bg-white -skew-x-[45deg] -mr-8 rounded-lg"></div>
           </div>
         </VStack>
-        <VStack className="w-[62%] pl-4 h-full" gap={1} align="flex-start" justify="center">
+        <VStack className="w-[62%] pl-4 h-full" align="flex-start" justify="space-between">
           {thisProject && (
             <div className="w-full p-2 bg-yellow-100 flex flex-col gap-1 rounded-xl">
               <div className="flex items-center gap-2">
@@ -195,41 +203,47 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
                 <th>Move Name</th>
                 <th className="text-right">Power</th>
               </tr>
-              {project.battleMoves?.map((battleMove: BattleMove, index: number) => (
-                <tr
-                  key={index}
-                  className={`text-4xl ${
-                    index % 2 == 0 ? "bg-[rgba(255,255,255,0.6)]" : "bg-[rgba(255,255,255,0.4)]"
-                  }`}
-                >
-                  <td className="p-1.5">
-                    <div className="grid grid-cols-2 w-[6.5rem] h-[2.25rem] [&>div]:border-slate-800">
-                      <div
-                        className={`border-l-[4px] border-t-[4px] border-r-[2px] border-b-[2px] ${
-                          index === 0 && "bg-slate-800"
-                        }`}
-                      />
-                      <div
-                        className={`border-r-[4px] border-t-[4px] border-l-[2px] border-b-[2px] ${
-                          index === 1 && "bg-slate-800"
-                        }`}
-                      />
-                      <div
-                        className={`border-l-[4px] border-b-[4px] border-r-[2px] border-t-[2px] ${
-                          index === 2 && "bg-slate-800"
-                        }`}
-                      />
-                      <div
-                        className={`border-r-[4px] border-b-[4px] border-l-[2px] border-t-[2px] ${
-                          index === 3 && "bg-slate-800"
-                        }`}
-                      />
-                    </div>
-                  </td>
-                  <td>{battleMove.name}</td>
-                  <td className="text-right pr-4">{battleMove.power}</td>
-                </tr>
-              ))}
+              {[...Array(4)].map((_, index) => {
+                const battleMove = project.battleMoves?.[index] || {
+                  name: "- - -",
+                  power: "- -",
+                };
+                return (
+                  <tr
+                    key={index}
+                    className={`text-4xl ${
+                      index % 2 == 0 ? "bg-[rgba(255,255,255,0.75)]" : "bg-[rgba(255,255,255,0.5)]"
+                    }`}
+                  >
+                    <td className="p-1.5">
+                      <div className="grid grid-cols-2 w-[6.5rem] h-[2.25rem] [&>div]:border-slate-800">
+                        <div
+                          className={`border-l-[4px] border-t-[4px] border-r-[2px] border-b-[2px] ${
+                            index === 0 && "bg-slate-800"
+                          }`}
+                        />
+                        <div
+                          className={`border-r-[4px] border-t-[4px] border-l-[2px] border-b-[2px] ${
+                            index === 1 && "bg-slate-800"
+                          }`}
+                        />
+                        <div
+                          className={`border-l-[4px] border-b-[4px] border-r-[2px] border-t-[2px] ${
+                            index === 2 && "bg-slate-800"
+                          }`}
+                        />
+                        <div
+                          className={`border-r-[4px] border-b-[4px] border-l-[2px] border-t-[2px] ${
+                            index === 3 && "bg-slate-800"
+                          }`}
+                        />
+                      </div>
+                    </td>
+                    <td>{battleMove.name}</td>
+                    <td className="text-right pr-4">{battleMove.power}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </VStack>
@@ -294,7 +308,7 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
                 >
                   <HStack className="block whitespace-nowrap pb-0.5">
                     <RiSwordFill size="38" className="-ml-1.5" />
-                    <h2>Battle Data</h2>
+                    <h2>Battle Moves</h2>
                   </HStack>
                 </TabButton>
               </HStack>
