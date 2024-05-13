@@ -35,7 +35,7 @@ export const BattlerPreviewDead = ({
         </VStack>
       </div>
       <div
-        className={`absolute bottom-[6px] left-[6px] pointer-events-none h-[33.2%] w-[24.5%] overflow-hidden`}
+        className={`absolute bottom-[6px] left-[6px] pointer-events-none h-[31.9%] w-[24.1%] overflow-hidden`}
       >
         <div className="h-full w-full bg-slate-400 group-hover:bg-rose-500 skew-x-[36deg] -ml-4">
           <div className="h-full w-full flex items-center ml-5 -skew-x-[36deg] text-white text-3xl" />

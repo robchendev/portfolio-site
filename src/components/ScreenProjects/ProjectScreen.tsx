@@ -151,25 +151,39 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
 const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   const { projects } = useActionContext();
   const thisProject = projects.find((p: ProjectInfo) => p.name === project.name);
+  const indicatorColor = thisProject?.health !== 0 ? "bg-green-500" : "bg-red-500";
   return (
-    <section className="h-full bg-violet-300 checkerboard rounded-md px-4 py-3">
+    <section className="h-full bg-violet-300 checkerboard rounded-md p-2">
       {/* TODO */}
       <HStack className="w-full h-full" align="flex-start" spacing={0}>
-        <div className="w-[38%] h-full">
-          <div className="w-full h-1/2 bg-white">Battle image here</div>
-          <h1 className="text-[2.25rem] leading-10">{project.name}</h1>
-          <h2 className="text-[2.25rem]">Lv.{project.level}</h2>
+        <VStack className="w-[38%] h-full" align="flex-start" justify="space-between">
+          <div className="border-4 border-slate-800 w-full h-full relative shadow-[inset_0px_0px_0px_8px_white,inset_0px_0px_0px_16px_rgba(255,255,255,0.5)] rounded-[25px] overflow-hidden">
+            <div className="flex justify-center items-center h-full">Battle Image Goes Here</div>
+            <div className="absolute top-0 left-0 w-32 h-7 bg-white -skew-x-[45deg] -ml-8 rounded-lg">
+              <div
+                className={`w-12 h-3 ${indicatorColor} mr-4 float-right skew-x-[45deg] mt-2 rounded-full border-2 border-black`}
+              />
+              <div
+                className={`w-3 h-3 bg-slate-500 mr-1.5 float-right skew-x-[45deg] mt-2 rounded-full border-2 border-black`}
+              />
+            </div>
+            <div className="absolute bottom-0 right-0 w-32 h-7 bg-white -skew-x-[45deg] -mr-8 rounded-lg"></div>
+          </div>
           {thisProject && (
-            <div>
+            <div className="w-full">
+              <h1 className="text-[2.25rem]">{project.name ?? project.shortName}</h1>
               <div className="h-6">
                 <HitPointsBar hpVal={thisProject.health} maxHpVal={project.maxHealth} />
               </div>
-              <p className="text-[2.25rem] leading-12">
-                {thisProject.health} / {project.maxHealth}
-              </p>
+              <HStack justify="space-between" className="mt-2">
+                <h2 className="text-[2.25rem] leading-8">Lv.{project.level}</h2>
+                <p className="text-[2.25rem] leading-8">
+                  {thisProject.health} / {project.maxHealth}
+                </p>
+              </HStack>
             </div>
           )}
-        </div>
+        </VStack>
         <VStack className="w-[62%] pl-4 h-full" gap={4} justify="space-between">
           <table className="w-full">
             <tbody>
@@ -278,7 +292,7 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
                 >
                   <HStack className="block whitespace-nowrap pb-0.5">
                     <RiSwordFill size="38" className="-ml-1.5" />
-                    <h2>Battle Data</h2>
+                    <h2>Battle Moves</h2>
                   </HStack>
                 </TabButton>
               </HStack>

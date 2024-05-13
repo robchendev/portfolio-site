@@ -18,7 +18,7 @@ const buttonStyles: {
     gradientFrom: "from-red-500",
     gradientTo: "to-red-700",
     hoverBg: "hover:bg-red-500",
-    margin: "-mr-[0.35rem] -mb-[0.175rem]",
+    margin: "-mr-[0.35rem] -mb-[6px]",
   },
   orange: {
     borders:
@@ -26,7 +26,7 @@ const buttonStyles: {
     gradientFrom: "from-amber-500",
     gradientTo: "to-amber-600",
     hoverBg: "hover:bg-amber-500",
-    margin: "-ml-[0.35rem] -mb-[0.175rem]",
+    margin: "-ml-[0.35rem] -mb-[6px]",
   },
   green: {
     borders:
@@ -34,7 +34,7 @@ const buttonStyles: {
     gradientFrom: "from-green-500",
     gradientTo: "to-green-700",
     hoverBg: "hover:bg-green-500",
-    margin: "-mr-[0.35rem] -mt-[0.175rem]",
+    margin: "-mr-[0.35rem] -mt-[6px]",
   },
   blue: {
     borders:
@@ -42,7 +42,7 @@ const buttonStyles: {
     gradientFrom: "from-sky-500",
     gradientTo: "to-sky-700",
     hoverBg: "hover:bg-sky-500",
-    margin: "-ml-[0.35rem] -mt-[0.175rem]",
+    margin: "-ml-[0.35rem] -mt-[6px]",
   },
 };
 
@@ -62,13 +62,14 @@ const ActionButton = ({
     gradientFrom: "from-amber-500",
     gradientTo: "to-amber-600",
     hoverBg: "hover:bg-amber-500",
-    margin: "-ml-[0.35rem] -mb-[0.175rem]",
+    margin: "-ml-[0.35rem] -mb-[0.2rem]",
   };
   const { borders, gradientFrom, gradientTo, hoverBg, margin } =
     buttonStyles[color] || defaultStyles;
   return (
+    // 0.0875
     <span
-      className={`w-1/2 h-1/2 inline-flex justify-center ${
+      className={`w-1/2 h-[calc(50%+3px)] inline-flex justify-center ${
         showActionMenu ? "" : "pointer-events-none"
       }`}
     >
