@@ -81,7 +81,7 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
     }
   };
   return (
-    <section className="h-full bg-blue-300 checkerboard rounded-md flex justify-center">
+    <section className="h-full bg-blue-300 checkerboard flex justify-center">
       {/* <p className="mt-4 text-4xl">This page is incomplete and will be complete later.</p> */}
       {/* <figure>IMAGES</figure>
       <figcaption>img caption</figcaption>
@@ -153,7 +153,7 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
   const thisProject = projects.find((p: ProjectInfo) => p.name === project.name);
   const indicatorColor = thisProject?.health !== 0 ? "bg-green-500" : "bg-red-500";
   return (
-    <section className="h-full bg-violet-300 checkerboard rounded-md p-2">
+    <section className="h-full bg-violet-300 checkerboard p-2">
       {/* TODO */}
       <HStack className="w-full h-full" align="flex-start" spacing={0}>
         <VStack className="w-[38%] h-full" align="flex-start" justify="space-between">
@@ -169,22 +169,25 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
             </div>
             <div className="absolute bottom-0 right-0 w-32 h-7 bg-white -skew-x-[45deg] -mr-8 rounded-lg"></div>
           </div>
+        </VStack>
+        <VStack className="w-[62%] pl-4 h-full" gap={1} align="flex-start" justify="center">
           {thisProject && (
-            <div className="w-full">
-              <h1 className="text-[2.25rem]">{project.name ?? project.shortName}</h1>
+            <div className="w-full p-2 bg-yellow-100 flex flex-col gap-1 rounded-xl">
+              <div className="flex items-center gap-2">
+                <Pokeball size={40} />
+                <h1 className="text-[2.25rem] leading-8">{project.shortName ?? project.name}</h1>
+              </div>
               <div className="h-6">
                 <HitPointsBar hpVal={thisProject.health} maxHpVal={project.maxHealth} />
               </div>
-              <HStack justify="space-between" className="mt-2">
+              <HStack justify="space-between">
                 <h2 className="text-[2.25rem] leading-8">Lv.{project.level}</h2>
                 <p className="text-[2.25rem] leading-8">
-                  {thisProject.health} / {project.maxHealth}
+                  HP: {thisProject.health} / {project.maxHealth}
                 </p>
               </HStack>
             </div>
           )}
-        </VStack>
-        <VStack className="w-[62%] pl-4 h-full" gap={4} justify="space-between">
           <table className="w-full">
             <tbody>
               <tr className="text-left text-[2.25rem] leading-10 w-full">
@@ -196,29 +199,29 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
                 <tr
                   key={index}
                   className={`text-4xl ${
-                    index % 2 == 0 ? "bg-[rgba(255,255,255,0.7)]" : "bg-[rgba(255,255,255,0.4)]"
+                    index % 2 == 0 ? "bg-[rgba(255,255,255,0.6)]" : "bg-[rgba(255,255,255,0.4)]"
                   }`}
                 >
                   <td className="p-1.5">
-                    <div className="grid grid-cols-2 w-[6.5rem] h-[2.25rem] [&>div]:border-slate-600">
+                    <div className="grid grid-cols-2 w-[6.5rem] h-[2.25rem] [&>div]:border-slate-800">
                       <div
                         className={`border-l-[4px] border-t-[4px] border-r-[2px] border-b-[2px] ${
-                          index === 0 && "bg-slate-600"
+                          index === 0 && "bg-slate-800"
                         }`}
                       />
                       <div
                         className={`border-r-[4px] border-t-[4px] border-l-[2px] border-b-[2px] ${
-                          index === 1 && "bg-slate-600"
+                          index === 1 && "bg-slate-800"
                         }`}
                       />
                       <div
                         className={`border-l-[4px] border-b-[4px] border-r-[2px] border-t-[2px] ${
-                          index === 2 && "bg-slate-600"
+                          index === 2 && "bg-slate-800"
                         }`}
                       />
                       <div
                         className={`border-r-[4px] border-b-[4px] border-l-[2px] border-t-[2px] ${
-                          index === 3 && "bg-slate-600"
+                          index === 3 && "bg-slate-800"
                         }`}
                       />
                     </div>
@@ -229,7 +232,6 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
               ))}
             </tbody>
           </table>
-          <div className="bg-white w-full text-4xl">Something goes here</div>
         </VStack>
       </HStack>
     </section>
@@ -292,7 +294,7 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
                 >
                   <HStack className="block whitespace-nowrap pb-0.5">
                     <RiSwordFill size="38" className="-ml-1.5" />
-                    <h2>Battle Moves</h2>
+                    <h2>Battle Data</h2>
                   </HStack>
                 </TabButton>
               </HStack>
