@@ -1,9 +1,9 @@
 export const allyVariants = {
   attack: {
     rotate: 10,
-    scale: 0.8,
-    x: 300,
-    y: -70,
+    scale: 0.7,
+    x: 350,
+    y: -100,
     transition: { type: "spring", stiffness: 260, damping: 20 },
   },
   hit: {
@@ -26,9 +26,9 @@ export const allyVariants = {
 export const enemyVariants = {
   attack: {
     rotate: -10,
-    scale: 1.25,
+    scale: 1.35,
     x: -330,
-    y: 140,
+    y: 130,
     transition: { type: "spring", stiffness: 260, damping: 20 },
   },
   hit: {
