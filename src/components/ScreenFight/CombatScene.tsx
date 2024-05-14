@@ -66,7 +66,7 @@ const CombatScene = () => {
 
         {/* Enemy Pokemon */}
         <div className="h-full w-full absolute top-[24%]">
-          <Flex justify="center" className="ml-[65%] w-[20%]">
+          <Flex justify="center" className="ml-[64%] w-[20%]">
             <motion.div
               initial="animate"
               animate={animateEnemyDeath ? "animate" : "initial"}
