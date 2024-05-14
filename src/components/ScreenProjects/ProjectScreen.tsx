@@ -1,4 +1,4 @@
-import { BattleMove, ProjectInfo, StackItem } from "@/data/projects";
+import { BattleMove, ProjectInfo, StackItem } from "@/components/config/projects";
 import { HStack, Spinner, VStack, Wrap } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import StackItemTag from "../Elements/StackItemTag";
@@ -157,16 +157,8 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
       {/* TODO */}
       <HStack className="w-full h-full" align="flex-start" spacing={0}>
         <VStack className="w-[38%] h-full" align="flex-start" justify="space-between">
-          <div className="border-4 border-slate-800 w-full h-full relative bg-[rgba(255,255,255,0.3)] shadow-[inset_0px_0px_0px_8px_white,inset_0px_0px_0px_16px_rgba(255,255,255,0.5)] rounded-[25px] overflow-hidden">
-            <div className="flex justify-center items-center h-full">
-              <Image
-                width={200}
-                height={250}
-                src={thisProject?.battleImage ?? ""}
-                alt="Portfolio Image - This image has not been made yet"
-                // className="drop-shadow-[4px_1px_1px_rgba(0,0,0,0.2)]"
-              />
-            </div>
+          <div className="border-4 border-slate-800 w-full h-full relative bg-[hsla(0,0%,100%,0)] shadow-[inset_0px_0px_0px_8px_white,inset_0px_0px_0px_16px_rgba(255,255,255,0.5)] rounded-[25px] overflow-hidden">
+            <div className="flex justify-center items-center h-full">{thisProject?.sprite}</div>
             <div className="absolute top-0 left-0 w-32 h-7 bg-white -skew-x-[45deg] -ml-8 rounded-lg">
               <div
                 className={`w-12 h-3 ${indicatorColor} mr-4 float-right skew-x-[45deg] mt-2 rounded-full border-2 border-black`}

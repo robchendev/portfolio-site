@@ -1,7 +1,7 @@
 import React from "react";
 import ActionMenu from "../ActionMenu/ActionMenu";
 import CombatScene from "../ScreenFight/CombatScene";
-import projects from "@/data/projects";
+import projects from "@/components/config/projects";
 import ProjectsScreen from "../ScreenProjects/ProjectsScreen";
 import AboutScreen from "../ScreenAbout/AboutScreen";
 import { motion, AnimatePresence } from "framer-motion";

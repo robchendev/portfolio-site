@@ -15,6 +15,7 @@ import {
 import EnemyPanel from "./EnemyPanel";
 import Image from "next/image";
 import { enemyData } from "@/data/enemy";
+import SVGenemy from "../SVG/SVGenemy";
 
 const CombatScene = () => {
   const {
@@ -31,21 +32,14 @@ const CombatScene = () => {
   const { battler } = useActionContext();
 
   // Gradually make me happier as my unemployment's HP gets lower
-  const getEnemyImage = () => {
+  const EnemyImage = ({ size, className = "" }: { size: number; className?: string }) => {
     const hpPercent = (enemyHealth / enemyData.maxHealth) * 100;
-    let imgSrc = enemyData.images[0];
-    if (hpPercent <= 25) {
-      imgSrc = enemyData.images[5];
-    } else if (hpPercent <= 40) {
-      imgSrc = enemyData.images[4];
-    } else if (hpPercent <= 55) {
-      imgSrc = enemyData.images[3];
-    } else if (hpPercent <= 70) {
-      imgSrc = enemyData.images[2];
-    } else if (hpPercent <= 85) {
-      imgSrc = enemyData.images[1];
-    }
-    return imgSrc;
+    if (hpPercent >= 85) return <SVGenemy.Frown size={size} className={className} />;
+    if (hpPercent >= 70) return <SVGenemy.Deadpan size={size} className={className} />;
+    if (hpPercent >= 55) return <SVGenemy.SlightSmile size={size} className={className} />;
+    if (hpPercent >= 40) return <SVGenemy.Smile size={size} className={className} />;
+    if (hpPercent >= 25) return <SVGenemy.BigSmile size={size} className={className} />;
+    return <SVGenemy.Briefcase size={size} className={className} />;
   };
 
   return (
@@ -65,7 +59,7 @@ const CombatScene = () => {
         </div>
 
         {/* Enemy Pokemon */}
-        <div className="h-full w-full absolute top-[24%]">
+        <div className="h-full w-full absolute top-[20%]">
           <Flex justify="center" className="ml-[64%] w-[20%]">
             <motion.div
               initial="animate"
@@ -77,7 +71,7 @@ const CombatScene = () => {
                 animate={animateEnemyAttack ? "attack" : animateEnemyHit ? "hit" : "initial"}
                 variants={enemyVariants}
               >
-                <Image src={getEnemyImage()} width="200" height="200" alt="Enemy image" />
+                <EnemyImage size={190} />
               </motion.div>
             </motion.div>
           </Flex>
@@ -122,12 +116,7 @@ const CombatScene = () => {
                   animate={animateAllyAttack ? "attack" : animateAllyHit ? "hit" : "initial"}
                   variants={allyVariants}
                 >
-                  <Image
-                    width="300"
-                    height="300"
-                    src={battler.battleImage}
-                    alt="Portfolio Image - This image has not been made yet"
-                  />
+                  {battler.sprite}
                 </motion.div>
               </motion.div>
             </motion.div>

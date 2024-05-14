@@ -1,6 +1,6 @@
 import { ScreenTypes } from "@/components/BattleUI/BattleUI";
 import { enemyData } from "@/data/enemy";
-import { default as projectList, ProjectInfo, BattleMove } from "@/data/projects";
+import { default as projectList, ProjectInfo, BattleMove } from "@/components/config/projects";
 import { calculateDamage } from "@/utils/calculate-damage";
 import React, {
   createContext,

@@ -1,4 +1,4 @@
-import { ProjectInfo } from "@/data/projects";
+import { ProjectInfo } from "@/components/config/projects";
 import { HStack } from "@chakra-ui/react";
 import React from "react";
 import BattlerGlimpse from "./BattlerGlimpse";

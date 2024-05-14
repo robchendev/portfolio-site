@@ -1,4 +1,4 @@
-import { BattleMove } from "@/data/projects";
+import { BattleMove } from "@/components/config/projects";
 import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
 import MoveSelector from "../Elements/MoveSelectArrow";

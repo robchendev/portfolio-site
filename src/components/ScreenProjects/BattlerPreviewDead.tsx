@@ -1,4 +1,4 @@
-import { ProjectInfo } from "@/data/projects";
+import { ProjectInfo } from "@/components/config/projects";
 import { Text, VStack } from "@chakra-ui/react";
 import React from "react";
 import { PokeballBottom, PokeballTop } from "../Elements/Pokeball";

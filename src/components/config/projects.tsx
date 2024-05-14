@@ -1,4 +1,9 @@
-import { enemyData } from "./enemy";
+import { enemyData } from "../../data/enemy";
+import React from "react";
+import SVGguitardex from "@/components/SVG/SVGguitardex";
+import SVGfret from "../SVG/SVGfret";
+import SVGhsr from "../SVG/SVGhsr";
+import SVGvikesdash from "../SVG/SVGvikesdash";
 
 export type StackItem =
   | "javascript"
@@ -33,7 +38,7 @@ export type ProjectInfo = {
   deploymentUrl?: string;
   description: string;
   stack: StackItem[];
-  battleImage: string;
+  sprite: React.ReactNode;
   battleSVG?: React.ReactNode; // prioritized over image
   imageUrls: string[];
   battleMoves: BattleMove[];
@@ -51,7 +56,7 @@ const projects: ProjectInfo[] = [
     description:
       "This portfolio website, showcasing my projects, commissions and work experience. Designed to closely replicate POKéMON battle UI, with a turn based game engine for gameplay replication.",
     stack: ["typescript", "react", "nextjs", "framer"],
-    battleImage: "/img/sadpepe.png",
+    sprite: "todo",
     imageUrls: [],
     battleMoves: [
       {
@@ -82,7 +87,7 @@ const projects: ProjectInfo[] = [
     description:
       "Guitar tutorial website for the niche style of fingerstyle. Users can save a personalized list of techniques and share it around via an encoded link. Currently creating an audio production section that includes audio visualizers for analysis.",
     stack: ["typescript", "react", "nextjs", "webaudio"],
-    battleImage: "/img/guitardex/battleImage.svg",
+    sprite: <SVGguitardex size={250} />,
     imageUrls: [
       // "/img/guitardex/about-page.jpg",
       "/img/guitardex/techniques-search.jpg",
@@ -123,7 +128,7 @@ const projects: ProjectInfo[] = [
     description:
       "Software club administrative web app that gives tiered access to team lead and admin dashboards. Team leads can edit their project's detail including title, description, tech stack, images and members, and submit it for admin approval.",
     stack: ["typescript", "react", "nextjs", "postgresql", "reactquery"],
-    battleImage: "/img/vikes-dash/battleImage.svg",
+    sprite: <SVGvikesdash size={250} />,
     imageUrls: [
       // "/img/vikes-dash/editor-editing.jpg",
       "/img/vikes-dash/project-editor.jpg",
@@ -168,7 +173,7 @@ const projects: ProjectInfo[] = [
     description:
       "A multipurpose Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information.",
     stack: ["javascript", "mongodb", "discordapi"],
-    battleImage: "/img/fret/battleImage.svg",
+    sprite: <SVGfret size={300} />,
     imageUrls: [
       // "/img/fret/weekly-profile-no-trophy.jpg",
       "/img/fret/weekly-profile.jpg",
@@ -206,7 +211,7 @@ const projects: ProjectInfo[] = [
     description:
       "This highlights a feature contribution I've made to an open source project by Fribbels. The feature allows users to customize the portrait shown on their character build showcase to screenshot and share on social media.",
     stack: ["typescript", "react", "vite", "zustand"],
-    battleImage: "/img/hsr-optimizer/battleImage.svg",
+    sprite: <SVGhsr size={250} />,
     imageUrls: [
       "/img/hsr-optimizer/uploadimage.jpg",
       "/img/hsr-optimizer/defaultimage.jpg",
@@ -233,56 +238,6 @@ const projects: ProjectInfo[] = [
     maxHealth: 114,
     level: 27,
   },
-  // {
-  //   enabled: false,
-  //   name: "Leaderboard Generator",
-  //   description: "idk",
-  //   stack: ["javascript"],
-  //   battleImage: "/img/jhin.png",
-  //   imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
-  //   battleMoves: [
-  //     {
-  //       name: "Impress",
-  //       power: 20,
-  //     },
-  //     {
-  //       name: "Disappoint",
-  //       power: -20,
-  //     },
-  //     {
-  //       name: "Move3",
-  //       power: 40,
-  //     },
-  //   ],
-  //   health: 100,
-  //   maxHealth: 100,
-  //   level: 30,
-  // },
-  // {
-  //   enabled: false,
-  //   name: "Realtor Website",
-  //   description: "idk",
-  //   stack: ["javascript"],
-  //   battleImage: "/img/jhin.png",
-  //   imageUrls: ["/img/visual2.png", "/img/visual2.png", "/img/visual2.png"],
-  //   battleMoves: [
-  //     {
-  //       name: "Impress",
-  //       power: 20,
-  //     },
-  //     {
-  //       name: "Disappoint",
-  //       power: -20,
-  //     },
-  //     {
-  //       name: "Move3",
-  //       power: 40,
-  //     },
-  //   ],
-  //   health: 10,
-  //   maxHealth: 100,
-  //   level: 30,
-  // },
 ];
 
 export default projects;

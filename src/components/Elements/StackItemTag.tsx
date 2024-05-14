@@ -1,4 +1,4 @@
-import { StackItem } from "@/data/projects";
+import { StackItem } from "@/components/config/projects";
 import React from "react";
 
 const stackItemStyles: {

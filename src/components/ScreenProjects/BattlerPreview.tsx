@@ -3,7 +3,7 @@ import BattlerPreviewAlive from "./BattlerPreviewAlive";
 import BattlerPreviewDead from "./BattlerPreviewDead";
 import BattlerPreviewDisabled from "./BattlerPreviewDisabled";
 import { useActionContext } from "@/context/ActionContext";
-import { ProjectInfo } from "@/data/projects";
+import { ProjectInfo } from "@/components/config/projects";
 
 const BattlerPreview = ({ item, onClick }: { item?: ProjectInfo; onClick: () => void }) => {
   const { battler } = useActionContext();
