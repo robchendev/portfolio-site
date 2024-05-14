@@ -35,10 +35,14 @@ const CombatScene = () => {
     const hpPercent = (enemyHealth / enemyData.maxHealth) * 100;
     let imgSrc = enemyData.images[0];
     if (hpPercent <= 25) {
+      imgSrc = enemyData.images[5];
+    } else if (hpPercent <= 40) {
+      imgSrc = enemyData.images[4];
+    } else if (hpPercent <= 55) {
       imgSrc = enemyData.images[3];
-    } else if (hpPercent <= 50) {
+    } else if (hpPercent <= 70) {
       imgSrc = enemyData.images[2];
-    } else if (hpPercent <= 75) {
+    } else if (hpPercent <= 85) {
       imgSrc = enemyData.images[1];
     }
     return imgSrc;
@@ -99,7 +103,7 @@ const CombatScene = () => {
         </div>
 
         {/* Ally Pokemon */}
-        <div className="h-full w-full absolute top-[50%]">
+        <div className="h-full w-full absolute top-[45%]">
           <Flex justify="center" className="ml-[10%] w-[32%]">
             <motion.div
               initial="animate"
@@ -121,8 +125,7 @@ const CombatScene = () => {
                   <Image
                     width="300"
                     height="300"
-                    // src={battler.battleImage}
-                    src="/img/placeholder.png"
+                    src={battler.battleImage}
                     alt="Portfolio Image - This image has not been made yet"
                   />
                 </motion.div>

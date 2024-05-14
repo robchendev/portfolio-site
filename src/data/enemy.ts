@@ -19,10 +19,12 @@ export const enemyData: EnemyData = {
   health: 2000,
   maxHealth: 2000,
   images: [
-    "/img/placeholder.png", // 75% < HP <= 100%
-    "/img/placeholder.png", // 50% < HP <= 75%
-    "/img/placeholder.png", // 25% < HP <= 50%
-    "/img/placeholder.png", // 0% < HP <= 25%
+    "/img/enemy/frown.svg",
+    "/img/enemy/deadpan.svg",
+    "/img/enemy/slight-smile.svg",
+    "/img/enemy/smile.svg",
+    "/img/enemy/big-smile.svg",
+    "/img/enemy/briefcase.svg",
   ],
   battleMoves: [
     {

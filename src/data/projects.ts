@@ -34,6 +34,7 @@ export type ProjectInfo = {
   description: string;
   stack: StackItem[];
   battleImage: string;
+  battleSVG?: React.ReactNode; // prioritized over image
   imageUrls: string[];
   battleMoves: BattleMove[];
   health: number;
@@ -81,7 +82,7 @@ const projects: ProjectInfo[] = [
     description:
       "Guitar tutorial website for the niche style of fingerstyle. Users can save a personalized list of techniques and share it around via an encoded link. Currently creating an audio production section that includes audio visualizers for analysis.",
     stack: ["typescript", "react", "nextjs", "webaudio"],
-    battleImage: "",
+    battleImage: "/img/guitardex/battleImage.svg",
     imageUrls: [
       // "/img/guitardex/about-page.jpg",
       "/img/guitardex/techniques-search.jpg",
@@ -122,7 +123,7 @@ const projects: ProjectInfo[] = [
     description:
       "Software club administrative web app that gives tiered access to team lead and admin dashboards. Team leads can edit their project's detail including title, description, tech stack, images and members, and submit it for admin approval.",
     stack: ["typescript", "react", "nextjs", "postgresql", "reactquery"],
-    battleImage: "",
+    battleImage: "/img/vikes-dash/battleImage.svg",
     imageUrls: [
       // "/img/vikes-dash/editor-editing.jpg",
       "/img/vikes-dash/project-editor.jpg",
@@ -167,7 +168,7 @@ const projects: ProjectInfo[] = [
     description:
       "A multipurpose Discord bot whose purpose is to encourage discussion in a discord server by facilitating an organized environment using threads, self-moderating channels and by managing databases to store and retrieve information.",
     stack: ["javascript", "mongodb", "discordapi"],
-    battleImage: "",
+    battleImage: "/img/fret/battleImage.svg",
     imageUrls: [
       // "/img/fret/weekly-profile-no-trophy.jpg",
       "/img/fret/weekly-profile.jpg",
@@ -205,7 +206,7 @@ const projects: ProjectInfo[] = [
     description:
       "This highlights a feature contribution I've made to an open source project by Fribbels. The feature allows users to customize the portrait shown on their character build showcase to screenshot and share on social media.",
     stack: ["typescript", "react", "vite", "zustand"],
-    battleImage: "",
+    battleImage: "/img/hsr-optimizer/battleImage.svg",
     imageUrls: [
       "/img/hsr-optimizer/uploadimage.jpg",
       "/img/hsr-optimizer/defaultimage.jpg",
