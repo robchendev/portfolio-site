@@ -60,20 +60,20 @@ const projects: ProjectInfo[] = [
     imageUrls: [],
     battleMoves: [
       {
-        name: "Impress",
+        name: "Show Talent",
         power: 30,
-      },
-      {
-        name: "Disappoint",
-        power: -20,
-      },
-      {
-        name: "Skillshow",
-        power: 40,
       },
       {
         name: "Assure",
         power: 20,
+      },
+      {
+        name: "Disappoint",
+        power: -50,
+      },
+      {
+        name: "Impress",
+        power: 50,
       },
     ],
     health: 84,
@@ -153,13 +153,14 @@ const projects: ProjectInfo[] = [
         name: "Full-stack Slash",
         power: 50,
       },
-      {
-        name: "; drop table users;",
-        power: -40,
-      },
+
       {
         name: "Resume Blast",
         power: 50,
+      },
+      {
+        name: "; drop table users;",
+        power: -40,
       },
     ],
     health: 61,
@@ -228,10 +229,6 @@ const projects: ProjectInfo[] = [
       {
         name: "P.R. Approval",
         power: 30,
-      },
-      {
-        name: "LGTM",
-        power: 20,
       },
     ],
     health: 114,

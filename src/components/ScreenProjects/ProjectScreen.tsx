@@ -121,12 +121,14 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
                     imageUrl === selectedImage
                       ? "border-black border-2"
                       : "border-2 border-transparent"
-                  } rounded-md flex-shrink-0 overflow-hidden bg-placeholder-light dark:bg-placeholder-dark`}
+                  } cursor-pointer rounded-md flex-shrink-0 overflow-hidden relative bg-placeholder-light dark:bg-placeholder-dark`}
                   onClick={() => handleSelectImage(imageUrl)}
                 >
                   <Image
+                    // TODO: Optimize
                     loading="eager"
                     src={imageUrl}
+                    quality={20}
                     height={200}
                     width={200}
                     alt={project.shortName + " Image"}
@@ -134,6 +136,9 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
                       imageUrl === selectedImage ? "brightness-100 " : "brightness-75"
                     } hover:brightness-100 transition duration-300`}
                   />
+                  <div className="absolute top-0 left-0 -ml-[1px] -mt-[1px] bg-black px-2 text-white rounded-ee-md text-3xl">
+                    {index + 1}
+                  </div>
                 </figure>
               ))}
             </VStack>
