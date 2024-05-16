@@ -48,6 +48,23 @@ export const enemyVariants = {
   initial: { scale: 1, x: 0, y: 0, rotate: 0, filter: "brightness(100%)" },
 };
 
+export const allyPanelSwitchVariants = {
+  animate: {
+    x: 440,
+    transition: {
+      duration: 0.4,
+      type: "tween",
+    },
+  },
+  initial: {
+    x: 0,
+    transition: {
+      duration: 0.4,
+      type: "tween",
+    },
+  },
+};
+
 export const enemyDeathVariants = {
   animate: {
     y: 100,

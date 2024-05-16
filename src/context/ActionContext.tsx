@@ -37,6 +37,7 @@ interface CombinedContextType {
   animateEnemyAttack: boolean;
   animateAllySwitchReturn: boolean;
   animateAllySwitchEnter: boolean;
+  animateAllyPanelSwitch: boolean;
   triggerAllySwitch: (newBattler: ProjectInfo, prevBattlerDied: boolean) => void;
   animateEnemyDeath: boolean;
   triggerEnemyDeath: () => void;
@@ -91,6 +92,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
   const [animateEnemyAttack, setAnimateEnemyAttack] = useState(false);
   const [animateAllySwitchReturn, setAnimateAllySwitchReturn] = useState(false);
   const [animateAllySwitchEnter, setAnimateAllySwitchEnter] = useState(false);
+  const [animateAllyPanelSwitch, setAnimateAllyPanelSwitch] = useState(false);
   const [animateEnemyDeath, setAnimateEnemyDeath] = useState(false);
   const [animateAllyDeath, setAnimateAllyDeath] = useState(false);
 
@@ -110,6 +112,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
     setAnimateEnemyAttack(false);
     setAnimateAllySwitchReturn(false);
     setAnimateAllySwitchEnter(false);
+    setAnimateAllyPanelSwitch(false);
     setShowActionMenu(true);
     await delay(10);
     setScreen("fight");
@@ -219,6 +222,8 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       } else {
         setScreen("projects");
         handleActionText("Select the next Project.");
+        await delay(500);
+        setAnimateAllyPanelSwitch(true);
       }
     },
     [handleActionText]
@@ -405,11 +410,15 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
       if (!prevBattlerDied) {
         await delay(500);
         setAnimateAllySwitchReturn(true);
+        setAnimateAllyPanelSwitch(true);
         await delay(500);
       }
       handleActionText(`Go, ${newBattler.shortName ?? newBattler.name}!`); // should put this in switch enter
       setBattler(newBattler);
-      await delay(1200);
+      // TODO: Fix timing, feels weird right now
+      await delay(800);
+      setAnimateAllyPanelSwitch(false);
+      await delay(400);
       // New ally enters
       setAnimateAllyDeath(false);
       setAnimateAllySwitchReturn(false);
@@ -470,6 +479,7 @@ export const ActionProvider: React.FC<ActionProviderProps> = ({ children }) => {
         animateEnemyAttack,
         animateAllySwitchReturn,
         animateAllySwitchEnter,
+        animateAllyPanelSwitch,
         animateEnemyDeath,
         animateAllyDeath,
         triggerAllySwitch,

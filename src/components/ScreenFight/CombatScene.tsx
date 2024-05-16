@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useActionContext } from "@/context/ActionContext";
 import {
   allyDeathVariants,
+  allyPanelSwitchVariants,
   allySwitchVariants,
   allyVariants,
   enemyDeathVariants,
@@ -25,6 +26,7 @@ const CombatScene = () => {
     animateEnemyHit,
     animateAllySwitchReturn,
     animateAllySwitchEnter,
+    animateAllyPanelSwitch,
     enemyHealth,
     animateEnemyDeath,
     animateAllyDeath,
@@ -125,7 +127,13 @@ const CombatScene = () => {
 
         {/* Ally Pokemon Info */}
         <div className="h-full w-full absolute top-[67%] drop-shadow-[5px_5px_1px_rgba(0,0,0,0.25)]">
-          <BattlerPanel battler={battler} />
+          <motion.div
+            initial="initial"
+            animate={animateAllyPanelSwitch ? "animate" : "initial"}
+            variants={allyPanelSwitchVariants}
+          >
+            <BattlerPanel battler={battler} />
+          </motion.div>
         </div>
       </div>
     </div>
