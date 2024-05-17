@@ -86,69 +86,59 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
       {/* <figure>IMAGES</figure>
       <figcaption>img caption</figcaption>
       <div>{project.imageUrls?.toString()}</div> */}
-      {project.imageUrls.length ? (
-        <>
-          <div className="h-full w-3/4 relative">
-            <Image
-              loading="eager"
-              src={selectedImage}
-              height={1000}
-              width={1500}
-              unoptimized
-              alt={project.shortName + " image"}
-              onLoadingComplete={() => {
-                setIsImageLoading(false);
-              }}
-              className="absolute top-0 left-0 w-full h-full object-contain"
-            />
-            {isImageLoading && (
-              <div className="absolute text-[4rem] top-0 gap-2 left-0 w-full h-full flex justify-center items-center">
-                <Spinner color="red.500" emptyColor="white" thickness="8px" speed=".5s" size="xl" />
+      <div className="h-full w-3/4 relative">
+        <Image
+          loading="eager"
+          src={selectedImage}
+          height={1000}
+          width={1500}
+          unoptimized
+          alt={project.shortName + " image"}
+          onLoadingComplete={() => {
+            setIsImageLoading(false);
+          }}
+          className="absolute top-0 left-0 w-full h-full object-contain"
+        />
+        {isImageLoading && (
+          <div className="absolute text-[4rem] top-0 gap-2 left-0 w-full h-full flex justify-center items-center">
+            <Spinner color="red.500" emptyColor="white" thickness="8px" speed=".5s" size="xl" />
+          </div>
+        )}
+      </div>
+      <div className="h-full w-1/4 overflow-y-scroll p-1">
+        {/* <ScrollContainer className="list flex overflow-auto" hideScrollbars={false}> */}
+        {/* Onclick should open a lightbox */}
+        <VStack spacing={1}>
+          <h2 className="px-2 flex justify-between items-center text-[2rem] w-full h-full bg-yellow-100 text-center rounded-md ">
+            <FaArrowDown /> Scroll <FaArrowDown />
+          </h2>
+          {project.imageUrls?.map((imageUrl: string, index: number) => (
+            <figure
+              key={index}
+              className={`${
+                imageUrl === selectedImage ? "border-black border-2" : "border-2 border-transparent"
+              } cursor-pointer rounded-md flex-shrink-0 overflow-hidden relative bg-placeholder-light dark:bg-placeholder-dark`}
+              onClick={() => handleSelectImage(imageUrl)}
+            >
+              <Image
+                // TODO: Optimize
+                loading="eager"
+                src={imageUrl}
+                quality={20}
+                height={200}
+                width={200}
+                alt={project.shortName + " Image"}
+                className={`cursor-pointer ${
+                  imageUrl === selectedImage ? "brightness-100 " : "brightness-75"
+                } hover:brightness-100 transition duration-300`}
+              />
+              <div className="absolute top-0 left-0 -ml-[1px] -mt-[1px] bg-black px-2 text-white rounded-ee-md text-3xl">
+                {index + 1}
               </div>
-            )}
-          </div>
-          <div className="h-full w-1/4 overflow-y-scroll p-1">
-            {/* <ScrollContainer className="list flex overflow-auto" hideScrollbars={false}> */}
-            {/* Onclick should open a lightbox */}
-            <VStack spacing={1}>
-              <h2 className="px-2 flex justify-between items-center text-[2rem] w-full h-full bg-yellow-100 text-center rounded-md ">
-                <FaArrowDown /> Scroll <FaArrowDown />
-              </h2>
-              {project.imageUrls?.map((imageUrl: string, index: number) => (
-                <figure
-                  key={index}
-                  className={`${
-                    imageUrl === selectedImage
-                      ? "border-black border-2"
-                      : "border-2 border-transparent"
-                  } cursor-pointer rounded-md flex-shrink-0 overflow-hidden relative bg-placeholder-light dark:bg-placeholder-dark`}
-                  onClick={() => handleSelectImage(imageUrl)}
-                >
-                  <Image
-                    // TODO: Optimize
-                    loading="eager"
-                    src={imageUrl}
-                    quality={20}
-                    height={200}
-                    width={200}
-                    alt={project.shortName + " Image"}
-                    className={`cursor-pointer ${
-                      imageUrl === selectedImage ? "brightness-100 " : "brightness-75"
-                    } hover:brightness-100 transition duration-300`}
-                  />
-                  <div className="absolute top-0 left-0 -ml-[1px] -mt-[1px] bg-black px-2 text-white rounded-ee-md text-3xl">
-                    {index + 1}
-                  </div>
-                </figure>
-              ))}
-            </VStack>
-          </div>
-        </>
-      ) : (
-        <div className="flex justify-center items-center text-[3rem]">
-          This project has no images to show
-        </div>
-      )}
+            </figure>
+          ))}
+        </VStack>
+      </div>
     </section>
   );
 };
@@ -288,16 +278,19 @@ const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
                     <h2>Details</h2>
                   </HStack>
                 </TabButton>
-                <TabButton
-                  color="blue"
-                  isActive={subscreen === "images"}
-                  onClick={() => setSubscreen("images")}
-                >
-                  <HStack className="block whitespace-nowrap pb-0.5">
-                    <RiImage2Fill size="38" className="-ml-1.5" />
-                    <h2>Images</h2>
-                  </HStack>
-                </TabButton>
+                {chosenProject.imageUrls.length && (
+                  <TabButton
+                    color="blue"
+                    isActive={subscreen === "images"}
+                    onClick={() => setSubscreen("images")}
+                  >
+                    <HStack className="block whitespace-nowrap pb-0.5">
+                      <RiImage2Fill size="38" className="-ml-1.5" />
+                      <h2>Images</h2>
+                    </HStack>
+                  </TabButton>
+                )}
+
                 <TabButton
                   color="purple"
                   isActive={subscreen === "forms"}
