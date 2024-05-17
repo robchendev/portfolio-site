@@ -13,8 +13,10 @@ const Badge = ({
   return (
     <div
       onClick={onClick}
-      className={`transition ease-in-out duration-300 px-2 cursor-pointer m-auto w-[90px] h-full flex justify-center items-center drop-shadow-[1px_1px_0px_rgba(0,0,0,0.3)] ${
-        isActive ? "scale-110" : ""
+      className={`transition ease-in-out duration-300 px-2 cursor-pointer m-auto w-[90px] h-full flex justify-center items-center ${
+        isActive
+          ? "scale-110 drop-shadow-[2px_2px_0px_white] brightness-[105%]"
+          : "brightness-[90%]"
       }`}
     >
       {children}
