@@ -108,7 +108,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     text="Experience"
                     color="orange"
                     onClick={() => {
-                      handleActionText("Choose an Experience or CANCEL.");
+                      handleActionText("Scroll through the Experiences or CANCEL.");
                       setTimeout(() => {
                         setScreen("experience");
                       }, 10);

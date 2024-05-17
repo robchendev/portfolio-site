@@ -9,61 +9,75 @@ export type ExperienceInfo = {
   name: string;
   role: string;
   shortName?: string;
+  companyUrl?: string;
   logo: React.ReactNode;
-  startDate: string;
-  endDate: string;
+  logoSm: React.ReactNode;
+  date1: string;
+  date2: string;
   description: string;
   bulletPoints: string[];
+  colorTag: string;
 };
 
 const experience: ExperienceInfo[] = [
   {
     enabled: true,
     id: "natasha",
-    name: "Natasha Guitars, Freelance",
-    role: "Front-End Web Developer",
+    name: "Natasha Guitars",
+    role: "Frontend Developer, Freelance",
+    companyUrl: "https://natashaguitar.com",
     logo: <SVGnatasha size={80} />,
-    startDate: "Mar 2024",
-    endDate: "Apr 2024",
+    logoSm: <SVGnatasha size={40} className="inline" />,
+    date1: "Mar - Apr",
+    date2: "2024",
     description:
       "Built and designed critical thematic elements and functional sales logic to optimize customer experience. Worked closely with cross-functional team including sales and marketing managers to translate business needs into technical solutions.",
     bulletPoints: [],
+    colorTag: "bg-orange-200",
   },
   {
     enabled: true,
     id: "evdm",
-    name: "Eddie vd Meer Ltd, Freelance",
-    role: "Front-End Web Developer",
+    name: "Eddie van der Meer",
+    role: "Frontend Developer, Freelance",
+    companyUrl: "https://eddievandermeer.com",
     logo: <SVGevdm size={70} />,
-    startDate: "Jan 2024",
-    endDate: "Feb 2024",
+    logoSm: <SVGevdm size={40} className="inline" />,
+    date1: "Jan - Feb",
+    date2: "2024",
     description:
-      "Developed a high quality, responsive website to facilitate user search for sales of sheet music. Provided cost-saving solutions to create an in-house link aggregator that would otherwise require a paid third-party service.",
+      "Developed a high quality, responsive website to facilitate user search for sales of sheet music. Provided cost-saving solutions to host the website and to create an in-house link aggregator to replace a paid third-party service.",
     bulletPoints: [],
+    colorTag: "bg-slate-200",
   },
   {
     enabled: true,
     id: "jimu",
     name: "Jimu Labs",
-    role: "Full-stack Web & Developer Co-op",
+    role: "Full-stack Developer Co-op",
     logo: <SVGjimu size={80} />,
-    startDate: "Sep 2022",
-    endDate: "Dec 2022",
+    logoSm: <SVGjimu size={40} className="inline" />,
+    date1: "Sep - Dec",
+    date2: "2022",
     description:
-      "Developed essential features for a web service that automates user interactions on chat platforms like Discord and Slack, enhancing the onboarding process. Worked on a social media app with interactive features, prioritizing user data security.",
+      "Developed essential features for a web service that automates user interactions and onboarding flow on chat platforms like Discord and Slack. Worked on a social media app with interactive features, prioritizing user data security.",
     bulletPoints: [],
+    colorTag: "bg-green-200",
   },
   {
     enabled: true,
     id: "masimo",
     name: "Masimo",
     role: "Software Engineer Intern",
+    companyUrl: "https://masimo.com",
     logo: <SVGmasimo size={80} />,
-    startDate: "Jun 2022",
-    endDate: "Sep 2022",
+    logoSm: <SVGmasimo size={40} className="inline" />,
+    date1: "June - Sep",
+    date2: "2022",
     description:
       "Built an application that expedites over-the-air updates for medical devices, benefiting millions of patients. Designed and implemented a user-friendly interface for scientific devices for real-time patient data retrieval.",
     bulletPoints: ["Example 1", "Example 2", "Lorem ipsum dolor"],
+    colorTag: "bg-rose-200",
   },
 ];
 

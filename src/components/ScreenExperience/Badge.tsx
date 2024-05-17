@@ -1,11 +1,24 @@
 import { GridItem } from "@chakra-ui/react";
 import React from "react";
 
-const Badge = ({ children, onClick }: { children?: React.ReactNode; onClick: () => void }) => {
+const Badge = ({
+  children,
+  onClick,
+  isActive,
+}: {
+  children?: React.ReactNode;
+  onClick: () => void;
+  isActive: boolean;
+}) => {
   return (
-    <GridItem className="drop-shadow-[1px_1px_0px_rgba(0,0,0,0.3)]" onClick={onClick}>
-      <div className="m-auto w-[90px] h-[90px] flex justify-center items-center">{children}</div>
-    </GridItem>
+    <div
+      onClick={onClick}
+      className={`transition ease-in-out duration-300 px-2 cursor-pointer m-auto w-[90px] h-full flex justify-center items-center drop-shadow-[1px_1px_0px_rgba(0,0,0,0.3)] ${
+        isActive ? "scale-110" : ""
+      }`}
+    >
+      {children}
+    </div>
   );
 };
 
