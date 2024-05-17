@@ -4,6 +4,7 @@ import SVGguitardex from "@/components/SVG/SVGguitardex";
 import SVGfret from "../SVG/SVGfret";
 import SVGhsr from "../SVG/SVGhsr";
 import SVGvikesdash from "../SVG/SVGvikesdash";
+import SVGportfolio from "../SVG/SVGportfolio";
 
 export type StackItem =
   | "javascript"
@@ -56,7 +57,7 @@ const projects: ProjectInfo[] = [
     description:
       "This portfolio website, showcasing my projects, commissions and work experience. Designed to closely replicate POKéMON battle UI, with a turn based game engine for gameplay replication.",
     stack: ["typescript", "react", "nextjs", "framer"],
-    sprite: "todo",
+    sprite: <SVGportfolio size={250} />,
     imageUrls: [],
     battleMoves: [
       {
