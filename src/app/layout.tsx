@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Cabin } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./providers";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 const cabinFont = Cabin({
   weight: ["600"],
@@ -22,6 +23,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <GoogleAnalytics />
       <body className={cabinFont.className}>
         <Providers>{children}</Providers>
       </body>
