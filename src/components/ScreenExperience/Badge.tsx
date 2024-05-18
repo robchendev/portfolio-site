@@ -17,7 +17,7 @@ const Badge = ({
       className={`transition relative ease-in-out duration-300 px-2 cursor-pointer m-auto w-[90px] h-full flex justify-center items-center`}
     >
       <div
-        className={`w-8 absolute h-full top-0 -left-2 flex transition ease-in-out duration-200 items-center ${
+        className={`w-8 pointer-events-none absolute h-full top-0 -left-2 flex transition ease-in-out duration-200 items-center ${
           isActive ? "opacity-100" : "opacity-0"
         }`}
       >
