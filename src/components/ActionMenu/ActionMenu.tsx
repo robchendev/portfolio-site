@@ -214,7 +214,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 className="flex justify-center w-full h-full -mt-[0.175rem]"
                 onClick={() => {
                   onProjectClose();
-                  handleActionText("Select the next project.");
+                  handleActionText("Select the next project to SWITCH to.");
                 }}
               >
                 <CancelButton />

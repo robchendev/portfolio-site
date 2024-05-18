@@ -22,11 +22,12 @@ const ExperienceScreen = () => {
   };
 
   // setup observer to determine which badge is active
+  // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API#creating_an_intersection_observer
   const setupObserver = () => {
     const observerOptions = {
       root: scrollContainerRef.current,
       rootMargin: "0px",
-      threshold: 0.5, // adjust this value to determine when an element is considered "in view"
+      threshold: 0.6,
     };
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {

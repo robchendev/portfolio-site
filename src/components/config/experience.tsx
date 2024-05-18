@@ -75,7 +75,7 @@ const experience: ExperienceInfo[] = [
     date1: "June - Sep",
     date2: "2022",
     description:
-      "Built an application that expedites over-the-air updates for medical devices, benefiting millions of patients. Designed and implemented a user-friendly interface for scientific devices for real-time patient data retrieval.",
+      "Built a full-stack application that expedites over-the-air updates for medical devices, benefiting millions of patients. Designed and implemented a user-friendly interface for scientific devices for real-time patient data retrieval.",
     bulletPoints: ["Example 1", "Example 2", "Lorem ipsum dolor"],
     colorTag: "bg-rose-200",
   },
