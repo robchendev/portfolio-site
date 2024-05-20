@@ -4,7 +4,6 @@ import EnemyPlatform from "./EnemyPlatform";
 import BattleBackground from "./BattleBackground";
 import { Flex } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { useActionContext } from "@/context/ActionContext";
 import {
   allyDeathVariants,
   allyPanelSwitchVariants,
@@ -12,14 +11,15 @@ import {
   allyVariants,
   enemyDeathVariants,
   enemyVariants,
-} from "@/data/animations";
+} from "@/lib/data/animations";
 import EnemyPanel from "./EnemyPanel";
-import Image from "next/image";
-import { enemyData } from "@/data/enemy";
+import { enemyData } from "@/lib/data/enemy";
 import SVGenemy from "../SVG/SVGenemy";
+import { useActionStore } from "@/store/useActionStore";
 
 const CombatScene = () => {
   const {
+    battler,
     animateAllyAttack,
     animateEnemyAttack,
     animateAllyHit,
@@ -30,8 +30,7 @@ const CombatScene = () => {
     enemyHealth,
     animateEnemyDeath,
     animateAllyDeath,
-  } = useActionContext();
-  const { battler } = useActionContext();
+  } = useActionStore();
 
   // Gradually make me happier as my unemployment's HP gets lower
   const EnemyImage = ({ size, className = "" }: { size: number; className?: string }) => {

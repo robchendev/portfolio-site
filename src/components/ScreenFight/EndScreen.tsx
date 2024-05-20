@@ -1,11 +1,9 @@
-import { useActionContext } from "@/context/ActionContext";
-import { HStack, VStack } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import React from "react";
-import TabButton from "../Buttons/TabButton";
-import { RiSwordFill } from "react-icons/ri";
+import { useActionStore } from "@/store/useActionStore";
 
 const EndScreen = () => {
-  const { winner } = useActionContext();
+  const { winner } = useActionStore();
   return (
     <div className="bg-white h-full w-full flex justify-center items-center">
       <VStack spacing={0}>

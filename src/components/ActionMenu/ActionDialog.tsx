@@ -1,10 +1,10 @@
-import { useActionContext } from "@/context/ActionContext";
-import TextWriter from "@/utils/typewriter";
+import { useActionStore } from "@/store/useActionStore";
 import { Text } from "@chakra-ui/react";
 import React from "react";
+import TextWriter from "./TextWriter";
 
 const ActionDialog = ({ text }: { text: string }) => {
-  const { screen, showActionMenu } = useActionContext();
+  const { screen, showActionMenu } = useActionStore();
   const isDialogWidth = (screen === "fight" || screen === "end") && showActionMenu;
   return (
     <div

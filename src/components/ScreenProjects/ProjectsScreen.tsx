@@ -1,10 +1,10 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import React from "react";
 import BattlerPreview from "./BattlerPreview";
-import { useActionContext } from "@/context/ActionContext";
+import { useActionStore } from "@/store/useActionStore";
 
 const ProjectScreens = () => {
-  const { setProjectIndex, projects, isFightOver, handleActionText } = useActionContext();
+  const { setProjectIndex, projects, isFightOver, handleActionText } = useActionStore();
 
   const onProjectSelect = (i: number) => {
     setProjectIndex(i);

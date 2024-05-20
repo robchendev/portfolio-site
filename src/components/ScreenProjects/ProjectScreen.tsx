@@ -1,21 +1,21 @@
-import { BattleMove, ProjectInfo, StackItem } from "@/components/config/projects";
+import { ProjectInfo, StackItem } from "@/components/config/projects";
 import { HStack, Spinner, VStack, Wrap } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import StackItemTag from "../Elements/StackItemTag";
 import { MdOutlineOpenInNew } from "react-icons/md";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { useActionContext } from "@/context/ActionContext";
 import { Pokeball } from "../Elements/Pokeball";
 import TabButton from "../Buttons/TabButton";
 import { RiImage2Fill, RiInformation2Fill, RiSwordFill } from "react-icons/ri";
 import { FaArrowDown } from "react-icons/fa";
 import HitPointsBar from "../Elements/HitPointsBar";
+import { useActionStore } from "@/store/useActionStore";
 
 type Subscreen = "info" | "images" | "forms";
 
 const SubscreenInfo = ({ project }: { project: ProjectInfo }) => {
-  const { handleActionText } = useActionContext();
+  const { handleActionText } = useActionStore();
   return (
     <VStack className="h-full bg-green-200 checkerboard p-2" justifyContent="space-between">
       <HStack className="w-full" justifyContent="space-between">
@@ -144,7 +144,7 @@ const SubscreenImages = ({ project }: { project: ProjectInfo }) => {
 };
 
 const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
-  const { projects } = useActionContext();
+  const { projects } = useActionStore();
   const thisProject = projects.find((p: ProjectInfo) => p.name === project.name);
   const indicatorColor = thisProject?.health !== 0 ? "bg-green-500" : "bg-red-500";
   return (
@@ -242,7 +242,7 @@ const SubscreenDesc = ({ project }: { project: ProjectInfo }) => {
 const ProjectScreen = ({ projects }: { projects: ProjectInfo[] }) => {
   const [chosenProject, setChosenProject] = useState(projects[0]);
   const [subscreen, setSubscreen] = useState<Subscreen>("info");
-  const { projectIndex } = useActionContext();
+  const { projectIndex } = useActionStore();
 
   useEffect(() => {
     setChosenProject(projects[projectIndex]);

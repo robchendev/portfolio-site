@@ -2,11 +2,12 @@ import { HStack, VStack } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import ActionButton from "../Buttons/ActionButton";
 import ActionDialog from "./ActionDialog";
-import { useActionContext } from "@/context/ActionContext";
 import CancelButton from "../Buttons/CancelButton";
 import ActionFightMenu from "./ActionFightMenu";
 import SwitchButton, { SwitchButtonDisabled } from "../Buttons/SwitchButton";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useActionStore } from "@/store/useActionStore";
+import { BattleEngine } from "@/lib/engine/battleEngine";
 
 const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
   const {
@@ -14,7 +15,6 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     screen,
     setScreen,
     actionDialogText,
-    setActionDialogText,
     showActionMenu,
     isFightMenu,
     setIsFightMenu,
@@ -22,11 +22,10 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
     resetBattle,
     projectIndex,
     projects,
-    onProjectSwitch,
     personalizedName,
     setPersonalizedName,
     handleActionText,
-  } = useActionContext();
+  } = useActionStore();
 
   const chosenProjectIsDead = !projects[projectIndex]?.health;
   useEffect(() => {
@@ -172,7 +171,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                       handleActionText("This project is already in battle!");
                     }
                     if (!chosenProjectIsDead) {
-                      onProjectSwitch();
+                      BattleEngine.onProjectSwitch();
                     } else {
                       handleActionText("This project is dead!");
                     }
@@ -202,7 +201,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                 className="flex justify-center w-full h-full -mb-[0.175rem]"
                 onClick={() => {
                   if (!chosenProjectIsDead) {
-                    onProjectSwitch();
+                    BattleEngine.onProjectSwitch();
                   } else {
                     handleActionText("This project is dead!");
                   }

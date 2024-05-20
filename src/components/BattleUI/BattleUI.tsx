@@ -6,14 +6,14 @@ import ProjectsScreen from "../ScreenProjects/ProjectsScreen";
 import AboutScreen from "../ScreenAbout/AboutScreen";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectScreen from "../ScreenProjects/ProjectScreen";
-import { useActionContext } from "@/context/ActionContext";
 import EndScreen from "../ScreenFight/EndScreen";
 import ExperienceScreen from "../ScreenExperience/ExperienceScreen";
+import { useActionStore } from "@/store/useActionStore";
 
 export type ScreenTypes = "fight" | "experience" | "projects" | "about" | "end";
 
 const BattleUI = () => {
-  const { screen, projectIndex, setProjectIndex, isFightOver } = useActionContext();
+  const { screen, projectIndex, setProjectIndex, isFightOver } = useActionStore();
 
   const screenVariants = {
     initial: { y: "100%" },

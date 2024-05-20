@@ -1,10 +1,8 @@
 import { HStack, VStack } from "@chakra-ui/react";
 import React from "react";
 import ApplicantCard from "./ApplicantCard";
-import ActionButton from "../Buttons/ActionButton";
 import AboutButton from "../Buttons/AboutButton";
 import { FaCode, FaGithub, FaLinkedin } from "react-icons/fa";
-import { LuMail } from "react-icons/lu";
 import { FaEnvelope, FaFilePdf } from "react-icons/fa6";
 
 const AboutScreen = () => {

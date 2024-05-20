@@ -1,4 +1,4 @@
-import { enemyData } from "../../data/enemy";
+import { enemyData } from "../../lib/data/enemy";
 import React from "react";
 import SVGguitardex from "@/components/SVG/SVGguitardex";
 import SVGfret from "../SVG/SVGfret";

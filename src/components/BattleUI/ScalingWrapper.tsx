@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import BattleUI from "./BattleUI";
-import { ActionProvider } from "@/context/ActionContext";
 import { Spinner } from "@chakra-ui/react";
 
 export const DesktopScalingWrapper = () => {
@@ -91,9 +90,7 @@ export const DesktopScalingWrapper = () => {
                 }}
                 className="w-full h-full"
               >
-                <ActionProvider>
-                  <BattleUI />
-                </ActionProvider>
+                <BattleUI />
               </div>
             )}
           </div>

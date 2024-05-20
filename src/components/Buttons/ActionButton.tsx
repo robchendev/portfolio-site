@@ -1,4 +1,4 @@
-import { useActionContext } from "@/context/ActionContext";
+import { useActionStore } from "@/store/useActionStore";
 import React from "react";
 
 type ButtonColor = "pink" | "orange" | "green" | "blue";
@@ -55,7 +55,7 @@ const ActionButton = ({
   color: ButtonColor;
   onClick: () => void;
 }) => {
-  const { showActionMenu } = useActionContext();
+  const { showActionMenu } = useActionStore();
   const defaultStyles = {
     borders:
       "shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_white,inset_0_0_0_12px_#d97706] bg-amber-500",

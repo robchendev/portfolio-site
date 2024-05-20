@@ -2,7 +2,8 @@ import { BattleMove } from "@/components/config/projects";
 import { Flex, Grid, GridItem } from "@chakra-ui/react";
 import React from "react";
 import MoveSelector from "../Elements/MoveSelectArrow";
-import { useActionContext } from "@/context/ActionContext";
+import { useActionStore } from "@/store/useActionStore";
+import { BattleEngine } from "@/lib/engine/battleEngine";
 
 const Move = ({
   battleMove,
@@ -36,12 +37,12 @@ const Move = ({
 };
 
 const ActionFightMenu = ({ battleMoves }: { battleMoves: BattleMove[] }) => {
-  const { setShowActionMenu, setIsFightMenu, triggerAllyAttack } = useActionContext();
+  const { setShowActionMenu, setIsFightMenu } = useActionStore();
 
   const onBattleMoveSelect = (battleMove: BattleMove) => {
     setIsFightMenu(false);
     setShowActionMenu(false);
-    triggerAllyAttack(battleMove);
+    BattleEngine.triggerAllyAttack(battleMove);
   };
 
   return (

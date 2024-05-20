@@ -1,4 +1,4 @@
-import { BattleMove } from "../components/config/projects";
+import { BattleMove } from "../../components/config/projects";
 
 // export type EnemyBattleMove = BattleMove & {
 //   likelihood: number;
