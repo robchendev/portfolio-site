@@ -99,28 +99,6 @@ export const battleUtils = {
 
   async resetBattle(set: (partial: Partial<ActionStore>) => void, get: () => ActionStore) {
     const { personalizedName } = get();
-    set({
-      screen: "fight",
-      projects: projectList,
-      projectIndex: -1,
-      battler: projectList[0],
-      actionDialogText: "",
-      showActionMenu: true,
-      enemyHealth: enemyData.maxHealth,
-      animateAllyHit: false,
-      animateEnemyHit: false,
-      animateAllyAttack: false,
-      animateEnemyAttack: false,
-      animateAllySwitchReturn: false,
-      animateAllySwitchEnter: false,
-      animateAllyPanelSwitch: false,
-      animateEnemyDeath: false,
-      animateAllyDeath: false,
-      isFightMenu: false,
-      winner: undefined,
-      isFightOver: false,
-      personalizedName: "you",
-    });
 
     set({
       projects: projectList,
