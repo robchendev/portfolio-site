@@ -1,6 +1,5 @@
-import { useActionContext } from "@/context/ActionContext";
+import { useActionStore } from "@/store/useActionStore";
 import React from "react";
-import { IconType } from "react-icons";
 
 type ButtonColor = "resume" | "github" | "linkedin" | "contact" | "sourceCode";
 
@@ -62,7 +61,7 @@ const AboutButton = ({
   Icon: React.ReactNode;
   isLast?: boolean;
 }) => {
-  const { showActionMenu } = useActionContext();
+  const { showActionMenu } = useActionStore();
   const defaultStyles = {
     borders:
       "shadow-[inset_0px_0px_0px_6px_black,inset_0px_0px_0px_9px_white,inset_0_0_0_12px_#d97706] bg-orange-500",
