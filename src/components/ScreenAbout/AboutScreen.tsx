@@ -10,13 +10,13 @@ const AboutScreen = () => {
   return (
     <HStack className="bg-cyan-300 h-full py-4 checkerboard" spacing={0} align="flex-start">
       <ApplicantCard />
-      <VStack spacing={0} className="w-1/4 px-2 h-full" align="flex-start">
-        <AboutButton
+      <VStack spacing={2} className="w-1/4 px-2 h-full" align="flex-start">
+        {/* <AboutButton
           text="Resume"
           color="resume"
           href="/resume.pdf"
           Icon={<FaFilePdf size={iconSize} />}
-        />
+        /> */}
         <AboutButton
           text="LinkedIn"
           color="linkedin"

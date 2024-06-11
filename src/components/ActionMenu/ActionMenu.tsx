@@ -104,14 +104,9 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                     />
                   )}
                   <ActionButton
-                    text="Experience"
+                    text="Resume"
                     color="orange"
-                    onClick={() => {
-                      handleActionText("Scroll through the Experiences or CANCEL.");
-                      setTimeout(() => {
-                        setScreen("experience");
-                      }, 10);
-                    }}
+                    onClick={() => window.open("/resume.pdf", "_blank")}
                   />
                   <ActionButton
                     text="Projects"

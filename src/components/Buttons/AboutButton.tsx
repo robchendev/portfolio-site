@@ -74,13 +74,11 @@ const AboutButton = ({
     <a
       href={href}
       target="_blank"
-      className={`w-full h-full ${showActionMenu ? "" : "pointer-events-none"} ${
-        isLast ? "" : "-mb-[0.3rem]"
-      }`}
+      className={`w-full h-full ${showActionMenu ? "" : "pointer-events-none"} ${isLast ? "" : ""}`}
     >
       <button
         //  ${margin}
-        className={`${borders} rounded-[25px] p-[12px] font-medium text-[2.1rem] text-white h-full w-full`}
+        className={`${borders} rounded-[25px] p-[12px] pb-[13px] font-medium text-[2.1rem] text-white h-full w-full`}
       >
         <div
           className={`rounded-[14px] w-full h-full leading-3 bg-gradient-to-b ${gradientFrom} from-40% ${gradientTo} to-80%`}
