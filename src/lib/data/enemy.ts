@@ -15,15 +15,15 @@ export type EnemyData = {
 export const enemyData: EnemyData = {
   name: "Robert's Unemployment",
   level: 25,
-  health: 2000,
-  maxHealth: 2000,
+  health: 1600,
+  maxHealth: 1600,
   battleMoves: [
     {
-      name: "Not good enough",
+      name: "Not Good Enough",
       power: 27,
     },
     {
-      name: "10+ years of experience required",
+      name: "Budget Cuts",
       power: 38,
     },
     {
