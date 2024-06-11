@@ -42,6 +42,15 @@ const CombatScene = () => {
     if (hpPercent >= 25) return <SVGenemy.BigSmile size={size} className={className} />;
     return <SVGenemy.Briefcase size={size} className={className} />;
   };
+  const getEnemyStatus = () => {
+    const hpPercent = (enemyHealth / enemyData.maxHealth) * 100;
+    if (hpPercent >= 85) return "Unemployed";
+    if (hpPercent >= 70) return "Applying";
+    if (hpPercent >= 55) return "Screening";
+    if (hpPercent >= 40) return "Interviewing";
+    if (hpPercent >= 25) return "Job Offer";
+    return "Hired";
+  };
 
   return (
     <div className="h-full w-full absolute">
@@ -90,7 +99,7 @@ const CombatScene = () => {
         {/* Enemy Pokemon Info */}
         <div className="h-full w-full absolute top-[12%] drop-shadow-[4px_4px_1px_rgba(0,0,0,0.25)]">
           <EnemyPanel
-            name={enemyData.name}
+            name={`Robert (${getEnemyStatus()})`}
             health={enemyHealth}
             maxHealth={enemyData.maxHealth}
             level={enemyData.level}
