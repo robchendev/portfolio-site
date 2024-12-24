@@ -103,11 +103,7 @@ const ActionMenu = ({ onProjectClose }: { onProjectClose: () => void }) => {
                       }}
                     />
                   )}
-                  <ActionButton
-                    text="Resume"
-                    color="orange"
-                    onClick={() => window.open("/resume.pdf", "_blank")}
-                  />
+                  <ActionButton text="Reset" color="orange" onClick={() => resetBattle()} />
                   <ActionButton
                     text="Projects"
                     color="green"
