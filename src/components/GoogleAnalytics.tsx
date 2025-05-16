@@ -12,10 +12,14 @@ const GoogleAnalytics = () => {
       <Script id="" strategy="lazyOnload">
         {`
               window.dataLayer = window.dataLayer || [];
+              
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
+              const params = new URLSearchParams(window.location.search);
+              const campaignCode = params.get('c');
               gtag('config', '${process.env.NEXT_PUBLIC_MEASUREMENT_ID}', {
               page_path: window.location.pathname,
+              campaign_code: campaignCode
               });
           `}
       </Script>
