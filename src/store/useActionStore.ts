@@ -55,7 +55,7 @@ export const useActionStore = create<ActionStore>((set, get) => ({
   screen: "fight",
   projects: projectList,
   projectIndex: -1,
-  battler: projectList[0],
+  battler: projectList[1],
   actionDialogText: "",
   showActionMenu: true,
   enemyHealth: enemyData.maxHealth,

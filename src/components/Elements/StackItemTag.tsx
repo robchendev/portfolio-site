@@ -12,6 +12,7 @@ const stackItemStyles: {
   emotion: { borderColor: "border-orange-300", bgColor: "bg-orange-500", text: "Emotion" },
   gatsby: { borderColor: "border-purple-300", bgColor: "bg-purple-600", text: "Gatsby" },
   nextjs: { borderColor: "border-gray-300", bgColor: "bg-gray-800", text: "Next.js" },
+  pytorch: { borderColor: "border-orange-300", bgColor: "bg-orange-500", text: "PyTorch" },
   electron: { borderColor: "border-cyan-200", bgColor: "bg-cyan-500", text: "Electron" },
   mongodb: { borderColor: "border-green-200", bgColor: "bg-green-500", text: "MongoDB" },
   react: { borderColor: "border-teal-200", bgColor: "bg-teal-500", text: "React" },

@@ -44,11 +44,10 @@ const CombatScene = () => {
   };
   const getEnemyStatus = () => {
     const hpPercent = (enemyHealth / enemyData.maxHealth) * 100;
-    if (hpPercent >= 85) return "Unemployed";
-    if (hpPercent >= 70) return "Applying";
-    if (hpPercent >= 55) return "Screening";
+    if (hpPercent >= 80) return "Applying";
+    if (hpPercent >= 60) return "Screening";
     if (hpPercent >= 40) return "Interviewing";
-    if (hpPercent >= 25) return "Job Offer";
+    if (hpPercent >= 20) return "Job Offer";
     return "Hired";
   };
 

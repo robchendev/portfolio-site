@@ -38,8 +38,8 @@ const ApplicantCard = () => {
                 right="robchendev@gmail.com"
                 href="mailto:robchendev@gmail.com?subject=👋 Hi Robert, let's talk"
               />
-              <CardDetail left="money" right="$0.00" />
-              <CardDetail left="graduated" right="May 2024" />
+              <CardDetail left="Work Experience" right="2 Years" />
+              <CardDetail left="Current Employer" right="Microsoft" />
             </VStack>
             <div className="w-1/3 h-full overflow-hidden relative rounded-[14px] bg-[rgba(255,255,255,0.4)]">
               <Image src="/img/pfp.jpg" width={400} height={400} alt="job seeker" unoptimized />
@@ -51,7 +51,7 @@ const ApplicantCard = () => {
             {/* &quot;Something about myself, written in a long form paragraph that spans multiple
             lines.&quot; */}
             &quot;Hi, thank you for visiting my portfolio! Here, you can explore my software
-            development projects.&quot;
+            projects.&quot;
           </p>
         </div>
       </VStack>

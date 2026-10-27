@@ -14,7 +14,7 @@ export type EnemyData = {
 
 export const enemyData: EnemyData = {
   name: "Robert's Unemployment",
-  level: 25,
+  level: 27,
   health: 1600,
   maxHealth: 1600,
   battleMoves: [

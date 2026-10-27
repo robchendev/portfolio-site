@@ -5,6 +5,7 @@ import SVGfret from "../SVG/SVGfret";
 import SVGhsr from "../SVG/SVGhsr";
 import SVGvikesdash from "../SVG/SVGvikesdash";
 import SVGportfolio from "../SVG/SVGportfolio";
+import SVGTranscriber from "../SVG/SVGtranscriber";
 
 export type StackItem =
   | "javascript"
@@ -14,6 +15,7 @@ export type StackItem =
   | "postgresql"
   | "electron"
   | "nextjs"
+  | "pytorch"
   | "gatsby"
   | "emotion"
   | "webaudio"
@@ -50,6 +52,38 @@ export type ProjectInfo = {
 
 // Initial values for projects
 const projects: ProjectInfo[] = [
+  {
+    enabled: true,
+    name: "AI Guitar Transcriber",
+    shortName: "AI Transcriber",
+    deploymentUrl: "https://github.com/robchendev/transcriber",
+    description:
+      "Multi-modal AI harness, which transcribes a video/audio pair of a guitar performances into a guitar tab. Created for the Microsoft Global Hackathon 2026. Uses trained YOLOv11n and MediaPipe models for processing guitar video data.",
+    stack: ["pytorch"],
+    sprite: <SVGTranscriber size={250} />,
+    imageUrls: ["/img/transcriber/inference.jpg", "/img/transcriber/result.jpg"], // todo
+    battleMoves: [
+      {
+        name: "CPU: Train Model",
+        power: 20,
+      },
+      {
+        name: "GPU: Train Model",
+        power: 80,
+      },
+      {
+        name: "CPU: Inference",
+        power: 80,
+      },
+      {
+        name: "GPU: Inference",
+        power: 20,
+      },
+    ],
+    health: 90,
+    maxHealth: 90,
+    level: 35,
+  },
   {
     enabled: true,
     name: "Portfolio Website",
@@ -205,37 +239,37 @@ const projects: ProjectInfo[] = [
     maxHealth: 68,
     level: 26,
   },
-  {
-    enabled: true,
-    name: "Fribbels' Honkai Star Rail Optimizer",
-    shortName: "HSR Optimizer",
-    deploymentUrl: "https://fribbels.github.io/hsr-optimizer/",
-    description:
-      "This highlights a feature contribution I've made to an open source project by Fribbels. The feature allows users to customize the portrait shown on their character build showcase to screenshot and share on social media.",
-    stack: ["typescript", "react", "vite", "zustand"],
-    sprite: <SVGhsr size={250} />,
-    imageUrls: [
-      "/img/hsr-optimizer/uploadimage.jpg",
-      "/img/hsr-optimizer/defaultimage.jpg",
-      "/img/hsr-optimizer/url.jpg",
-      "/img/hsr-optimizer/cropimage.jpg",
-      // "/img/hsr-optimizer/finalresult.jpg",
-      "/img/hsr-optimizer/screenshot.jpg",
-    ],
-    battleMoves: [
-      {
-        name: "Tackle",
-        power: 30,
-      },
-      {
-        name: "P.R. Approval",
-        power: 30,
-      },
-    ],
-    health: 114,
-    maxHealth: 114,
-    level: 27,
-  },
+  // {
+  //   enabled: true,
+  //   name: "Fribbels' Honkai Star Rail Optimizer",
+  //   shortName: "HSR Optimizer",
+  //   deploymentUrl: "https://fribbels.github.io/hsr-optimizer/",
+  //   description:
+  //     "This highlights a feature contribution I've made to an open source project by Fribbels. The feature allows users to customize the portrait shown on their character build showcase to screenshot and share on social media.",
+  //   stack: ["typescript", "react", "vite", "zustand"],
+  //   sprite: <SVGhsr size={250} />,
+  //   imageUrls: [
+  //     "/img/hsr-optimizer/uploadimage.jpg",
+  //     "/img/hsr-optimizer/defaultimage.jpg",
+  //     "/img/hsr-optimizer/url.jpg",
+  //     "/img/hsr-optimizer/cropimage.jpg",
+  //     // "/img/hsr-optimizer/finalresult.jpg",
+  //     "/img/hsr-optimizer/screenshot.jpg",
+  //   ],
+  //   battleMoves: [
+  //     {
+  //       name: "Tackle",
+  //       power: 30,
+  //     },
+  //     {
+  //       name: "P.R. Approval",
+  //       power: 30,
+  //     },
+  //   ],
+  //   health: 114,
+  //   maxHealth: 114,
+  //   level: 27,
+  // },
 ];
 
 export default projects;
